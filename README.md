@@ -1,23 +1,4 @@
-# quickmeet
-A video chat/meeting webapp using WebRTC and WebSockets (socket.io). Basically a Google Meet clone + a collaborative whiteboard. Demo: https://qmeet.herokuapp.com/
-<br><br>
-<img align="center" src="https://i.imgur.com/FxgApJU.jpg">
-
-<img align="center" src="https://i.imgur.com/tMAaFpF.jpg">
-
-<img align="center" src="https://i.imgur.com/YvvA08O.jpg">
-
-## Current Features?
-
-1. Video Calls
-2. Chatbox
-3. Collaborative Whiteboard
-4. Screensharing
-
-## Upcoming Features?
-
-2. Responsive front-end for Rooms
-
-## Contributions?
-
-Feel free to make a PR.
+# 2021CamStudy - Nodebird-based CamStudy Express Project
+#### .env 파일 생성 => COOKIE_SECRET=cookiesecret , KAKAO_ID=본인이 저번에 받아둔 카카오아이디(nodebird참고)
+#### sequelize init 후 config.json => "database" :camstudy
+#### package.json에 mac의 경우 bcrypt로 바꿔서 다운받고 나머지 js파일에 있는 bcryptjs=>bcrypt

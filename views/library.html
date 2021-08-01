@@ -6,32 +6,24 @@
     <title>QuickMeet Room</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/public/style.css">
     <script src="https://kit.fontawesome.com/6510466b6c.js" crossorigin="anonymous"></script>
     <script>
-        const params = new URLSearchParams(location.search);
-        if (!params.get("room")) location.href = "/";
+        const params=window.location.href; //url
     </script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script defer src="/public/room.js"></script>
+    <script defer src="/public/canvas.js"></script>
+    <script src="/public/error.js"></script>
 </head>
 
 <body>
-    <div class="overlay" id="overlay">
-        <div class="box">
-            <div class="head-name">Enter a Name</div>
-            <input type="text" class="name-field" placeholder="Type here.." id="name-field"></input><br>
-            <button class="continue-name">Continue</button>
-
-        </div>
-    </div>
     <div class="container-room">
         <div class="left-cont">
-
             <div class="video-cont-single" id="vcont">
                 <div class="video-box">
-                    <video class="video-frame" id="vd1" autoplay playsinline>
-                    </video>
-                    <div class="nametag" id="myname">yourname</div>
-                    <div class="mute-icon" id="mymuteicon"><i class="fas fa-microphone-slash"></i></div>
+                    <video class="video-frame" id="vd1" autoplay playsinline></video>
+                    <div class="mynick" data-mynick={{user.nick}}> you : {{user.nick}}</div>
                     <div class="video-off" id="myvideooff">Video Off</div>
                 </div>
             </div>
@@ -55,10 +47,6 @@
 
             <div class="footer">
                 <div class="utils">
-
-                    <div class="audio">
-                        <i class="fas fa-microphone"></i>
-                    </div>
                     <div class="novideo">
                         <i class="fas fa-video"></i>
                     </div>
@@ -83,20 +71,14 @@
                 </div>
             </div>
 
-
         </div>
 
         <div class="right-cont">
             <div class="head-title">
-
                 <div class="chats"><i class="fas fa-comment-alt mr-1"></i>Chats</div>
                 <div class="attendies"><i class="fas fa-users mr-1"></i>Attendies</div>
-
-
             </div>
-
             <div class="chat-cont">
-
             </div>
             <div class="chat-input-cont">
                 <div class="ci-cont"><input type="text" class="chat-input" placeholder="Type chat here.."></div>
@@ -104,8 +86,5 @@
             </div>
         </div>
     </div>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="js/room.js"></script>
 </body>
-
 </html>

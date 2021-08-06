@@ -10,7 +10,7 @@ module.exports=()=>{
         clientID:process.env.GOOGLE_ID, 
         clientSecret:process.env.GOOGLE_SECRET,
         callbackURL:'/auth/google/callback',
-    },async(acessToken,refreshToken,profile,done)=>{ 
+    },async(req,res,profile,done)=>{ 
         try{
             const exUser=await User.findOne({
                 where:{
@@ -39,35 +39,7 @@ module.exports=()=>{
                 try{
                     if (splitdot[0] == 'sookmyung'){
                         console.log('로그인했따!!!');
-                    } 
-                } catch (error){
-                    console.log('오류!!');
-                    console.error(error);
-                    done(error);
-                }
-                
-                
-                // 보낼 메세지
-                let message = {
-                  from: process.env.GOOGLE_MAIL, // 보내는 사람
-                  to: `${profile.name}<${profile.email}>`, // 받는 사람 이름과 이메일 주소
-                  subject: 'title', // 메일 제목
-                  html: `<div 
-                  style='
-                  text-align: center; 
-                  width: 50%; 
-                  height: 60%;
-                  margin: 15%;
-                  padding: 20px;
-                  box-shadow: 1px 1px 3px 0px #999;
-                  '>
-                  <h2>${name} 님, 안녕하세요.</h2> <br/> <br/> hello <br/><br/><br/><br/></div>`,
-                };
-                
-                // 메일이 보내진 후의 콜백 함수
-                transporter.sendMail(message, async(err) => {
-                    if (err) next(err);
-                    else {
+
                         const newUser=await User.create({ 
                             email:profile.email,
                             nick:profile.family_name+profile.given_name,
@@ -75,25 +47,42 @@ module.exports=()=>{
                             provider:'google',
                         });
                         done(null,newUser);
+
+                        // let generateRandom = function (min, max) {
+                        //     var ranNum = Math.floor(Math.random()*(max-min+1)) + min;
+                        //     return ranNum;
+                        // }
+                        // const number = generateRandom(111111,999999);
+
+                        // 보낼 메세지
+                        // let message = {
+                        //     from: process.env.GOOGLE_MAIL, // 보내는 사람
+                        //     to: `${name}<${profile.email}>`, // 받는 사람 이름과 이메일 주소
+                        //     subject: '[노드친구들] 이메일 인증 관련 메일', // 메일 제목
+                        //     html: `${name}님 이메일 인증 <br> 인증번호: ${number}`,
+                        // };
+                        
+                        // // 메일이 보내진 후의 콜백 함수
+                        // transporter.sendMail(message, async(err) => {
+                        //     if (err) next(err);
+                        //     else {
+                        //         const newUser=await User.create({ 
+                        //             email:profile.email,
+                        //             nick:profile.family_name+profile.given_name,
+                        //             snsID:profile.id,
+                        //             provider:'google',
+                        //         });
+                        //         done(null,newUser);
+                        //     }
+                        //     //res.status(200).json({ isMailSucssessed: true});
+                        // });
+                    } else {
+                        done(null,null);
                     }
-                    //res.status(200).json({ isMailSucssessed: true});
-                });
-
-                // const newUser=await User.create({ 
-                //     email:profile.email,
-                //     nick:profile.family_name+profile.given_name,
-                //     snsID:profile.id,
-                //     provider:'google',
-                //   });
-                //   done(null,newUser);
-
-                // const newUser=await User.create({ 
-                //     email:profile.email,
-                //     nick:profile.family_name+profile.given_name,
-                //     snsID:profile.id,
-                //     provider:'google',
-                // });
-                // done(null,newUser);
+                } catch (error){
+                    console.error(error);
+                    done(error);
+                }
             }
         }catch(error){
             console.error(error);

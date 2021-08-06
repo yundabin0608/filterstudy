@@ -48,17 +48,17 @@
             <!-- 만들어진 방띄워주는곳 -->
       <div class="room">
         {%for room in rooms%}
-          <div class="room-box">
+          <div class="room-box" data-id="{{room.uuid}}">
+          
+          <div>{{room.title}}</div>
+          <div id='description'>{{room.description}}</div> 
+          <div>{{room.participants_num}}/{{room.max}}</div>
+          <div>{{'비밀방' if room.password else '공개방'}}</div>
+          
           {% if room.img %}
             <div id="room-thumbnail"><img src="/img/{{room.img}}" width="172px"></div>
           {% endif %}
-          
-          <div>{{room.title}}</div>
-          <div>{{room.description}}</div> 
-          <div>{{room.participants_num}}/{{room.max}}</div>
-          <a href="/library/{{room.uuid}}">http//localhost:8001/library/{{room.uuid}}</a>
-          <div>{{'비밀방' if room.password else '공개방'}}</div>
-          
+
           {% if user %}
             <div>
               <button  data-password="{{'true' if room.password else 'false'}}"

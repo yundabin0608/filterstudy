@@ -10,6 +10,7 @@ const bodyParser = require('body-parser');
 const http=require('http');
 const moment = require('moment');
 const socketio = require('socket.io');
+const axios=require('axios');
 
 dotenv.config();
 const pageRouter=require('./routes/page');
@@ -92,19 +93,15 @@ let socketroom = {};  //각 사람별 어떤 룸에 있는지(roomid)
 let socketnick = {};
 let videoSocket = {};
 let roomBoard = {};
+let startTime;
 
 io.on('connect', (socket) => {
     socket.on("join room", (roomid, usernick) => {
-        console.log("join room");
-        console.log("????????"+roomid+usernick);
         socket.join(roomid);
-        socketroom[socket.id] = roomid;   
-        socketnick[socket.id] = usernick; 
+        startTime = new Date();
+        socketroom[socket.id] = roomid;   // roomid
+        socketnick[socket.id] = usernick; // usernick?
         videoSocket[socket.id] = 'on';    // 비디오 상태
-        
-        console.log("socketroom: "+socketroom[socket.id]);
-        console.log("socketnick: "+socketnick[socket.id]);
-        console.log("videoSocket: "+videoSocket[socket.id]);
         
         if (rooms[roomid] && rooms[roomid].length > 0) { //존재하는 방
             rooms[roomid].push(socket.id);
@@ -175,9 +172,13 @@ io.on('connect', (socket) => {
         var index = rooms[socketroom[socket.id]].indexOf(socket.id);
         rooms[socketroom[socket.id]].splice(index, 1);
         io.to(socketroom[socket.id]).emit('user count', rooms[socketroom[socket.id]].length);
+        let roomid=socketroom[socket.id];
         delete socketroom[socket.id];
-
-        //toDo: push socket.id out of rooms
+        let req=socket.request;
+        socket.leave(roomid);
+        let userCount=rooms[roomid] ? rooms[roomid].length:0;
+        axios.post('http://localhost:8001/library/user/',{user:req.user.id,roomId:roomid,userCount,startTime});
+      
     });
 })
 

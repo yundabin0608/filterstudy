@@ -1,7 +1,6 @@
 const express=require('express');
-const path=require('path');
 const multer = require('multer');
-const {User,Post,Room}=require('../models');
+const {Post}=require('../models');
 const {isLoggedIn}=require('./middlewares');
 
 const router=express.Router();
@@ -12,8 +11,7 @@ router.post('/',isLoggedIn,upload2.none(),async(req,res,next)=>{ //POST /post ë
         const post=await Post.create({
             msg:req.body.content,
             UserId:req.user.id,
-        });  
-        console.log(">>>>>>"+post.msg+"<<<<<<<");      
+        });   
         res.redirect('/');
     }catch(error){
         console.error(error);

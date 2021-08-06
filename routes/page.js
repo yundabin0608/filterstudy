@@ -5,9 +5,6 @@ const router=express.Router();
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
-const sequelize = require('sequelize');
-const e = require('express');
-const axios = require('axios');
 
 try {
     fs.readdirSync('uploads');
@@ -121,9 +118,9 @@ router.post('/room',isLoggedIn, upload.single('img'), async (req, res, next) => 
     
   // 방 들어가면 library.html 렌더링 방주소랑 사용자 전달
   router.get('/library/:id', async(req, res) => {
-      const user=await User.findOne({where:{id:req.user.id}});
-      //console.log(">>AD>A>DA>D"+req.params.id);
-      const room=await Room.findOne({where:{uuid:req.params.id}});
+      const user=req.user.id;
+      const uuid=req.params.id;
+      const room=await Room.findOne({where:{uuid}});
       if (!room) {
         return res.redirect('/?RoomError=존재하지 않는 방입니다.');
       }
@@ -133,86 +130,66 @@ router.post('/room',isLoggedIn, upload.single('img'), async (req, res, next) => 
       else if (room.participants_num+1 > room.max) {
         return res.redirect('/?RoomError=허용 인원을 초과하였습니다.');
       }
-      await room.addUser(user.id);
+      await room.addUser(user);
       const io = req.app.get('io');
       
-      const users=await User.findAll({
+      const users=await User.findAll({//현재 들어있는 사람들
         include:[{
           model:Room,
           where:{
-            uuid:req.params.id,
+            uuid
           },
         }]
     });
     await Room.update({ // 방인원수 update
         participants_num:users.length
       }, {
-        where:{uuid:req.params.id},  
+        where:{uuid},  
       }); 
       const resultroom=await Room.findOne(
-        {where:{uuid:req.params.id}}
+        {where:{uuid}}
       );
       nums = (await Chat.findAndCountAll({
         include:[{
           model:Room,
           where:{
-            uuid:req.params.id,
+            uuid
           },
         }]
       })).count
      
       if (nums <10) {nums=10}
-  
-      const chats = await Chat.findAll({  
-        limit:10,
-        offset:nums-10,
-        include:[{
-        model:Room,
-        where:{
-          uuid:req.params.id,
-        },
-      },{
-        model:User,
-      }
-    ]
-    });
-    const resultusers=await User.findAll({ // 방에 남아있는 사람들
-        include:[{
-          model:Room,
-          where:{
-            uuid:req.params.id,
-          },
-        }]
-    });
-    const uuid=req.params.id;
+
     const userCount=users.length;
     const max=resultroom.max;
     setTimeout(() => {
       req.app.get('io').emit('mainCount',{uuid,userCount,max});  //메인 화면에서 참가자 수 바뀌게
     },100);
-    return res.render('library', { roomId: req.params.id,users:resultusers,room:resultroom,chats})
+    return res.render('library', { roomId: req.params.id,users,room:resultroom})
 });
 
-router.post('/library/user',async(req,res,next)=>{
+router.post('/library/user',async(req,res,next)=>{//퇴장 room,user관계 업데이트
   try{//user,roomId,userCount,startTime
+    const uuid=req.body.roomId;
+    const userCount=req.body.userCount;
     const leftuser=await User.findOne({//나간 사람
       where:{id:req.body.user},  
       include:[{
           model:Room,
           where:{
-            uuid:req.body.roomId,
+            uuid
           },
         }]
     });
 
     await Room.update({
-      participants_num: req.body.userCount,
+      participants_num: userCount,
     }, {
-     where:{uuid:req.body.roomId},  
+     where:{uuid},  
     });
     
     const resultroom=await Room.findOne({
-      where:{uuid:req.body.roomId},
+      where:{uuid},
         include:[{
           model:User,
           attributes:['id'],
@@ -239,10 +216,8 @@ router.post('/library/user',async(req,res,next)=>{
     }); 
     resultroom.removeUser(leftuser);
     const roomId=resultroom.id;
-    const uuid=req.body.roomId;
-    const userCount=req.body.userCount;
     const max=resultroom.max;
-    if (req.body.userCount==0){
+    if (userCount==0){
       if (resultroom.option==0){
         await Chat.destroy({ where:{RoomId:roomId} });
         await Room.destroy({ where: {id: roomId} });

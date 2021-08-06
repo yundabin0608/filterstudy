@@ -1,10 +1,7 @@
 const express=require('express');
-
 const {isLoggedIn}=require('./middlewares');
 const User = require('../models/user');
 const Post = require('../models/post');
-const sequelize = require('sequelize');
-
 const router=express.Router();
 
 

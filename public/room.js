@@ -54,20 +54,7 @@ function CopyClassText() {
         document.querySelector(".copycode-button").textContent = "Copy Code";
     }, 5000);
 }
-/*
-continueButt.addEventListener('click', () => { //이름칸
-    overlayContainer.style.visibility = 'hidden';
-    document.querySelector("#myname").innerHTML = `${usernick} (You)`;
-    socket.emit("join room", roomid, usernick);
-})
 
-nameField.addEventListener("keyup", function (event) {
-    if (event.keyCode === 13) {
-        event.preventDefault();
-        continueButt.click();
-    }
-});
-*/
 let participant_num;
 socket.on('user count', count => {
     if (count > 1) {
@@ -122,11 +109,9 @@ function handleVideoOffer(offer, sid, cname, vidinf) {
             //let muteIcon = document.createElement('div');
             let videoOff = document.createElement('div');
             videoOff.classList.add('video-off');
-            //muteIcon.classList.add('mute-icon');
             name.classList.add('nametag');
             name.innerHTML = `${cName[sid]}`;
             vidCont.id = sid;
-            //muteIcon.id = `mute${sid}`;
             videoOff.id = `vidoff${sid}`;
             videoOff.innerHTML = 'Video Off'
             vidCont.classList.add('video-box');

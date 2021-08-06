@@ -105,8 +105,8 @@ router.post('/room',isLoggedIn, upload.single('img'), async (req, res, next) => 
             img: req.file.filename,
             option:req.body.room_option,
         });
-        //const io = req.app.get('io'); //io 객체 가져오기
-        //io.of('/room').emit('newRoom', newRoom); // room 네임 스페이스에 연결한 모든 클라이언트에 데이터를 보내는 메서드
+        const io = req.app.get('io'); //io 객체 가져오기
+        io.emit('newRoom', newRoom); // 모든 클라이언트에 데이터를 보내는 메서드
         await newRoom.addUser(req.user.id);
         if(req.body.password){
           res.redirect(`/library/${makeuuid}?password=${req.body.password}`);
@@ -118,7 +118,7 @@ router.post('/room',isLoggedIn, upload.single('img'), async (req, res, next) => 
     }
   });
     
-  // 방 들어가면 library.html 렌더링 방주소랑 사용자아이디 전달 (nick으로 할까 id로 할까?)
+  // 방 들어가면 library.html 렌더링 방주소랑 사용자 전달
   router.get('/library/:id', async(req, res) => {
       const user=await User.findOne({where:{id:req.user.id}});
       //console.log(">>AD>A>DA>D"+req.params.id);
@@ -186,4 +186,83 @@ router.post('/room',isLoggedIn, upload.single('img'), async (req, res, next) => 
     return res.render('library', { roomId: req.params.id,users:resultusers,room:resultroom,chats})
 });
 
+router.post('/library/user',async(req,res,next)=>{
+  try{//user,roomId,userCount,startTime
+    const leftuser=await User.findOne({//나간 사람
+      where:{id:req.body.user},  
+      include:[{
+          model:Room,
+          where:{
+            id:req.body.roomId,
+          },
+        }]
+    });
+    const room=await Room.findOne({
+      where:{id:req.body.roomId}, 
+      include:[{
+        model:Chat,
+        where:{
+          RoomId:req.body.roomId,
+        },
+      },{
+        model:User,
+      }]
+    });
+    const users=await User.findAll({//접속한 사람들
+      include:[{
+        model:Room,
+        where:{
+          id:req.body.roomId,
+        },
+      }]
+    });
+
+    await Room.update({
+      participants_num: req.body.userCount,
+    }, {
+     where:{id:req.body.roomId},  
+    });
+    
+    const resultroom=await Room.findOne({
+      where:{id:req.body.roomId},
+        include:[{
+          model:User,
+          attributes:['id'],
+       }]
+    }); 
+    const endTime = new Date();
+    let startTime = new Date(Date.parse(req.body.startTime));
+    const access_time = ((endTime.getTime() - startTime.getTime())/1000).toFixed(0); //1000
+    const resulthour=parseInt(leftuser.total_time,10)+parseInt(access_time,10);
+    const resultlevel=((resulthour/3600)*0.5).toFixed(0);
+    if ((resulthour/3600*0.5)-resultlevel>=0.5){
+      resultlevel+=0.5;
+    }
+    await User.update({
+      total_time: resulthour
+    },{
+      where: {id:req.body.user},
+    }); 
+    
+    await User.update({
+      level: resultlevel
+    },{
+      where: {id:req.body.user},
+    }); 
+    resultroom.removeUser(leftuser);
+    const roomId=req.body.roomId;
+    if (req.body.userCount==0){
+      if (resultroom.option==0){
+        await Chat.destroy({ where:{RoomId:roomId} });
+        await Room.destroy({ where: {id: roomId} });
+        setTimeout(() => {
+          req.app.get('io').emit('removeRoom', {roomId});
+        }, 100);
+      }
+    }
+  }
+  catch (error) {
+    console.error(error);
+  }
+});
 module.exports=router;

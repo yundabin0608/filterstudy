@@ -19,6 +19,7 @@ socket.on('newRoom', function (data) { // 새 방 이벤트 시 새 방 생성
 console.log("새방");
 const div = document.createElement('div');
 div.className='room-box';
+div.dataset.id = data.uuid;
 if (data.img){
   const imgdiv = document.createElement('div');
   imgdiv.className='room-thumbnail';
@@ -37,10 +38,6 @@ div.appendChild(div1);
 const div2 = document.createElement('div');
 div2.textContent = data.participants_num+"/"+data.max;
 div.appendChild(div2);
-const a = document.createElement('a');
-a.setAttribute('href',`/library/${data.uuid}`);
-a.textContent=`http//localhost:8001/library/${data.uuid}`;
-div.appendChild(a);
 const div3 = document.createElement('div');
 div3.textContent = data.password ? '비밀방' : '공개방';
 div.appendChild(div3);
@@ -53,11 +50,23 @@ button.addEventListener('click', addBtnEvent);
 div.appendChild(button);
 document.querySelector('.room').appendChild(div); // 화면에 추가
 });
-  
+
+socket.on('mainCount', function (data) {//참가자 수 바로 보이게
+  const countdiv = document.createElement('div');
+  countdiv.textContent=`${data.userCount}/${data.max}`;
+  console.log("maincount안에 온 걸 환영"+countdiv.textContent);
+  document.querySelectorAll('.room-box').forEach(function (div) {
+    if (div.dataset.id == data.uuid) {
+      div.children[2].textContent=`${data.userCount}/${data.max}`;
+    }
+  });
+});
+
 socket.on('removeRoom', function (data) { // 방 제거 이벤트 시 id가 일치하는 방 제거
-document.querySelectorAll('.room-box').forEach(function (div) {
-if (div.dataset.id == data.roomId) {
-  div.parentNode.removeChild(div);
-}
+  console.log("removeroom에 오신걸 환영"+data);
+  document.querySelectorAll('.room-box').forEach(function (div) {
+  if (div.dataset.id == data) {
+    div.parentNode.removeChild(div);
+  }
 });
 });

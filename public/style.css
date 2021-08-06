@@ -652,9 +652,6 @@ navbar .logo {
   width: 30%;
   background-color: #ffffff;
   height: 100vh;
-  /* Track */
-  /* Handle */
-  /* Handle on hover */
 }
 .container-room .right-cont ::-webkit-scrollbar {
   width: 10px;
@@ -696,7 +693,7 @@ navbar .logo {
   padding-top: 10px;
   overflow-y: scroll;
 }
-.container-room .right-cont .chat-cont .message {
+.container-room .right-cont .chat-cont .chat{
   margin-bottom: 15px;
   margin-left: 10px;
   background-color: #ffffff;
@@ -704,18 +701,46 @@ navbar .logo {
   word-break: break-all;
   word-wrap: break-word;
 }
-.container-room .right-cont .chat-cont .message .info {
+.container-room .right-cont .chat-cont .info .chat {
   display: flex;
   font-size: 0.85rem;
 }
-.container-room .right-cont .chat-cont .message .info .username {
+/* mousehover chatting*/
+.time{
+  display:none;
+}
+.time-mine{
+  position: absolute;
+  left: 95%;
+}
+.time-other{
+  position: absolute;
+  left: 74%;
+}
+.chat:hover .time{
+  display:inline;
+  font-size: 0.7em;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.chat-system{
+  text-align: center;
+}
+.chat-mine{
+  text-align: left;
+}
+.chat-other{
+  text-align: right
+}
+.container-room .right-cont .chat-cont .info .username {
   font-weight: bold;
   color: #4ecca3;
 }
-.container-room .right-cont .chat-cont .message .info .time {
+.container-room .right-cont .chat-cont .chat  {
   margin-left: 12px;
 }
-.container-room .right-cont .chat-cont .message .content {
+.container-room .right-cont .chat-cont .chat .content {
   margin-top: 5px;
   font-size: 0.9rem;
 }
@@ -805,3 +830,4 @@ navbar .logo {
 }
 
 /*# sourceMappingURL=style.css.map */
+

@@ -48,7 +48,7 @@
             <!-- 만들어진 방띄워주는곳 -->
       <div class="room">
         {%for room in rooms%}
-          <div class="room-box" data-id="{{room.uuid}}">
+          <div class="room-box">
           {% if room.img %}
             <div id="room-thumbnail"><img src="/img/{{room.img}}" width="172px"></div>
           {% endif %}
@@ -65,6 +65,7 @@
               data-id="{{room.uuid}}" class="join-btn">입장</button>
             </div>
           {% endif %}
+        </div>
         {%endfor%}
       </div>
     </div>

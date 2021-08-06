@@ -4,7 +4,7 @@ const roomid = params.split('/')[params.split('/').length - 1].replace(/\?.+/, '
 let usernick=document.querySelector('.mynick').dataset.mynick;
 const chatRoom = document.querySelector('.chat-cont');
 const sendButton = document.querySelector('.chat-send');
-const messageField = document.querySelector('.chat-input');
+const chatField = document.querySelector('.chat-input');
 const videoContainer = document.querySelector('#vcont');
 const overlayContainer = document.querySelector('#overlay');
 const videoButt = document.querySelector('.novideo');
@@ -355,29 +355,54 @@ socket.on('remove peer', sid => {
 })
 
 sendButton.addEventListener('click', () => {
-    const msg = messageField.value;
-    messageField.value = '';
-    socket.emit('message', msg, usernick, roomid);
+    const chatting = chatField.value;
+    chatField.value = '';
+    socket.emit('chat', chatting, usernick, roomid);
 })
 
-messageField.addEventListener("keyup", function (event) {
+chatField.addEventListener("keyup", function (event) {
     if (event.keyCode === 13) {
         event.preventDefault();
         sendButton.click();
     }
 });
 
-socket.on('message', (msg, sendername, time) => {
+socket.on('chat', (chatting, sendername, time) => {
     chatRoom.scrollTop = chatRoom.scrollHeight;
-    chatRoom.innerHTML += `<div class="message">
-    <div class="info">
-        <div class="usernick">${sendername}</div>
-        <div class="time">${time}</div>
-    </div>
-    <div class="content">
-        ${msg}
-    </div>
-</div>`
+    if (sendername=='System'){
+        chatRoom.innerHTML += `<div class="chat chat-system">
+            <div class="info">
+                <div class="usernick">${sendername}</div>
+            </div>
+            <div class="content">
+                ${chatting}
+            </div>
+            <br>
+        </div>`
+    }
+    else if (sendername==usernick) {
+        chatRoom.innerHTML += `<div class="chat chat-mine">
+            <div class="info">
+                <span class="usernick">${sendername}</span>
+                <span class="time time-mine">${time}</span>
+            </div>
+            <div class="content">
+                ${chatting}
+            </div>
+        </div>`
+    }
+    else{
+       chatRoom.innerHTML += `<div class="chat chat-other">
+            <div class="info">
+                <span class="time time-other">${time}</span>
+                <span class="usernick">${sendername}</span>
+            </div>
+            <div class="content">
+                ${chatting}
+            </div>
+        </div>`
+    }
+    
 });
 
 videoButt.addEventListener('click', () => {

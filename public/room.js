@@ -373,7 +373,6 @@ socket.on('chat', (chatting, sendername, time) => {
         chatRoom.innerHTML += `<div class="chat chat-system">
             <div class="info">
                 <div class="usernick">${sendername}</div>
-                <div class="time">${time}</div>
             </div>
             <div class="content">
                 ${chatting}
@@ -384,8 +383,8 @@ socket.on('chat', (chatting, sendername, time) => {
     else if (sendername==usernick) {
         chatRoom.innerHTML += `<div class="chat chat-mine">
             <div class="info">
-                <div class="usernick">${sendername}</div>
-                <div class="time">${time}</div>
+                <span class="usernick">${sendername}</span>
+                <span class="time time-mine">${time}</span>
             </div>
             <div class="content">
                 ${chatting}
@@ -395,8 +394,8 @@ socket.on('chat', (chatting, sendername, time) => {
     else{
        chatRoom.innerHTML += `<div class="chat chat-other">
             <div class="info">
-                <div class="usernick">${sendername}</div>
-                <div class="time">${time}</div>
+                <span class="time time-other">${time}</span>
+                <span class="usernick">${sendername}</span>
             </div>
             <div class="content">
                 ${chatting}

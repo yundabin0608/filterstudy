@@ -283,12 +283,6 @@ a {
   text-decoration: none;
   cursor: pointer;
 }
-#chat-time{
-  display:none;
-}
-#chat-content:hover #chat-time{
-  display:inline;
-}
 #video-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, 300px);

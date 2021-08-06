@@ -25,6 +25,10 @@
               <a id="join" href="/join" >회원가입</a>
               <button id="login" type="submit">로그인</button>
               <a id="kakao" href="/auth/kakao">카카오톡</a>
+              <form id="login-google" action="/auth/mail" method="post">
+                <input type="hidden" name="scope" value="https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo#email https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/tasks https://www-opensocial.googleusercontent.com/api/people https://www.googleapis.com/auth/plus.login" />
+                <a id="google" href="/auth/google">구글</a>
+              </form>
           </form>  
         {% endif %}
     </div>

@@ -17,7 +17,7 @@ const pageRouter=require('./routes/page');
 const authRouter=require('./routes/auth');
 const postRouter=require('./routes/post');
 const userRouter=require('./routes/user');
-const {sequelize}=require('./models');  //index.js생략 가능
+const {sequelize}=require('./models');  
 const passportConfig=require('./passport');
 
 const app = express();
@@ -56,14 +56,12 @@ app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());  //req.session에 passport정보 저장
 
-//const server = http.createServer(app);
 const server=app.listen(app.get('port'),()=>{
     console.log(app.get('port'),'번 포트에서 대기 중');
 });
 
-//server.listen(PORT, () => console.log(`Server is up and running on port ${PORT}`));
 app.use('/',pageRouter);
-app.use('/auth',authRouter); //경로 앞에 auth가 붙음
+app.use('/auth',authRouter);
 app.use('/post',postRouter);
 app.use('/user',userRouter);
 
@@ -90,15 +88,15 @@ io.use(wrap(sessionMiddleware));
 io.use(wrap(passport.initialize())); //꼭 써야함
 io.use(wrap(passport.session())); //꼭 써야함
  
-let rooms = {}; //roomid별 socket.id저장
-let socketroom = {}; //각 사람별 어떤 룸에 있는지(roomid)
+let rooms = {};       //roomid별 socket.id저장
+let socketroom = {};  //각 사람별 어떤 룸에 있는지(roomid)
 let socketnick = {};
 let videoSocket = {};
 let roomBoard = {};
 let startTime;
 
 io.on('connect', (socket) => {
-    socket.on("join room", (roomid, usernick) => {//join room할 때 roomid,usernick
+    socket.on("join room", (roomid, usernick) => {
         console.log("join room");
         console.log("????????"+roomid+usernick);
         socket.join(roomid);
@@ -111,9 +109,9 @@ io.on('connect', (socket) => {
         console.log("socketnick: "+socketnick[socket.id]);
         console.log("videoSocket: "+videoSocket[socket.id]);
         
-        if (rooms[roomid] && rooms[roomid].length > 0) {//존재하는 방
+        if (rooms[roomid] && rooms[roomid].length > 0) { //존재하는 방
             rooms[roomid].push(socket.id);
-            socket.to(roomid).emit('message', `${usernick} joined the room.`, 'System', moment().format( 
+            socket.to(roomid).emit('chat', `${usernick}님이 채팅방에 입장하셨습니다.`, 'System', moment().format( 
                 "h:mm a"
             ));
             io.to(socket.id).emit('join room', rooms[roomid].filter(pid => pid != socket.id), socketnick, videoSocket);
@@ -146,11 +144,13 @@ io.on('connect', (socket) => {
         socket.to(sid).emit('new icecandidate', candidate, socket.id);
     })
 
-    socket.on('message', (msg, usernick, roomid) => {
-        io.to(roomid).emit('message', msg, usernick, moment().format(
+    // chatting : 채팅창에 친 내용
+    socket.on('chat', (chatting, usernick, roomid) => {
+        io.to(roomid).emit('chat', chatting, usernick, moment().format(
             "h:mm a"
         ));
     })
+
 
     socket.on('getCanvas', () => {
         if (roomBoard[socketroom[socket.id]]) //roomBoard[roomid]라는 뜻
@@ -171,16 +171,13 @@ io.on('connect', (socket) => {
 
     socket.on('disconnect', () => {
         if (!socketroom[socket.id]) return;
-        socket.to(socketroom[socket.id]).emit('message', `${socketnick[socket.id]} left the chat.`, `Bot`, moment().format(
+        socket.to(socketroom[socket.id]).emit('chat', `${socketnick[socket.id]} 님이 채팅방을 나가셨습니다.`, `System`, moment().format(
             "h:mm a"
         ));
         socket.to(socketroom[socket.id]).emit('remove peer', socket.id);
         var index = rooms[socketroom[socket.id]].indexOf(socket.id);
         rooms[socketroom[socket.id]].splice(index, 1);
         io.to(socketroom[socket.id]).emit('user count', rooms[socketroom[socket.id]].length);
-        console.log('--------------------');
-        console.log(rooms[socketroom[socket.id]].length);
-        let roomid=socketroom[socket.id];//방uuid
         delete socketroom[socket.id];
         let req=socket.request;
         console.log('!!!!!!!!!!!!leftuserId:       ',req.user.id);

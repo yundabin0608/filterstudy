@@ -2,8 +2,7 @@ const express=require('express');
 const passport=require('passport');
 const {isLoggedIn,isNotLoggedIn}=require('./middlewares');
 const User=require('../models/user');
-const os = require('os');
-const bcrypt=require('bcrypt');
+const bcrypt=require('bcryptjs');
 const router=express.Router();
 
 router.post('/join',isNotLoggedIn,async(req,res,next)=>{ //회원가입 라우터
@@ -67,7 +66,6 @@ router.get('/google/callback',passport.authenticate('google',{ //로그인 후 �
 });
 
 router.post('/mail', async(req, res) => {
-    console.log('===post/mail===');
      /* min ~ max까지 랜덤으로 숫자를 생성하는 함수 */ 
     var generateRandom = function (min, max) {
         var ranNum = Math.floor(Math.random()*(max-min+1)) + min;

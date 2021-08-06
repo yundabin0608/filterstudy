@@ -184,6 +184,12 @@ router.post('/room',isLoggedIn, upload.single('img'), async (req, res, next) => 
           },
         }]
     });
+    const uuid=req.params.id;
+    const userCount=users.length;
+    const max=resultroom.max;
+    setTimeout(() => {
+      req.app.get('io').emit('mainCount',{uuid,userCount,max});  //메인 화면에서 참가자 수 바뀌게
+    },100);
     return res.render('library', { roomId: req.params.id,users:resultusers,room:resultroom,chats})
 });
 

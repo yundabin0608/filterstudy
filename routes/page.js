@@ -104,6 +104,7 @@ router.post('/room',isLoggedIn, upload.single('img'), async (req, res, next) => 
             password: req.body.password,
             img: req.file.filename,
             option:req.body.room_option,
+            participants_num:1,
         });
         const io = req.app.get('io'); //io 객체 가져오기
         io.emit('newRoom', newRoom); // 모든 클라이언트에 데이터를 보내는 메서드
@@ -193,38 +194,19 @@ router.post('/library/user',async(req,res,next)=>{
       include:[{
           model:Room,
           where:{
-            id:req.body.roomId,
+            uuid:req.body.roomId,
           },
         }]
-    });
-    const room=await Room.findOne({
-      where:{id:req.body.roomId}, 
-      include:[{
-        model:Chat,
-        where:{
-          RoomId:req.body.roomId,
-        },
-      },{
-        model:User,
-      }]
-    });
-    const users=await User.findAll({//접속한 사람들
-      include:[{
-        model:Room,
-        where:{
-          id:req.body.roomId,
-        },
-      }]
     });
 
     await Room.update({
       participants_num: req.body.userCount,
     }, {
-     where:{id:req.body.roomId},  
+     where:{uuid:req.body.roomId},  
     });
     
     const resultroom=await Room.findOne({
-      where:{id:req.body.roomId},
+      where:{uuid:req.body.roomId},
         include:[{
           model:User,
           attributes:['id'],
@@ -250,16 +232,22 @@ router.post('/library/user',async(req,res,next)=>{
       where: {id:req.body.user},
     }); 
     resultroom.removeUser(leftuser);
-    const roomId=req.body.roomId;
+    const roomId=resultroom.id;
+    const uuid=req.body.roomId;
+    const userCount=req.body.userCount;
+    const max=resultroom.max;
     if (req.body.userCount==0){
       if (resultroom.option==0){
         await Chat.destroy({ where:{RoomId:roomId} });
         await Room.destroy({ where: {id: roomId} });
         setTimeout(() => {
-          req.app.get('io').emit('removeRoom', {roomId});
+          req.app.get('io').emit('removeRoom', uuid);
         }, 100);
       }
     }
+    setTimeout(() => {
+      req.app.get('io').emit('mainCount',{uuid,userCount,max});  //메인 화면에서 참가자 수 바뀌게
+    },100);
   }
   catch (error) {
     console.error(error);

@@ -708,6 +708,12 @@ navbar .logo {
   display: flex;
   font-size: 0.85rem;
 }
+.time{
+  display:none;
+}
+.message:hover .time{
+  display:inline;
+}
 .container-room .right-cont .chat-cont .message .info .username {
   font-weight: bold;
   color: #4ecca3;

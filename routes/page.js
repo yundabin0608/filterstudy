@@ -95,29 +95,58 @@ function uuidv4() {
   //채팅방을 만드는 라우터 
 router.post('/room',isLoggedIn, upload.single('img'), async (req, res, next) => {
     try {
-        let makeuuid=uuidv4();
-        const newRoom = await Room.create({
-            title: req.body.title,
-            uuid: makeuuid,
-            max: req.body.max,
-            description: req.body.description,
-            password: req.body.password,
-            img: req.file.filename,
-            option:req.body.room_option,
-            participants_num:1,
-        });
-        const io = req.app.get('io'); //io 객체 가져오기
-        io.emit('newRoom', newRoom); // 모든 클라이언트에 데이터를 보내는 메서드
-        await newRoom.addUser(req.user.id);
-        if(req.body.password){
-          res.redirect(`/library/${makeuuid}?password=${req.body.password}`);
-        }
-        else{res.redirect(`/library/${makeuuid}`);}
-      } catch (error) {
-        console.error(error);
-        next(error);
+      let makeuuid=uuidv4();
+      const newRoom = await Room.create({
+        title: req.body.title,
+        uuid: makeuuid,
+        max: req.body.max,
+        description: req.body.description,
+        password: req.body.password,
+        //img: req.file.filename,
+        img: req.params.img,
+        option:req.body.room_option,
+        participants_num:1,
+      });
+      const io = req.app.get('io'); //io 객체 가져오기
+      io.emit('newRoom', newRoom); // 모든 클라이언트에 데이터를 보내는 메서드
+      await newRoom.addUser(req.user.id);
+      if(req.body.password){
+        res.redirect(`/library/${makeuuid}?password=${req.body.password}`);
+      }
+      else{res.redirect(`/library/${makeuuid}`);}
+    } catch (error) {
+      console.error(error);
+      next(error);
     }
   });
+
+    /* 채팅방을 만드는 라우터 */
+router.post('/room/loadImage',isLoggedIn, upload.single('img'), async (req, res, next) => {
+  try {
+    let makeuuid=uuidv4();
+    const newRoom = await Room.create({
+      title: req.body.title,
+      uuid: makeuuid,
+      max: req.body.max,
+      description: req.body.description,
+      password: req.body.password,
+      img: req.file.filename,
+      //img: req.params.img || req.file.filename,
+      option:req.body.room_option,
+      participants_num:1,
+    });
+    const io = req.app.get('io'); //io 객체 가져오기
+    io.emit('newRoom', newRoom); // 모든 클라이언트에 데이터를 보내는 메서드
+    await newRoom.addUser(req.user.id);
+    if(req.body.password){
+      res.redirect(`/library/${makeuuid}?password=${req.body.password}`);
+    }
+    else{res.redirect(`/library/${makeuuid}`);}
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
     
   // 방 들어가면 library.html 렌더링 방주소랑 사용자 전달
   router.get('/library/:id', async(req, res) => {

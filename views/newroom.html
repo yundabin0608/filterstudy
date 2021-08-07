@@ -1,9 +1,9 @@
 {% extends 'layout.html' %}
-
+{% set path = null %}
 {% block content %}
   <fieldset>
     <legend>채팅방 생성</legend>
-    <form action="/room" method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data">
       <div>
         <input type="text" name="title" placeholder="방 제목">
       </div>
@@ -18,7 +18,22 @@
       </div>
       <div id="room-thumbnail">
         <label for="thumbnail">썸네일</label>
-        <input type="file" id="thumbnail" name="img" required>
+        
+        <p>
+          선택x<input type="checkbox" onchange="javascript: form.action='/room';">
+        </p>
+        <p>
+          선택o<input type="checkbox" id="chooseImg" onchange="chooseImage();">
+          <input 
+            type="file" 
+            id="thumbnail" 
+            name="img" 
+            accept="image/*" 
+            style="visibility: hidden;"
+            onchange="javascript: form.action='/room/loadImage';"
+          >
+        </p>
+        
       </div>
       <div>
         <input type="radio" name="room_option" value=0 checked="checked">완전 삭제
@@ -29,6 +44,11 @@
       </div>
     </form>
   </fieldset>
-
+  <script>
+    function chooseImage(){
+      let e = document.getElementById("thumbnail");
+      e.style.visibility = "visible";
+    }
+  </script>
 
 {% endblock %}

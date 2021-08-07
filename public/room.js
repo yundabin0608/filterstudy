@@ -28,7 +28,7 @@ let videoTrackSent = {};
 let mystream, myscreenshare;
 
 document.querySelector('.roomcode').innerHTML = `${roomid}`
-socket.emit("join room", roomid, usernick);//////////////////////////////////
+socket.emit("joinRoom", roomid, usernick);//////////////////////////////////
 
 function CopyClassText() {
     var textToCopy = document.querySelector('.roomcode');
@@ -58,7 +58,7 @@ function CopyClassText() {
 continueButt.addEventListener('click', () => { //이름칸
     overlayContainer.style.visibility = 'hidden';
     document.querySelector("#myname").innerHTML = `${usernick} (You)`;
-    socket.emit("join room", roomid, usernick);
+    socket.emit("joinRoom", roomid, usernick);
 })
 
 nameField.addEventListener("keyup", function (event) {
@@ -69,7 +69,7 @@ nameField.addEventListener("keyup", function (event) {
 });
 */
 let participant_num;
-socket.on('user count', count => {
+socket.on('userCount', count => {
     if (count > 1) {
         videoContainer.className = 'video-cont';
     }
@@ -102,14 +102,12 @@ function startCall() {
 
 function handleVideoOffer(offer, sid, cname, vidinf) {
     cName[sid] = cname;
-    console.log('video offered recevied');
     videoInfo[sid] = vidinf;
     connections[sid] = new RTCPeerConnection(configuration);
 
     connections[sid].onicecandidate = function (event) {
         if (event.candidate) {
-            console.log('icecandidate fired');
-            socket.emit('new icecandidate', event.candidate, sid);
+            socket.emit('newIcecandidate', event.candidate, sid);
         }
     };
 
@@ -119,14 +117,12 @@ function handleVideoOffer(offer, sid, cname, vidinf) {
             let vidCont = document.createElement('div');
             let newvideo = document.createElement('video');
             let name = document.createElement('div');
-            //let muteIcon = document.createElement('div');
             let videoOff = document.createElement('div');
+            
             videoOff.classList.add('video-off');
-            //muteIcon.classList.add('mute-icon');
             name.classList.add('nametag');
             name.innerHTML = `${cName[sid]}`;
             vidCont.id = sid;
-            //muteIcon.id = `mute${sid}`;
             videoOff.id = `vidoff${sid}`;
             videoOff.innerHTML = 'Video Off'
             vidCont.classList.add('video-box');
@@ -152,7 +148,6 @@ function handleVideoOffer(offer, sid, cname, vidinf) {
     connections[sid].onremovetrack = function (event) {
         if (document.getElementById(sid)) {
             document.getElementById(sid).remove();
-            console.log('removed a track');
         }
     };
 
@@ -257,12 +252,12 @@ function screenShareToggle() {
             console.error(e);
         });
 }
-//handleVideoOffer(offer, sid, cname, vidinf) -> 왜 사용은 이렇게 하느뇨?
+
 socket.on('video-offer', handleVideoOffer);
-socket.on('new icecandidate', handleNewIceCandidate);
+socket.on('newIcecandidate', handleNewIceCandidate);
 socket.on('video-answer', handleVideoAnswer);
 
-socket.on('join room', async (conc, cnames,videoinfo) => {
+socket.on('joinRoom', async (conc, cnames,videoinfo) => {
     socket.emit('getCanvas');
     if (cnames)
         cName = cnames;
@@ -270,25 +265,23 @@ socket.on('join room', async (conc, cnames,videoinfo) => {
     if (videoinfo)
         videoInfo = videoinfo;
 
-    //console.log(cName);
     if (conc) {
         await conc.forEach(sid => {
             connections[sid] = new RTCPeerConnection(configuration);
 
             connections[sid].onicecandidate = function (event) {
                 if (event.candidate) {
-                    console.log('icecandidate fired');
-                    socket.emit('new icecandidate', event.candidate, sid);
+                    socket.emit('newIcecandidate', event.candidate, sid);
                 }
             };
 
             connections[sid].ontrack = function (event) {
                 if (!document.getElementById(sid)) {
-                    console.log('track event fired')
                     let vidCont = document.createElement('div');
                     let newvideo = document.createElement('video');
                     let name = document.createElement('div');
                     let videoOff = document.createElement('div');
+
                     videoOff.classList.add('video-off');
                     name.classList.add('nametag');
                     name.innerHTML = `${cName[sid]}`;
@@ -347,7 +340,7 @@ socket.on('join room', async (conc, cnames,videoinfo) => {
     }
 })
 
-socket.on('remove peer', sid => {
+socket.on('removePeer', sid => {
     if (document.getElementById(sid)) {
         document.getElementById(sid).remove();
     }

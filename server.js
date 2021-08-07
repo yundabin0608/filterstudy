@@ -96,11 +96,11 @@ let roomBoard = {};
 let startTime;
 
 io.on('connect', (socket) => {
-    socket.on("join room", (roomid, usernick) => {
+    socket.on("joinRoom", (roomid, usernick) => {
         socket.join(roomid);
         startTime = new Date();
         socketroom[socket.id] = roomid;   // roomid
-        socketnick[socket.id] = usernick; // usernick?
+        socketnick[socket.id] = usernick; // usernick
         videoSocket[socket.id] = 'on';    // 비디오 상태
         
         if (rooms[roomid] && rooms[roomid].length > 0) { //존재하는 방
@@ -108,13 +108,13 @@ io.on('connect', (socket) => {
             socket.to(roomid).emit('chat', `${usernick}님이 채팅방에 입장하셨습니다.`, 'System', moment().format( 
                 "h:mm a"
             ));
-            io.to(socket.id).emit('join room', rooms[roomid].filter(pid => pid != socket.id), socketnick, videoSocket);
+            io.to(socket.id).emit('joinRoom', rooms[roomid].filter(pid => pid != socket.id), socketnick, videoSocket);
         }
         else { //내가 새로 만든 방이다
             rooms[roomid] = [socket.id];
-            io.to(socket.id).emit('join room', null, null, null, null);
+            io.to(socket.id).emit('joinRoom', null, null, null, null);
         }
-        io.to(roomid).emit('user count', rooms[roomid].length);
+        io.to(roomid).emit('userCount', rooms[roomid].length);
     });
 
     socket.on('action', msg => { //socket.id:비디오 켜고 끈 사람, msg:행동
@@ -134,8 +134,8 @@ io.on('connect', (socket) => {
         socket.to(sid).emit('video-answer', answer, socket.id);
     })
 
-    socket.on('new icecandidate', (candidate, sid) => { //브라우저 호환성
-        socket.to(sid).emit('new icecandidate', candidate, socket.id);
+    socket.on('newIcecandidate', (candidate, sid) => { //브라우저 호환성
+        socket.to(sid).emit('newIcecandidate', candidate, socket.id);
     })
 
     // chatting : 채팅창에 친 내용
@@ -159,7 +159,8 @@ io.on('connect', (socket) => {
         socket.to(socketroom[socket.id]).emit('clearBoard');
     });
 
-    socket.on('store canvas', url => {
+    
+    socket.on('storeCanvas', url => {
         roomBoard[socketroom[socket.id]] = url;
     })
 
@@ -168,10 +169,10 @@ io.on('connect', (socket) => {
         socket.to(socketroom[socket.id]).emit('chat', `${socketnick[socket.id]} 님이 채팅방을 나가셨습니다.`, `System`, moment().format(
             "h:mm a"
         ));
-        socket.to(socketroom[socket.id]).emit('remove peer', socket.id);
+        socket.to(socketroom[socket.id]).emit('removePeer', socket.id);
         var index = rooms[socketroom[socket.id]].indexOf(socket.id);
         rooms[socketroom[socket.id]].splice(index, 1);
-        io.to(socketroom[socket.id]).emit('user count', rooms[socketroom[socket.id]].length);
+        io.to(socketroom[socket.id]).emit('userCount', rooms[socketroom[socket.id]].length);
         let roomid=socketroom[socket.id];
         delete socketroom[socket.id];
         let req=socket.request;

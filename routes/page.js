@@ -33,44 +33,46 @@ router.use((req,res,next)=>{
     next();
 });
 
-router.get('/profile',isLoggedIn,async(req,res)=>{ //로그인되어 있을 때만 접근 가능(next()를 호출해 res.render 미들웨어로 넘어간다)
-    const posts=await Post.findAll({//게시글 조회
+// 프로필 렌더링 라우터 -> 게시글 조회후 유저의 아이디, 닉네임, 레벨을 join해서 제공
+router.get('/profile',isLoggedIn,async(req,res)=>{
+    const posts=await Post.findAll({
         include:[{
             model:User,
             where:{id:req.user.id},
-            attributes:['id','nick','level'],//아이디와 닉네임을 join해서 제공
+            attributes:['id','nick','level'],
         }],
-        order:[['createdAt','DESC']],//게시글의 순서는 최신순으로 정렬
+        order:[['createdAt','DESC']],
     });
     res.render('profile',{title:'내 정보- CamStudy',promises:posts});
 });
+
 router.get('/join',isNotLoggedIn,(req,res)=>{
     res.render('join',{title:'회원가입- CamStudy'});
 });
 
 router.get('/',async(req,res,next)=>{
     try{
-        const rooms=await Room.findAll({//모든 룸 가져옴
+        const rooms=await Room.findAll({ //모든 방 가져옴 -> 정렬은 오래된순
             include:[{
                 model:User,
-                attributes:['id','nick'],//아이디와 닉네임을 join해서 제공
+                attributes:['id','nick'],
             }],
-            order:[['createdAt','ASC']],//게시글의 순서는 오래된 순으로 정렬
+            order:[['createdAt','ASC']],
         });
-        const posts=await Post.findAll({//게시글 조회
+        const posts=await Post.findAll({ //모든 게시글 조회 -> 정렬은 최신순
             include:[{
                 model:User,
-                attributes:['id','nick'],//아이디와 닉네임을 join해서 제공
+                attributes:['id','nick'],
             },{
                 model:User,
-                attributes:['id'],//좋아요를 누른 사용자 정보 가져옴
+                attributes:['id'],       //좋아요를 누른 사용자 정보 가져옴
                 as:'Liker',
             }],
-            order:[['createdAt','DESC']],//게시글의 순서는 최신순으로 정렬
+            order:[['createdAt','DESC']],
         });
         res.render('main',{
             title:'CamStudy',
-            twits:posts,//게시글 조회 결과를 넣음
+            twits:posts,
             rooms:rooms,
         });
     }catch(err){
@@ -89,7 +91,8 @@ function uuidv4() {
         return v.toString(16);
     });
   }
-  /* 채팅방을 만드는 라우터 */
+
+  //채팅방을 만드는 라우터 
 router.post('/room',isLoggedIn, upload.single('img'), async (req, res, next) => {
     try {
       let makeuuid=uuidv4();
@@ -178,16 +181,6 @@ router.post('/room/loadImage',isLoggedIn, upload.single('img'), async (req, res,
       const resultroom=await Room.findOne(
         {where:{uuid}}
       );
-      nums = (await Chat.findAndCountAll({
-        include:[{
-          model:Room,
-          where:{
-            uuid
-          },
-        }]
-      })).count
-     
-      if (nums <10) {nums=10}
 
     const userCount=users.length;
     const max=resultroom.max;
@@ -197,8 +190,9 @@ router.post('/room/loadImage',isLoggedIn, upload.single('img'), async (req, res,
     return res.render('library', { roomId: req.params.id,users,room:resultroom})
 });
 
-router.post('/library/user',async(req,res,next)=>{//퇴장 room,user관계 업데이트
-  try{//user,roomId,userCount,startTime
+// 방 퇴장 라우터 -> room, user 관계 업데이트
+router.post('/library/user',async(req,res,next)=>{
+  try{//user=>user.id,roomId,userCount,startTime
     const uuid=req.body.roomId;
     const userCount=req.body.userCount;
     const leftuser=await User.findOne({//나간 사람

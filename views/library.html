@@ -75,8 +75,20 @@
         <div class="right-cont">
             <div class="head-title">
                 <div class="chats"><i class="fas fa-comment-alt mr-1"></i>Chats</div>
-                <div class="attendies"><i class="fas fa-users mr-1"></i>Attendies</div>
-            </div>
+                <div id="attendies-list">
+                  <p id="attendies">참가자들 ({{room.participants_num}})</p>
+                    {% for user in users %}
+                    <div class="user" data-nick="{{user.nick}}">
+                      <span class="nick" data-nick="{{user.nick}}">
+                        {%if user.level_show==0%}
+                        {{user.nick}} level: {{user.level}}
+                        {%else%}
+                        {{user.nick}}
+                        {% endif %}
+                      </span>
+                    </div>
+                    {% endfor %}
+                    </div></div>
             <div class="chat-cont">
             </div>
             <div class="chat-input-cont">

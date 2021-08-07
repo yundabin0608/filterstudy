@@ -78,7 +78,6 @@ app.use((err,req,res,next)=>{
     res.render('error');
 });
 
-
 const io = socketio(server);
 app.set('io', io); 
 
@@ -96,7 +95,7 @@ let roomBoard = {};
 let startTime;
 
 io.on('connect', (socket) => {
-    socket.on("joinRoom", (roomid, usernick) => {
+    socket.on("join", (roomid, usernick) => {
         socket.join(roomid);
         startTime = new Date();
         socketroom[socket.id] = roomid;   // roomid
@@ -108,13 +107,14 @@ io.on('connect', (socket) => {
             socket.to(roomid).emit('chat', `${usernick}님이 채팅방에 입장하셨습니다.`, 'System', moment().format( 
                 "h:mm a"
             ));
-            io.to(socket.id).emit('joinRoom', rooms[roomid].filter(pid => pid != socket.id), socketnick, videoSocket);
+           io.to(socket.id).emit('join', rooms[roomid].filter(pid => pid != socket.id), socketnick, videoSocket);
         }
         else { //내가 새로 만든 방이다
             rooms[roomid] = [socket.id];
-            io.to(socket.id).emit('joinRoom', null, null, null, null);
+            io.to(socket.id).emit('join', null, null, null);
         }
         io.to(roomid).emit('userCount', rooms[roomid].length);
+        socket.to(roomid).emit('enterRoom',usernick);
     });
 
     socket.on('action', msg => { //socket.id:비디오 켜고 끈 사람, msg:행동
@@ -144,7 +144,6 @@ io.on('connect', (socket) => {
             "h:mm a"
         ));
     })
-
 
     socket.on('getCanvas', () => {
         if (roomBoard[socketroom[socket.id]]) //roomBoard[roomid]라는 뜻

@@ -178,7 +178,7 @@ io.on('connect', (socket) => {
         socket.leave(roomid);
         let userCount=rooms[roomid] ? rooms[roomid].length:0;
         axios.post('http://localhost:8001/library/user/',{user:req.user.id,roomId:roomid,userCount,startTime});
-      
+        socket.to(roomid).emit('exitRoom',req.user.nick);    
     });
 })
 

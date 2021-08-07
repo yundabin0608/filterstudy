@@ -354,6 +354,15 @@ socket.on('enterRoom',(usernick)=>{
     div1.appendChild(nick);
     document.querySelector('#attendies-list').appendChild(div1); 
 });
+socket.on('exitRoom',(usernick)=>{
+    //참가자 나감
+    console.log("exitRoom");
+    document.querySelector('#attendies').textContent=`참가자들 (${participant_num})`;
+    let leftuser=document.querySelector(`span[data-nick='${usernick}']`);//html렌더링할 때 가져온 애
+    if(leftuser){leftuser.remove();}
+    let leftuser2=document.querySelector(`div[data-nick='${usernick}']`);//새로 추가한 애
+    if(leftuser2){leftuser2.remove();}
+});
 
 
 socket.on('removePeer', sid => {

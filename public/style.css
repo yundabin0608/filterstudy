@@ -708,21 +708,23 @@ navbar .logo {
 
 /* mousehover chatting*/
 .time{
-  display:flex;
+  display:none;
+  font-size: 0.7em;
 }
 .time-mine{
-  position: absolute;
-  left: 95%;
+  position: relative;
+  left: 70%;
 }
 .time-other{
   position: relative; 
-  left:70%; 
-/*
+  right:70%; 
+}
+
 .chat:hover .time{
   display:inline;
   font-size: 0.7em;
-}*/
 }
+
 .chat-system{
   text-align: center;
 }

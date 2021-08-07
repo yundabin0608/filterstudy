@@ -420,13 +420,12 @@ socket.on('chat', (chatting, sendername, time) => {
             <div class="info">
                 <span class="time time-other">${time}</span>
                 <span class="usernick">${sendername}</span>
-            </div>
+                </div>
             <div class="content">
                 ${chatting}
             </div>
         </div>`
     }
-    
 });
 
 videoButt.addEventListener('click', () => {

@@ -11,6 +11,7 @@
         const params=window.location.href; //url
     </script>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script defer src="/public/room.js"></script>
     <script defer src="/public/canvas.js"></script>
     <script src="/public/error.js"></script>
@@ -23,6 +24,7 @@
                 <div class="video-box">
                     <video class="video-frame" id="vd1" autoplay playsinline></video>
                     <div class="mynick" data-mynick={{user.nick}}> you : {{user.nick}}</div>
+                    <input id="my-id" type="hidden" value="{{user.id}}">
                     <div class="video-off" id="myvideooff">Video Off</div>
                 </div>
             </div>
@@ -97,5 +99,10 @@
             </div>
         </div>
     </div>
+    <script>
+        const chatscroll=document.getElementsByClassName("chat-cont");
+        chatscroll.scrollTop=chatscroll.scrollHeight;
+
+    </script>
 </body>
 </html>

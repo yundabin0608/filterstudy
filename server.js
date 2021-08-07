@@ -104,9 +104,7 @@ io.on('connect', (socket) => {
         
         if (rooms[roomid] && rooms[roomid].length > 0) { //존재하는 방
             rooms[roomid].push(socket.id);
-            socket.to(roomid).emit('chat', `${usernick}님이 채팅방에 입장하셨습니다.`, 'System', moment().format( 
-                "h:mm a"
-            ));
+            socket.to(roomid).emit('chat', `${usernick}님이 채팅방에 입장하셨습니다.`, 'System', moment().format( "h:mm a"));
            io.to(socket.id).emit('join', rooms[roomid].filter(pid => pid != socket.id), socketnick, videoSocket);
         }
         else { //내가 새로 만든 방이다
@@ -138,11 +136,8 @@ io.on('connect', (socket) => {
         socket.to(sid).emit('newIcecandidate', candidate, socket.id);
     })
 
-    // chatting : 채팅창에 친 내용
     socket.on('chat', (chatting, usernick, roomid) => {
-        io.to(roomid).emit('chat', chatting, usernick, moment().format(
-            "h:mm a"
-        ));
+        socket.to(roomid).emit('chat', chatting, usernick, moment().format("h:mm a"));
     })
 
     socket.on('getCanvas', () => {
@@ -165,9 +160,7 @@ io.on('connect', (socket) => {
 
     socket.on('disconnect', () => {
         if (!socketroom[socket.id]) return;
-        socket.to(socketroom[socket.id]).emit('chat', `${socketnick[socket.id]} 님이 채팅방을 나가셨습니다.`, `System`, moment().format(
-            "h:mm a"
-        ));
+        socket.to(socketroom[socket.id]).emit('chat', `${socketnick[socket.id]} 님이 채팅방을 나가셨습니다.`, `System`, moment().format("h:mm a"));
         socket.to(socketroom[socket.id]).emit('removePeer', socket.id);
         var index = rooms[socketroom[socket.id]].indexOf(socket.id);
         rooms[socketroom[socket.id]].splice(index, 1);

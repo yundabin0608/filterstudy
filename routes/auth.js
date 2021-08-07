@@ -43,7 +43,7 @@ router.post('/login',isNotLoggedIn,(req,res,next)=>{
             }
             return res.redirect('/');
         });
-    })(req,res,next);//미들웨어인데 라우터 미들웨어 안에 들어있을 때(사용자 정의 기능 추가), 내부에서 호출
+    })(req,res,next); //미들웨어인데 라우터 미들웨어 안에 들어있을 때(사용자 정의 기능 추가), 내부에서 호출 
 });
 
 // 로그아웃 라우터 -> req.user객체, req.session객체 내용 제거
@@ -63,42 +63,9 @@ router.get('/kakao/callback',passport.authenticate('kakao',{ //로그인 후 성
 //assport.authenticate('google', {scope: 'https://www.googleapis.com/auth/plus.login'});
 router.get('/google',passport.authenticate('google', { scope: ["email", "profile"] })); //GET /auth/kakao 로 접근하면 카카오로그인. 카카오로그인 창으로 리다이렉트
 router.get('/google/callback',passport.authenticate('google',{ //로그인 후 성공 여부를 GET /auth/kakao/callback으로 받음.카카오로그인 전략 다시 수행
-    failureRedirect:'/', //로그인 실패 시 이동할  페이지
+    failureRedirect:`/?loginError=sookmyung 이메일로 시도하세요.`, //로그인 실패 시 이동할 페이지
 }),(req,res)=>{
     res.redirect('/join'); //로그인 성공 시 이동할 페이지
-});
-
-router.post('/mail', async(req, res) => {
-     /* min ~ max까지 랜덤으로 숫자를 생성하는 함수 */ 
-    var generateRandom = function (min, max) {
-        var ranNum = Math.floor(Math.random()*(max-min+1)) + min;
-        return ranNum;
-    }
-    
-    const auth = {
-        SendEmail : async(req, res) => {
-            const number = generateRandom(111111,999999)
-            const { sendEmail } = req.body;
-            const mailOptions = {
-                from: "정욱이네러버덕",
-                to: sendEmail,
-                subject: "[러버덕]인증 관련 이메일 입니다",
-                text: "오른쪽 숫자 6자리를 입력해주세요 : " + number
-            };
-            const result = await smtpTransport.sendMail(mailOptions, (error, responses) => {
-                if (error) {
-                    return res.status(statusCode.OK).send(util.fail(statusCode.BAD_REQUEST, responseMsg.AUTH_EMAIL_FAIL))
-                } else {
-                /* 클라이언트에게 인증 번호를 보내서 사용자가 맞게 입력하는지 확인! */
-                    return res.status(statusCode.OK).send(util.success(statusCode.OK, responseMsg.AUTH_EMAIL_SUCCESS, {
-                        number: number
-                    }))
-                }
-            smtpTransport.close();
-        });
-    }
-}
- 
 });
 
 module.exports=router;

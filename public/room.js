@@ -10,6 +10,8 @@ const overlayContainer = document.querySelector('#overlay');
 const videoButt = document.querySelector('.novideo');
 const cutCall = document.querySelector('.cutcall');
 const screenShareButt = document.querySelector('.screenshare');
+const myId = document.querySelector('#my-id').value;
+
 
 let videoAllowed = 1;
 let videoInfo = {};
@@ -78,8 +80,6 @@ socket.on('userCount', count => {
     }
     participant_num = count ;
 })
-
-let peerConnection;
 
 // error.js로 옮김
 
@@ -375,7 +375,24 @@ socket.on('removePeer', sid => {
 sendButton.addEventListener('click', () => {
     const chatting = chatField.value;
     chatField.value = '';
-    socket.emit('chat', chatting, usernick, roomid);
+    const mytime=moment().format("h:mm a")
+
+    chatRoom.scrollTop = chatRoom.scrollHeight;
+    if (chatting != ""){
+    chatRoom.innerHTML += `<div class="chat chat-mine">
+            <div class="info">
+                <span class="usernick">${usernick}</span>
+                <span class="time time-mine">${mytime}</span>
+            </div>
+            <div class="content">
+                ${chatting}
+            </div>
+        </div>`
+
+    setTimeout(function() {
+        socket.emit('chat', chatting, usernick, roomid);
+         }, 2000);
+    }
 })
 
 chatField.addEventListener("keyup", function (event) {
@@ -398,18 +415,7 @@ socket.on('chat', (chatting, sendername, time) => {
             <br>
         </div>`
     }
-    else if (sendername==usernick) {
-        chatRoom.innerHTML += `<div class="chat chat-mine">
-            <div class="info">
-                <span class="usernick">${sendername}</span>
-                <span class="time time-mine">${time}</span>
-            </div>
-            <div class="content">
-                ${chatting}
-            </div>
-        </div>`
-    }
-    else{
+    else if (sendername != myId){
        chatRoom.innerHTML += `<div class="chat chat-other">
             <div class="info">
                 <span class="time time-other">${time}</span>

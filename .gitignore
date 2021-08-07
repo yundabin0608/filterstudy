@@ -3,5 +3,4 @@ config
 .env
 package-lock.json
 package.json
-passport/localStrategy.js
 uploads

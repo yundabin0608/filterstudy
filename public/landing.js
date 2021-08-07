@@ -16,38 +16,38 @@ document.querySelectorAll('.join-btn').forEach(function (btn) {
 });
 
 socket.on('newRoom', function (data) { // 새 방 이벤트 시 새 방 생성
-const div = document.createElement('div');
-div.className='room-box';
-div.dataset.id = data.uuid;
-if (data.img){
-  const imgdiv = document.createElement('div');
-  imgdiv.className='room-thumbnail';
-  const img=document.createElement('img');
-  img.setAttribute('src',`/img/${data.img}`);
-  img.setAttribute('width','172px');
-  imgdiv.appendChild(img);
-  div.appendChild(imgdiv);
-}
-const div0 = document.createElement('div');
-div0.textContent = data.title;
-div.appendChild(div0);
-const div1 = document.createElement('div');
-div1.textContent = data.description;
-div.appendChild(div1);
-const div2 = document.createElement('div');
-div2.textContent = data.participants_num+"/"+data.max;
-div.appendChild(div2);
-const div3 = document.createElement('div');
-div3.textContent = data.password ? '비밀방' : '공개방';
-div.appendChild(div3);
-const button = document.createElement('button');
-button.textContent = '입장';
-button.className='join-btn'
-button.dataset.password = data.password ? 'true' : 'false';
-button.dataset.id = data.uuid;
-button.addEventListener('click', addBtnEvent);
-div.appendChild(button);
-document.querySelector('.room').appendChild(div); // 화면에 추가
+  const div = document.createElement('div');
+  div.className='room-box';
+  div.dataset.id = data.uuid;
+  if (data.img){
+    const imgdiv = document.createElement('div');
+    imgdiv.className='room-thumbnail';
+    const img=document.createElement('img');
+    img.setAttribute('src',`/img/${data.img}`);
+    img.setAttribute('width','172px');
+    imgdiv.appendChild(img);
+    div.appendChild(imgdiv);
+  }
+  const div0 = document.createElement('div');
+  div0.textContent = data.title;
+  div.appendChild(div0);
+  const div1 = document.createElement('div');
+  div1.textContent = data.description;
+  div.appendChild(div1);
+  const div2 = document.createElement('div');
+  div2.textContent = data.participants_num+"/"+data.max;
+  div.appendChild(div2);
+  const div3 = document.createElement('div');
+  div3.textContent = data.password ? '비밀방' : '공개방';
+  div.appendChild(div3);
+  const button = document.createElement('button');
+  button.textContent = '입장';
+  button.className='join-btn'
+  button.dataset.password = data.password ? 'true' : 'false';
+  button.dataset.id = data.uuid;
+  button.addEventListener('click', addBtnEvent);
+  div.appendChild(button);
+  document.querySelector('.room').appendChild(div); // 화면에 추가
 });
 
 socket.on('mainCount', function (data) {//참가자 수 바로 보이게

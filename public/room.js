@@ -28,7 +28,7 @@ let videoTrackSent = {};
 let mystream, myscreenshare;
 
 document.querySelector('.roomcode').innerHTML = `${roomid}`
-socket.emit("joinRoom", roomid, usernick);//////////////////////////////////
+socket.emit("join", roomid, usernick);
 
 function CopyClassText() {
     var textToCopy = document.querySelector('.roomcode');
@@ -257,8 +257,9 @@ socket.on('video-offer', handleVideoOffer);
 socket.on('newIcecandidate', handleNewIceCandidate);
 socket.on('video-answer', handleVideoAnswer);
 
-socket.on('joinRoom', async (conc, cnames,videoinfo) => {
+socket.on('join', async (conc, cnames,videoinfo) => {
     socket.emit('getCanvas');
+    console.log(usernick);
     if (cnames)
         cName = cnames;
 
@@ -339,6 +340,30 @@ socket.on('joinRoom', async (conc, cnames,videoinfo) => {
             .catch(handleGetUserMediaError);
     }
 })
+
+socket.on('enterRoom',(usernick)=>{
+    //참가자 들어옴
+    console.log('enterRoom');
+    document.querySelector('#attendies').textContent=`참가자들 (${participant_num})`;
+    let div1 = document.createElement('div');
+    div1.classList.add('user');
+    let nick = document.createElement('span');
+    div1.textContent=`${usernick}`;
+    div1.setAttribute('data-nick',usernick);
+    nick.setAttribute('data-nick',usernick);
+    div1.appendChild(nick);
+    document.querySelector('#attendies-list').appendChild(div1); 
+});
+socket.on('exitRoom',(usernick)=>{
+    //참가자 나감
+    console.log("exitRoom");
+    document.querySelector('#attendies').textContent=`참가자들 (${participant_num})`;
+    let leftuser=document.querySelector(`span[data-nick='${usernick}']`);//html렌더링할 때 가져온 애
+    if(leftuser){leftuser.remove();}
+    let leftuser2=document.querySelector(`div[data-nick='${usernick}']`);//새로 추가한 애
+    if(leftuser2){leftuser2.remove();}
+});
+
 
 socket.on('removePeer', sid => {
     if (document.getElementById(sid)) {

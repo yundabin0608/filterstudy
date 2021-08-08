@@ -1,7 +1,7 @@
 const socket = io();
 const myvideo = document.querySelector("#vd1");
 const roomid = params.split('/')[params.split('/').length - 1].replace(/\?.+/, '');
-let usernick=document.querySelector('.mynick').dataset.mynick;
+let usernick=document.querySelector('.mynick').textContent;
 const chatRoom = document.querySelector('.chat-cont');
 const sendButton = document.querySelector('.chat-send');
 const chatField = document.querySelector('.chat-input');

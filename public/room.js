@@ -246,7 +246,6 @@ socket.on('video-answer', handleVideoAnswer);
 
 socket.on('join', async (conc, cnames,videoinfo) => {
     socket.emit('getCanvas');
-    console.log(usernick);
     if (cnames)
         cName = cnames;
 
@@ -330,7 +329,7 @@ socket.on('join', async (conc, cnames,videoinfo) => {
 
 socket.on('enterRoom',(usernick,level_show,level)=>{
     //참가자 들어옴
-    console.log('enterRoom');
+    console.log(usernick);
     document.querySelector('#attendies').textContent=`참가자들 (${participant_num})`;
     let div1 = document.createElement('div');
     div1.classList.add('user');
@@ -341,10 +340,10 @@ socket.on('enterRoom',(usernick,level_show,level)=>{
     else{
         nick.textContent=`${usernick} level: ?`;
     }
-    div1.setAttribute('data-nick',usernick);
-    nick.setAttribute('data-nick',usernick);
+    //div1.setAttribute('data-nick',usernick);
+    //nick.setAttribute('data-nick',usernick);
     div1.appendChild(nick);
-    document.querySelector('#attendies-list').appendChild(div1); 
+    document.querySelector('.attendies-list').appendChild(div1); 
 });
 socket.on('exitRoom',(usernick)=>{
     //참가자 나감

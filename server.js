@@ -144,7 +144,7 @@ io.on('connect', (socket) => {
         if (roomBoard[socketroom[socket.id]]) //roomBoard[roomid]라는 뜻
             socket.emit('getCanvas', roomBoard[socketroom[socket.id]]);
     });
-
+    
     socket.on('draw', (newx, newy, prevx, prevy, color, size) => {
         socket.to(socketroom[socket.id]).emit('draw', newx, newy, prevx, prevy, color, size);
     })

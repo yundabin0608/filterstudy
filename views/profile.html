@@ -27,8 +27,23 @@
         <div id="level-bar">
         </div>
         <div id="level-text">
-            <div>총 공부 시간: </div>
-            <div>다음 level까지 필요한 시간은 입니다.</div>
+            <div>총 공부 시간: 
+            {% set total_time = user.total_time %}
+            {% set H=total_time//3600 %}
+            {{H}}시간
+            {% set total_time=total_time-H*3600%}
+            {% set total_time = total_time*10/6 %}
+            {% set M=total_time//100%}
+            {{M}}분
+            {% set total_time = total_time-M*100 %}
+            {% set S=total_time*0.6%}
+            {{S}}초</div>
+
+            <div>다음 level까지 
+            {%set leftM=60-M%}
+            {{leftM}}분
+            필요합니다.</div>
+
         </div>
     </div>
     <div id="my-posts">

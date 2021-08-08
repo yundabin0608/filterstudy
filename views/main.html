@@ -7,7 +7,7 @@
           {% if user.popup==0 %}
             <div id="myModal" class="modal" style="display:block;">
               <div class="modal-content">
-                <span class="close">&times;</span>                                                               
+                <span class="close" onclick="popupClose();">&times;</span>                                                               
                 <p>📌 닉네임은 내 프로필에서 바꿀 수 있습니다.</p>
                 <a href="/profile">내 프로필가기</a><br>
                 <input type="radio" value=0 onchange="popupRadioChange();"> 다시 보지 않기
@@ -50,7 +50,7 @@
     function popupRadioChange(){
       axios.post('/user/popup');
     }
-    span.onclick = function() {
+    function popupClose(){
       modal.style.display = "none";
     }
   </script>

@@ -1,0 +1,153 @@
+/***************profile.html꾸미기**********/
+.upper-profile{
+    width: 90%;
+    height: 30%;
+    display: flex;
+    margin:5%;
+    font-size:1.5em;
+    text-align: left;
+  }
+  .lower-profile{
+    width: 90%;
+    display: flex;
+    margin:5%;
+    font-size:1.5em;
+  }
+  /*수정 form부분*/
+  #profile-form{
+    flex-grow:1;
+    margin-top:5%;
+  }
+  #email{
+    margin-bottom:2%;
+  }
+  .profile-level{
+    flex-grow:1;
+    display: inline;
+  }
+  .profile-level>input{
+    margin-top:3%;
+    margin-bottom: 3%;
+    margin-left: 6.5%;
+    margin-right:18px;
+    border: 0px;
+    width: 0.9em;
+    height:0.9em;
+  }
+  
+  #edit:focus:not(:focus-visible){
+    position: relative;
+    margin-top:10%;
+    margin-left: 10%;
+  }
+  /*프로필 이미지 부분*/
+  #profile-img{
+    position: relative;
+    flex-grow: 0.2;
+  }
+  #profile-tag{
+    padding-left:10%;
+  }
+  #profile-img>img{
+    object-fit: scale-down;/*옆에 꽉 차게 하고 싶음 지워라*/
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  /*level bar부분*/
+  .level-container{
+    width: 50%;
+    flex-grow: 3;
+  }
+  .level-container>p{
+    font-weight: bolder;
+    text-align: left;
+    padding-left: 5%;
+  }
+  #next-level{
+    border: 3px solid #c2c2c2;;
+    border-radius: 8px;
+    box-shadow: 5px 5px 2px #c2c2c2;
+    margin-top: 3%;
+    margin-left: 5%;
+    margin-right: 5%;
+    padding:5%;
+    text-align: center;
+    position: relative;
+  }
+  .w3-indigo{
+    width:10px;
+  }
+  #noonsong{
+    z-index: 1;
+    object-fit: scale-down;
+    position: absolute;
+    width: 12%;
+    height: 12%;
+    padding-bottom: 14px;
+  }
+  #percent{
+    display: flex;
+  }
+  #left-percent{
+    text-align: left;
+    flex-grow: 1;
+  }
+  #right-percent{
+    text-align: right;
+    flex-grow: 1;
+  }
+  
+  #level-text{
+    margin: 10%;
+  }
+  /*나의 다짐 부분*/
+  #my-posts{
+    width: 30%;
+    flex-grow: 2;
+  }
+  #my-posts>p{
+    font-weight: bolder;
+    text-align: left;
+    padding-left: 5px;
+  }
+  .my-post{
+    width: 100%;
+    overflow: auto;
+    height: 400px;
+  }
+  
+.scrollbar-winter-neva::-webkit-scrollbar-track {
+    background-color: #F5F5F5;
+    border-radius: 10px; }
+
+.scrollbar-winter-neva::-webkit-scrollbar {
+    width: 15px;
+    background-color: transparent; }
+
+.scrollbar-winter-neva::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-image: -webkit-linear-gradient(330deg, #afb6c3 0%, #afb6c3 100%);
+    background-image: linear-gradient(120deg, #afb6c3 0%, #afb6c3 100%); }
+
+  .postlike{
+    border: 3px solid #c2c2c2;
+    border-radius: 8px;
+    box-shadow: 5px 5px 2px #c2c2c2;
+    margin: 10px;
+  }
+  .post-cont{
+    text-align: center;
+    background-color:#F4FFFF;
+    border-radius: 8px;
+    word-break:break-all;
+    padding: 5%;
+    margin-top: 3%;
+    margin-left: 3%;
+    margin-right: 3%;
+  }
+  .post-like{
+    text-align: right;
+    font-size: 0.6em;
+    padding: 2%;
+  }

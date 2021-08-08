@@ -56,20 +56,7 @@ function CopyClassText() {
         document.querySelector(".copycode-button").textContent = "Copy Code";
     }, 5000);
 }
-/*
-continueButt.addEventListener('click', () => { //이름칸
-    overlayContainer.style.visibility = 'hidden';
-    document.querySelector("#myname").innerHTML = `${usernick} (You)`;
-    socket.emit("joinRoom", roomid, usernick);
-})
 
-nameField.addEventListener("keyup", function (event) {
-    if (event.keyCode === 13) {
-        event.preventDefault();
-        continueButt.click();
-    }
-});
-*/
 let participant_num;
 socket.on('userCount', count => {
     if (count > 1) {
@@ -341,14 +328,19 @@ socket.on('join', async (conc, cnames,videoinfo) => {
     }
 })
 
-socket.on('enterRoom',(usernick)=>{
+socket.on('enterRoom',(usernick,level_show,level)=>{
     //참가자 들어옴
     console.log('enterRoom');
     document.querySelector('#attendies').textContent=`참가자들 (${participant_num})`;
     let div1 = document.createElement('div');
     div1.classList.add('user');
     let nick = document.createElement('span');
-    div1.textContent=`${usernick}`;
+    if(level_show==0){
+        nick.textContent=`${usernick} level: ${level}`;
+    }
+    else{
+        nick.textContent=`${usernick} level: ?`;
+    }
     div1.setAttribute('data-nick',usernick);
     nick.setAttribute('data-nick',usernick);
     div1.appendChild(nick);

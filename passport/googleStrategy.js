@@ -34,8 +34,7 @@ module.exports=()=>{
                 });
                 done(null, newUser);
             } else {
-                console.log(">>>>>>>>>>>>>..");
-                done(null,false,{message:'not sookmyung'});
+                done(null,null);
             }
         }catch(error){
             console.error(error);

@@ -42,4 +42,17 @@ router.post('/fix', async (req, res, next)=>{
     }
   }) 
 
+  router.post('/popup', async (req, res, next)=>{  
+    try{
+      await User.update(
+        { popup: 1,},
+        { where:{ id: req.user.id },}); 
+
+      res.redirect('/'); 
+    }catch(error){
+      console.error(error);
+      next(error);
+    }
+  }) 
+
 module.exports=router;

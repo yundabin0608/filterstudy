@@ -4,6 +4,16 @@
   <div class="profile-wrap">
     <div>
         {% if user and user.id%}
+          {% if user.popup==0 %}
+            <div id="myModal" class="modal" style="display:block;">
+              <div class="modal-content">
+                <span class="close">&times;</span>                                                               
+                <p>📌 닉네임은 내 프로필에서 바꿀 수 있습니다.</p>
+                <a href="/profile">내 프로필가기</a><br>
+                <input type="radio" value=0 onchange="popupRadioChange();"> 다시 보지 않기
+              </div>
+            </div>
+          {% endif %}
           <div class="user-name">{{'안녕하세요! ' + user.nick + '님'}}</div>
           <input id="my-id" type="hidden" value="{{user.id}}">
           <a id="my-profile" href="/profile" class="btn">내 프로필</a>
@@ -33,6 +43,17 @@
         {% endif %}
     </div>
   </div>
+  <script>
+    var modal = document.getElementById('myModal');
+    var span = document.getElementsByClassName("close")[0];                                          
+ 
+    function popupRadioChange(){
+      axios.post('/user/popup');
+    }
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+  </script>
 {%endblock%}
 
 {%block rooms%}

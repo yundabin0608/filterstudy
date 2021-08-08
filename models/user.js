@@ -17,7 +17,7 @@ module.exports = class User extends Sequelize.Model {
         unique: true,
       },
       level: {
-        type: Sequelize.FLOAT,
+        type: Sequelize.INTEGER,
         allowNull:false,
         defaultValue: 0,
       },

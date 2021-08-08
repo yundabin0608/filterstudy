@@ -232,10 +232,8 @@ router.post('/library/user',async(req,res,next)=>{
     let startTime = new Date(Date.parse(req.body.startTime));
     const access_time = ((endTime.getTime() - startTime.getTime())/1000).toFixed(0); //1000
     const resulthour=parseFloat(leftuser.total_time)+parseFloat(access_time);
-    const resultlevel=((resulthour/3600)*0.5).toFixed(0);
-    if ((resulthour/3600*0.5)-resultlevel>=0.5){ //30분에 0.5씩
-      resultlevel+=0.5;
-    }
+    const resultlevel=parseInt((resulthour/3600),10);
+    
     await User.update({
       total_time: resulthour
     },{

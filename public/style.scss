@@ -612,21 +612,6 @@ navbar {
                 padding: 10px;
                 justify-content: center;
 
-                .audio {
-                    background-color: $nicegreen;
-                    text-align: center;
-                    color: white;
-                    padding: 10px;
-                    height: 40px;
-                    width: 40px;
-                    border-radius: 100px;
-                    transition: background-color 0.3s;
-                    &:hover {
-                        cursor: pointer;
-                        background-color: $black;
-                    }
-                }
-
                 .novideo {
                     background-color: $nicegreen;
                     text-align: center;

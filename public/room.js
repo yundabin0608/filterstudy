@@ -20,7 +20,12 @@ let videoTrackReceived = {};
 let myvideooff = document.querySelector("#myvideooff");
 myvideooff.style.visibility = 'hidden';
 
-const configuration = { iceServers: [{ urls: "stun:stun.stunprotocol.org" }] }
+const configuration = { iceServers: [{ 
+    urls:[
+        "stun:stun.l.google.com:19302",
+        "stun:stun.l.google.com:19302",
+        "stun:stun.l.google.com:19302",
+        "stun:stun.stunprotocol.org"] }] }
 const mediaConstraints = { video: true, audio: false};
 
 let connections = {};

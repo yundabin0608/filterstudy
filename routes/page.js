@@ -30,6 +30,7 @@ router.use((req,res,next)=>{
     res.locals.level=req.user?req.user.level:0;
     res.locals.level_show=req.user?req.user.level_show:0;
     res.locals.nick=req.user?req.user.nick:'';
+    res.locals.total_time=req.user?req.user.total_time:0;
     next();
 });
 
@@ -39,7 +40,11 @@ router.get('/profile',isLoggedIn,async(req,res)=>{
         include:[{
             model:User,
             where:{id:req.user.id},
-            attributes:['id','nick','level'],
+            attributes:['id','nick'],
+        },{
+            model:User,
+            attributes:['id'],       //좋아요를 누른 사용자 정보 가져옴
+            as:'Liker',
         }],
         order:[['createdAt','DESC']],
     });
@@ -62,10 +67,8 @@ router.get('/',async(req,res,next)=>{
         const posts=await Post.findAll({ //모든 게시글 조회 -> 정렬은 최신순
             include:[{
                 model:User,
-                attributes:['id','nick'],
             },{
-                model:User,
-                attributes:['id'],       //좋아요를 누른 사용자 정보 가져옴
+                model:User,       //좋아요를 누른 사용자 정보 가져옴
                 as:'Liker',
             }],
             order:[['createdAt','DESC']],
@@ -228,9 +231,9 @@ router.post('/library/user',async(req,res,next)=>{
     const endTime = new Date();
     let startTime = new Date(Date.parse(req.body.startTime));
     const access_time = ((endTime.getTime() - startTime.getTime())/1000).toFixed(0); //1000
-    const resulthour=parseInt(leftuser.total_time,10)+parseInt(access_time,10);
+    const resulthour=parseFloat(leftuser.total_time)+parseFloat(access_time);
     const resultlevel=((resulthour/3600)*0.5).toFixed(0);
-    if ((resulthour/3600*0.5)-resultlevel>=0.5){
+    if ((resulthour/3600*0.5)-resultlevel>=0.5){ //30분에 0.5씩
       resultlevel+=0.5;
     }
     await User.update({

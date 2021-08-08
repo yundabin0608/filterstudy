@@ -114,8 +114,8 @@
             <input type="hidden" value="{{twit.id}}" class="twit-id">
             <div class="twit-author">
               {{twit.User.nick}}
-              {% if user.level_show == 0 %}
-                level: {{twit.user.level}}
+              {% if twit.User.level_show == 0 %}
+                level: {{twit.User.level}}
               {%else%}
                 level: ?
               {%endif%}

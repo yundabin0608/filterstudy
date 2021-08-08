@@ -101,7 +101,7 @@ io.on('connect', (socket) => {
         socketroom[socket.id] = roomid;   // roomid
         socketnick[socket.id] = usernick; // usernick
         videoSocket[socket.id] = 'on';    // 비디오 상태
-        
+        let req=socket.request;
         if (rooms[roomid] && rooms[roomid].length > 0) { //존재하는 방
             rooms[roomid].push(socket.id);
             socket.to(roomid).emit('chat', `${usernick}님이 채팅방에 입장하셨습니다.`, 'System', moment().format( "h:mm a"));
@@ -112,7 +112,7 @@ io.on('connect', (socket) => {
             io.to(socket.id).emit('join', null, null, null);
         }
         io.to(roomid).emit('userCount', rooms[roomid].length);
-        socket.to(roomid).emit('enterRoom',usernick);
+        socket.to(roomid).emit('enterRoom',usernick,req.user.level_show,req.user.level);
     });
 
     socket.on('action', msg => { //socket.id:비디오 켜고 끈 사람, msg:행동

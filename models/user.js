@@ -45,6 +45,11 @@ module.exports = class User extends Sequelize.Model {
         allowNull:false,
         defaultValue:0,
       },
+      popup:{
+        type: Sequelize.INTEGER,
+        allowNull:false,
+        defaultValue: 0,
+      }
     }, {
       sequelize,
       timestamps: true,

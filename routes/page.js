@@ -39,7 +39,11 @@ router.get('/profile',isLoggedIn,async(req,res)=>{
         include:[{
             model:User,
             where:{id:req.user.id},
-            attributes:['id','nick','level'],
+            attributes:['id','nick'],
+        },{
+            model:User,
+            attributes:['id'],       //좋아요를 누른 사용자 정보 가져옴
+            as:'Liker',
         }],
         order:[['createdAt','DESC']],
     });
@@ -62,10 +66,8 @@ router.get('/',async(req,res,next)=>{
         const posts=await Post.findAll({ //모든 게시글 조회 -> 정렬은 최신순
             include:[{
                 model:User,
-                attributes:['id','nick'],
             },{
-                model:User,
-                attributes:['id'],       //좋아요를 누른 사용자 정보 가져옴
+                model:User,       //좋아요를 누른 사용자 정보 가져옴
                 as:'Liker',
             }],
             order:[['createdAt','DESC']],

@@ -1,35 +1,50 @@
 {% extends 'layout.html' %}
 
-{% block content %}
-    <div class=profile>
-        <div> 
-        <form id="update-profile" action="/user/fix" method="post">   
-            <div class="input-nick">
-                닉네임 : <input type="text" id="edit-nick" name="nick" value="{{user.nick}}"> 
-            </div>
-            <div class="level">
-                레벨 : {{user.level}}
-            </div>
-            <div class="input-show-level">
-                {% if user.level_show == 0 %} 
-                <input type="radio" name="chk" value=0 checked="checked">공개 
-                <input type="radio" name="chk" value=1>비공개
-                {% else %}
-                <input type="radio" name="chk" value=0 >공개
-                <input type="radio" name="chk" value=1 checked="checked" >비공개
-                {% endif %}
-            </div>
-            <div class="show-promise">
-              나의 다짐 --
-                {% for promise in promises %}
-                    <div>{{promise.msg}}</div>
-                {% endfor %}    
-            </div>
-            <button id="edit-nick" value="수정" type="submit">수정</button>
-            <button type="button" class="OK" id="btn" onclick="document.location.href='/'">확인</button>
-        </form>
-        
+{% block profile %}
+ <div class='upper-profile'>
+        <div id="profile-form"> 
+            <form id="update-profile" action="/user/fix" method="post">   
+                <div>닉네임 : <input type="text" id="edit-nick" name="nick" value="{{user.nick}}"></div>
+                <div class="profile-level">레벨 : {{user.level}}</div>
+                <div class="profile-level">
+                    {% if user.level_show == 0 %} 
+                    <input type="radio" name="chk" value=0 checked="checked">공개 
+                    <input type="radio" name="chk" value=1>비공개
+                    {% else %}
+                    <input type="radio" name="chk" value=0 >공개
+                    <input type="radio" name="chk" value=1 checked="checked" >비공개
+                    {% endif %}
+                </div>
+                <button id="profile-edit" value="수정" type="submit">수정</button>
+            </form>        
         </div>
+        <div id="profile-img">
+            <img src="/img/zoom.jpg">
+        </div>
+</div>
+<div class="lower-profile">
+    <div id="next-level">
+        <div id="level-bar">
+        </div>
+        <div id="level-text">
+            <div>총 공부 시간: </div>
+            <div>다음 level까지 필요한 시간은 입니다.</div>
+        </div>
+    </div>
+    <div id="my-posts">
+        <h3>나의 다짐</h3>
+            {% for promise in promises %}
+                {%set likerNum=0%}
+                {%for like in promise.Liker%}
+                    {%set likerNum=likerNum+1 %}
+                {%endfor%}
+                <div class="my-post">
+                    <div class="post-cont">{{promise.msg}}</div>
+                    <div class="post-like">{{likerNum}}명이 좋아합니다.</div>
+                </div>
+            {% endfor %}    
+    </div>
+</div>
 {% endblock %}
 {% block script %}
   <script>

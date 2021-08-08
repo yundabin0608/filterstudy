@@ -14,6 +14,7 @@ html, body { margin: 0; padding: 0; height: 100%; }
   vertical-align: top;
   font-size: 12px;
 }
+
 input[type='text'], input[type='email'], input[type='password'], textarea {
   border-radius: 4px;
   height: 37px;
@@ -27,8 +28,6 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
   font: bold 300% "Fira Sans", sans-serif;
 }
 
-
-
 .container { 
   display:inline-block;
   position: absolute;
@@ -39,7 +38,26 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
   left: 30%;
 }
 
-/* Modal Content/Box */
+@media screen and (min-width: 800px) {
+  .container { width: 800px; margin: 0 auto; }
+}
+
+/* login block */
+.login-block{
+  width: 100%;
+  display: inline-block;
+  vertical-align: top;
+  margin: 10px 0;
+}
+@media screen and (min-width: 800px) {
+  .login-block { 
+    width: 290px; 
+    margin-bottom: 0; 
+  }
+}
+.user-name { font-weight: bold; font-size: 18px; }
+
+/* nick-modal 안의 내용 */
 .modal-content {
   background-color: #fefefe;
   margin: 15% auto; /* 15% from the top and centered */
@@ -47,68 +65,23 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
   border: 1px solid #888;
   width: 50%; /* Could be more or less, depending on screen size */                          
 }
-/* The Close Button */
-.close {
+/* nick-modal 닫기 버튼 누를경우 */
+.modal-close {
   color: #aaa;
   float: right;
   font-size: 28px;
   font-weight: bold;
 }
-.close:hover,
-.close:focus {
+.modal-close:hover,
+.modal-close:focus {
   color: black;
   text-decoration: none;
   cursor: pointer;
 }
 
 
-.rooms{
-  float: left;
-  position: relative;
-  width: 100%; 
-  height: 100%;
-  margin: 0px auto;
-  top: 10%;
-  left: 5%;
-}
-@media screen and (min-width: 800px) {
-  .container { width: 800px; margin: 0 auto; }
-}
-.input-group { margin-bottom: 15px; }
-.input-group label { width: 25%; display: inline-block; }
-.input-group input { width: 70%; }
-.half { float: left; width: 50%; margin: 10px 0; }
-#join { float: right; }
-.profile-wrap {
-  width: 100%;
-  display: inline-block;
-  vertical-align: top;
-  margin: 10px 0;
-}
-@media screen and (min-width: 800px) {
-  .profile-wrap { 
-    width: 290px; 
-    margin-bottom: 0; 
-  }
-}
-.profile {
-  text-align: left;
-  padding: 10px;
-  margin-right: 10px;
-  border-radius: 4px;
-  border: 1px solid silver;
-  background: lightcoral;
-}
-.user-name { font-weight: bold; font-size: 18px; }
-.count { font-weight: bold; color: crimson; font-size: 18px; }
-.timeline {
-  margin-top: 10px;
-  width: 100%;
-  border-radius: 4px;
-  vertical-align: top;
-  display: inline-block;
-}
-.room{
+/* room block을 위한곳*/
+.room-container{
   margin: 10px auto;
   width: 100%;
   height: 250px;
@@ -126,17 +99,53 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
   float: left;
   border: 3px solid black
 }
-.room-plus{
-  position: absolute;
-  left: 50%;
+
+#room-thumbnail{
+  width:150px;
+  display: block;
 }
-@media screen and (min-width: 800px) { .timeline { width: 500px; } }
-#twit-form {
+
+/* profile.html 을 위한 곳 */
+.profile {
+  text-align: left;
+  padding: 10px;
+  margin-right: 10px;
+  border-radius: 4px;
+  border: 1px solid silver;
+  background: lightcoral;
+}
+
+/* block content를 위한 곳 */
+
+.promise-block {
+  margin-top: 10px;
+  width: 100%;
+  border-radius: 4px;
+  vertical-align: top;
+  display: inline-block;
+}
+@media screen and (min-width: 800px) { .promise-block { width: 500px; } }
+#promise-form {
   border-bottom: 1px solid silver;
   padding: 10px;
   background: lightcoral;
   overflow: hidden;
 }
+
+.input-group { margin-bottom: 15px; }
+.input-group label { width: 25%; display: inline-block; }
+.input-group input { width: 70%; }
+.half { float: left; width: 50%; margin: 10px 0; }
+#join { float: right; }
+
+#promise-input { width: 100%; min-height: 72px; }
+#promise-btn {
+  float: right;
+  color: white;
+  background: crimson;
+  border: none;
+}
+
 #img-preview { max-width: 100%; }
 #img-label {
   float: left;
@@ -150,50 +159,25 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
   line-height: 37px;
 }
 #img { display: none; }
-.twits{
+.promises{
   margin-top: 10px;
   width: 100%;
   border-radius: 4px;
   vertical-align: top;
   height: 300px;
   overflow: auto;}
-#twit { width: 100%; min-height: 72px; }
-#twit-btn {
-  float: right;
-  color: white;
-  background: crimson;
-  border: none;
-}
-.twit {
+
+.promise {
   border: 1px solid silver;
   border-radius: 4px;
   padding: 10px;
   position: relative;
   margin-bottom: 10px;
 }
-.twit-author { display: inline-block; font-weight: bold; margin-right: 10px; }
-.twit-follow {
-  padding: 1px 5px;
-  background: #fff;
-  border: 1px solid silver;
-  border-radius: 5px;
-  color: crimson;
-  font-size: 12px;
-  cursor: pointer;
-}
-.twit-follow-cancel {
-  padding: 1px 5px;
-  background: #fff;
-  border: 1px solid silver;
-  border-radius: 5px;
-  color: crimson;
-  font-size: 12px;
-  cursor: pointer;
-}
-.twit-img { text-align: center; }
-.twit-img img { max-width: 75%; }
+
 .error-message { color: red; font-weight: bold; }
-#search-form { text-align: right; }
+
+/* join.html 관련 css */
 #join-form { padding: 10px; text-align: center; }
 #hashtag-form { text-align: right; }
 footer { text-align: center; }

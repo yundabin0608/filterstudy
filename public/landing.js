@@ -11,7 +11,7 @@ function addBtnEvent(e) { // 방 입장 클릭 시
     roomid = e.target.dataset.id;
 }
   
-document.querySelectorAll('.join-btn').forEach(function (btn) {
+document.querySelectorAll('.room-enter-btn').forEach(function (btn) {
     btn.addEventListener('click', addBtnEvent);
 });
 
@@ -42,7 +42,7 @@ socket.on('newRoom', function (data) { // 새 방 이벤트 시 새 방 생성
   div.appendChild(div3);
   const button = document.createElement('button');
   button.textContent = '입장';
-  button.className='join-btn'
+  button.className='room-enter-btn'
   button.dataset.password = data.password ? 'true' : 'false';
   button.dataset.id = data.uuid;
   button.addEventListener('click', addBtnEvent);

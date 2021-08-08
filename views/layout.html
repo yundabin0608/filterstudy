@@ -8,22 +8,30 @@
     <link rel="stylesheet" href="/public/main.css">
     <script src="https://kit.fontawesome.com/6510466b6c.js" crossorigin="anonymous"></script>
   </head>
+  <body>
     <div class="container">
+    <!--여기까지 헤더부분으로 위쪽에 버튼으로 해야할것 가튼뎅-->
+      <!-- 버튼으로 할것 -->
       {%block login%}
       {%endblock%}
-      <div class="container">
-        {%block rooms%}
-        {%endblock%}
-      </div>
-    </div>  
-    {%block profile%}
-    {%endblock%}
-    {% block script %}
-    {% endblock %}
-  <footer>
-    <div class="post-box">
+
+       <!-- 버튼으로 할것 -->
+      {%block profile%}
+      {%endblock%}
+    <!---->
+    
+    <!--환영메세지랑 반짝효과부분 추가하는 블럭-->
+      {%block rooms%}
+      {%endblock%}
+      
+      {% block script %}
+      {% endblock %}
+  
       {% block content %}
       {% endblock %}
     </div>
+  </body>
+
+  <footer>
   </footer>
 </html>

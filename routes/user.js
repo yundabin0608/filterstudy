@@ -4,8 +4,6 @@ const User = require('../models/user');
 const Post = require('../models/post');
 const router=express.Router();
 
-
-
 // 렌더링시 맞는 정보와 함께 프로필 렌더링 하는 라우터
 router.post('/profile',isLoggedIn,async(req,res,next)=>{
     try {

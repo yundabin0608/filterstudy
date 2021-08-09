@@ -1,7 +1,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>QuickMeet Room</title>
+    <title>숙명사이버대학교</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/public/style.css">
@@ -15,89 +15,124 @@
     <script defer src="/public/room.js"></script>
     <script defer src="/public/canvas.js"></script>
     <script src="/public/error.js"></script>
+    <!-- <div class="header">
+        <h1 class="logo">숙명사이버대학교</h1> 
+        <a href="/profile" class="room-head-profile">my page</a>
+    </div> -->
 </head>
 
 <body>
     <div class="container-room">
-        <div class="left-cont">
-            <div class="video-cont-single" id="vcont">
-                <div class="video-box">
-                    <video class="video-frame" id="vd1" autoplay playsinline></video>
-                    <div class="mynick" data-mynick={{user.nick}}> you : {{user.nick}}</div>
-                    <input id="my-id" type="hidden" value="{{user.id}}">
-                    <div class="video-off" id="myvideooff">Video Off</div>
+        <div class="container-left">
+            <div class="box-video"> <!--이름 바꾸기-->
+                <div class="video-cont-single" id="vcont">
+                    <div class="video-box">
+                        <video class="video-frame" id="vd1" autoplay playsinline></video>
+                        <div class="mynick">{{user.nick}}</div>
+                        <input id="my-id" type="hidden" value="{{user.id}}">
+                        <div class="video-off" id="myvideooff">Video Off</div>
+                    </div>
+                </div>
+    
+                <div class="whiteboard-cont"><canvas id="whiteboard" height="1000" width="1000"></canvas>
+                    <div class="colors-cont">
+                        <div class="black" id="colors" onclick="setColor('black')"></div>
+                        <div class="red" id="colors" onclick="setColor('#e74c3c')"></div>
+                        <div class="yellow" id="colors" onclick="setColor('#f1c40f')"></div>
+                        <div class="green" id="colors" onclick="setColor('#badc58')"></div>
+                        <div class="blue" id="colors" onclick="setColor('#3498db')"></div>
+                        <div class="orange" id="colors" onclick="setColor('#e67e22')"></div>
+                        <div class="purple" id="colors" onclick="setColor('#9b59b6')"></div>
+                        <div class="pink" id="colors" onclick="setColor('#fd79a8')"></div>
+                        <div class="brown" id="colors" onclick="setColor('#834c32')"></div>
+                        <div class="grey" id="colors" onclick="setColor('gray')"></div>
+                        <div class="eraser" id="colors" onclick="setEraser()"><i class="fas fa-eraser"></i></div>
+                        <div class="clearboard" id="colors" onclick="clearBoard()"><i class="fas fa-trash-alt"></i></div>
+                    </div>
+                </div>
+    
+                <div class="footer">
+                    <div class="utils">
+                        <div class="novideo" id="util">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <div class="filter tooltip" id="util">
+                            <i class="fas fa-desktop"></i>
+                            <span class="tooltiptext">filter</span>
+                        </div>
+                        <div class="screenshare tooltip" id="util">
+                            <i class="fas fa-desktop"></i>
+                            <span class="tooltiptext">Share Screen</span>
+                        </div>
+                        <div class="board-icon tooltip" id="util">
+                            <i class="fas fa-chalkboard"></i>
+                            <span class="tooltiptext">Whiteboard</span>
+                        </div>
+                        <div class="attendies tooltip" id="util" onclick="showAttendies();">
+                            <i class="fas fa-phone-slash"></i> <!--아이콘 바꿔야함-->
+                            <span class="tooltiptext">참가자</span>
+                        </div>
+                        <div class="cutcall tooltip" id="util">
+                            <i class="fas fa-phone-slash"></i>
+                            <span class="tooltiptext">Leave Call</span>
+                        </div>
+                    </div>
+                    <div class="copycode-cont">
+                        <div class="roomcode"></div>
+                        <button class="copycode-button" onclick="CopyClassText()">Copy Code</button>
+                    </div>
                 </div>
             </div>
-
-            <div class="whiteboard-cont"><canvas id="whiteboard" height="1000" width="1000"></canvas>
-                <div class="colors-cont">
-                    <div class="black" onclick="setColor('black')"></div>
-                    <div class="red" onclick="setColor('#e74c3c')"></div>
-                    <div class="yellow" onclick="setColor('#f1c40f')"></div>
-                    <div class="green" onclick="setColor('#badc58')"></div>
-                    <div class="blue" onclick="setColor('#3498db')"></div>
-                    <div class="orange" onclick="setColor('#e67e22')"></div>
-                    <div class="purple" onclick="setColor('#9b59b6')"></div>
-                    <div class="pink" onclick="setColor('#fd79a8')"></div>
-                    <div class="brown" onclick="setColor('#834c32')"></div>
-                    <div class="grey" onclick="setColor('gray')"></div>
-                    <div class="eraser" onclick="setEraser()"><i class="fas fa-eraser"></i></div>
-                    <div class="clearboard" onclick="clearBoard()"><i class="fas fa-trash-alt"></i></div>
-                </div>
-            </div>
-
-            <div class="footer">
-                <div class="utils">
-                    <div class="novideo">
-                        <i class="fas fa-video"></i>
-                    </div>
-                    <div class="screenshare tooltip">
-                        <i class="fas fa-desktop"></i>
-                        <span class="tooltiptext">Share Screen</span>
-                    </div>
-                    <div class="board-icon tooltip">
-                        <i class="fas fa-chalkboard"></i>
-                        <span class="tooltiptext">Whiteboard</span>
-                    </div>
-                    <div class="cutcall tooltip">
-                        <i class="fas fa-phone-slash"></i>
-                        <span class="tooltiptext">Leave Call</span>
-                    </div>
-
-
-                </div>
-                <div class="copycode-cont">
-                    <div class="roomcode"></div>
-                    <button class="copycode-button" onclick="CopyClassText()">Copy Code</button>
-                </div>
-            </div>
-
         </div>
 
-        <div class="right-cont">
-            <div class="head-title">
-                <div class="chats"><i class="fas fa-comment-alt mr-1"></i>Chats</div>
-                <div id="attendies-list">
-                  <p id="attendies">참가자들 ({{room.participants_num}})</p>
+        <div id="attendies-modal" class="modal" style="display:none;">
+            <div class="attendies-list">
+                <span class="close" onclick="popupClose();">&times;</span>                                                               
+                <p id="attendies">참가자들 ({{room.participants_num}})</p>
                     {% for user in users %}
                     <div class="user" data-nick="{{user.nick}}">
-                      <span class="nick" data-nick="{{user.nick}}">
+                        <span class="nick" data-nick="{{user.nick}}">
                         {%if user.level_show==0%}
                         {{user.nick}} level: {{user.level}}
                         {%else%}
                         {{user.nick}} level: ?
                         {% endif %}
-                      </span>
+                        </span>
                     </div>
                     {% endfor %}
-                    </div></div>
-            <div class="chat-cont">
             </div>
-            <div class="chat-input-cont">
-                <div class="ci-cont"><input type="text" class="chat-input" placeholder="Type chat here.."></div>
-                <div class="ci-send"><button class="chat-send">Send</button></div>
+        </div>
+
+        <div class="container-right">
+            <div class="chat-box">
+                <div class="head-cont">
+                    <div class="chats">
+                        <!--눈송이 넣기-->
+                    </div>
+                </div>
+                <hr/>
+                <div class="chat-cont"></div>
+                <div class="send-cont">
+                    <div class="ci-cont"><input type="text" class="chat-input" placeholder="Type chat here.."></div>
+                    <div class="ci-send"><button class="chat-send">Send</button></div>
+                </div>
             </div>
         </div>
     </div>
 </body>
+<script>
+    var modal = document.getElementById('attendies-modal');
+    var span = document.getElementsByClassName("close")[0];   
+    function showAttendies(){
+        modal.style.display="block";
+    }
+    function popupClose(){
+        modal.style.display = "none";
+    }
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
 </html>

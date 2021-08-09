@@ -1,7 +1,7 @@
 const socket = io();
 const myvideo = document.querySelector("#vd1");
 const roomid = params.split('/')[params.split('/').length - 1].replace(/\?.+/, '');
-let usernick=document.querySelector('.mynick').dataset.mynick;
+let usernick=document.querySelector('.mynick').textContent;
 const chatRoom = document.querySelector('.chat-cont');
 const sendButton = document.querySelector('.chat-send');
 const chatField = document.querySelector('.chat-input');
@@ -20,7 +20,15 @@ let videoTrackReceived = {};
 let myvideooff = document.querySelector("#myvideooff");
 myvideooff.style.visibility = 'hidden';
 
-const configuration = { iceServers: [{ urls: "stun:stun.stunprotocol.org" }] }
+const configuration = { iceServers: [{ 
+    urls:[
+        "stun:stun.l.google.com:19302",
+        // "stun01.sipphone.com",
+        // "stun.ekiga.net",
+        // "stun.fwdnet.net",
+        // "stun.ideasip.com",
+        // "stun.iptel.org",
+        "stun:stun.stunprotocol.org"] }] }
 const mediaConstraints = { video: true, audio: false};
 
 let connections = {};
@@ -246,7 +254,6 @@ socket.on('video-answer', handleVideoAnswer);
 
 socket.on('join', async (conc, cnames,videoinfo) => {
     socket.emit('getCanvas');
-    console.log(usernick);
     if (cnames)
         cName = cnames;
 
@@ -330,7 +337,7 @@ socket.on('join', async (conc, cnames,videoinfo) => {
 
 socket.on('enterRoom',(usernick,level_show,level)=>{
     //참가자 들어옴
-    console.log('enterRoom');
+    console.log(usernick);
     document.querySelector('#attendies').textContent=`참가자들 (${participant_num})`;
     let div1 = document.createElement('div');
     div1.classList.add('user');
@@ -341,10 +348,10 @@ socket.on('enterRoom',(usernick,level_show,level)=>{
     else{
         nick.textContent=`${usernick} level: ?`;
     }
-    div1.setAttribute('data-nick',usernick);
-    nick.setAttribute('data-nick',usernick);
+    //div1.setAttribute('data-nick',usernick);
+    //nick.setAttribute('data-nick',usernick);
     div1.appendChild(nick);
-    document.querySelector('#attendies-list').appendChild(div1); 
+    document.querySelector('.attendies-list').appendChild(div1); 
 });
 socket.on('exitRoom',(usernick)=>{
     //참가자 나감
@@ -383,7 +390,7 @@ sendButton.addEventListener('click', () => {
 
     setTimeout(function() {
         socket.emit('chat', chatting, usernick, roomid);
-         }, 2000);
+         }, 500);
     }
 })
 

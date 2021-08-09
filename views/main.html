@@ -114,8 +114,8 @@
             <input type="hidden" value="{{twit.id}}" class="twit-id">
             <div class="twit-author">
               {{twit.User.nick}}
-              {% if user.level_show == 0 %}
-                level: {{twit.user.level}}
+              {% if twit.User.level_show == 0 %}
+                level: {{twit.User.level}}
               {%else%}
                 level: ?
               {%endif%}
@@ -141,6 +141,18 @@
           </div>
         {% endfor %}
       </div>
+    </div>
+    <div class="ranking"> <!-- 랭커는 10명으로 제한 // 1,2,3등 class : rank1, rank2, rank3 -->
+      {%set i=0%}
+      {%for ranker in rankers%}
+        {% if 3>i %}
+          <div class="ranker rank{{i+1}}">{{i+1}}위 : {{ranker.nick}}</div>
+          {%set i=i+1%}
+        {% else %}
+          <div class="ranker">{{i+1}}위 : {{ranker.nick}}</div>
+          {%set i=i+1%}
+        {% endif %}
+      {%endfor%}
     </div>
     
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>

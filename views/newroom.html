@@ -18,12 +18,9 @@
       </div>
       <div id="room-thumbnail">
         <label for="thumbnail">썸네일</label>
-        
+          <input type="hidden" onchange="javascript: form.action='/room';">
         <p>
-          선택x<input type="checkbox" onchange="javascript: form.action='/room';">
-        </p>
-        <p>
-          선택o<input type="checkbox" id="chooseImg" onchange="chooseImage();">
+          선택<input type="checkbox" id="chooseImg" onchange="chooseImage();">
           <input 
             type="file" 
             id="thumbnail" 

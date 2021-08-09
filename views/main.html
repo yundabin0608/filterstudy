@@ -1,3 +1,4 @@
+
 {% extends 'layout.html' %}
 
 {% block login %}
@@ -58,116 +59,154 @@
 
 {%block rooms%}
   <div class="rooms-block">
-    
-    {%if user %}
-      <button id="createroom" class="createroom-butt unselectable" onclick="location.href='/room'" >Create Room</button><br>
-    {%endif%}
-
     <div class="room-container">
-      <!-- 1방 = 1room-box -->
-      {%for room in rooms%}
-        <div class="room-box" data-id="{{room.uuid}}">
-          <div>{{room.title}}</div>
-          <div>{{room.description}}</div> 
-          <div>{{room.participants_num}}/{{room.max}}</div>
-          <div>{{'비밀방' if room.password else '공개방'}}</div>
-          {% if room.img %}
-            <div id="room-thumbnail"><img src="/img/{{room.img}}" width="172px"></div>
-          {% endif %}
-          {% if user %}
-            <div>
-              <button  data-password="{{'true' if room.password else 'false'}}"
-              data-id="{{room.uuid}}" class="room-enter-btn">입장</button>
-            </div>
-          {% endif %}
-        </div>
-      {%endfor%}
+      <!-- 1방 = 1room-box slide가 옆으로 움직이면서 컨테이너부분에서 보이는것-->
+      <div class="room-slides"> 
+        {%for room in rooms%}
+          <div class="room-box" data-id="{{room.uuid}}">
+            <div style="font-size: 1em; font-weight: 700; margin-top: 5px;">{{room.title}}</div>
+            <div style="font-size: 0.9em; margin-top: 3px;">{{room.description}}</div> 
+            <div style="font-size: 0.9em; margin-top: 3px">{{room.participants_num}}/{{room.max}}</div>
+            <div style="font-size: 0.9em; margin-top: 3px; margin-bottom: 10px">{{'비밀방' if room.password else '공개방'}}</div>
+            {% if room.img %}
+              <div id="room-thumbnail"><img src="/img/{{room.img}}" style="object-fit: scale-down; margin-top: 10px;" width="85%" height="90%"></div>
+            {% endif %}
+            {% if user %}
+              <div>
+                <button  data-password="{{'true' if room.password else 'false'}}"
+                data-id="{{room.uuid}}" class="room-enter-btn">입장</button>
+              </div>
+            {% endif %}
+          </div>
+        {%endfor%}
+        {%if user %}
+          <div class="room-box">
+            <button class="plus-butt unselectable" onclick="location.href='/room'" >&#43;</button>
+          </div>
+        {%endif%}
+      </div>
     </div>
-    <!-- slide & 마지막 박스는 방생성박스로 div calss="room-plus" -->
+    {%if user %}
+        <button class="createroom-butt unselectable" onclick="location.href='/room'">방 만들기</button>
+        <form class="rome-code-form" action="/post" method="post" enctype="multipart/form-data">
+            <textarea id="room-code-input" name="roomCode" maxlength="30"></textarea>
+            <button class="enter-btn" type="submit">방 입장</button>
+        </form> 
+    {%endif%}
+      <span class="slide-butt slide-left">&#60;</span>
+      <span class="slide-butt slide-right">&#62;</span>
   </div>
+  <script>
+    // ㄴㅓ비 퍼센트 바꿀거임 
+    var slides=document.querySelector('.room-slides');
+    var slide=document.querySelectorAll('.room-box');
+    var currentIndex=0;
+    var slideCount=slide.length;
+    let leftBtn=document.querySelector('.slide-left');
+    let rightBtn=document.querySelector('.slide-right');
+    let slidewidth=250; // maybe document.querySelector('.room-box').style.width 로 가져오면 될듯;
+    let slideMargin=65;
+
+    slides.style.width = (slidewidth+slideMargin) * (slideCount+1) - slideMargin + 'px';
+
+    function moveSlide(num){
+        slides.style.left= -num * 315 + 'px';
+        currentIndex=num;
+    }
+
+    rightBtn.addEventListener('click', function(){
+        if(currentIndex < slideCount - 3){
+            moveSlide(currentIndex+1);
+        }
+        else{
+            moveSlide(0);
+        }
+    });
+    leftBtn.addEventListener('click', function(){
+        if(currentIndex > 0){
+            moveSlide(currentIndex-1);
+        }
+        else{
+            moveSlide(slideCount-3);
+        }
+    });
+  </script>
 {%endblock%}
 
 {% block content %}
   <div class="content-block">
-
+   
     <div class="promise-block">
-      <div class="promise-title">오늘의 다짐</div>
-      <hr/>
-      {% if user %}
-        <form id="promise-form" action="/post" method="post" enctype="multipart/form-data">
-          <div class="input-group">
-            <textarea id="promise-input" name="content" maxlength="100"></textarea>
-          </div>
-          <div>
-            <button id="promise-btn" type="submit" class="btn">짹짹</button>
-          </div>
-        </form> 
-      {% endif %}
-
-      <div class="promises">
-        {% for twit in twits %}
-          <div class="promise">
-            <input type="hidden" value="{{twit.User.id}}" class="promise-user-id">
-            <input type="hidden" value="{{twit.id}}" class="promise-id">
-            <div class="promise-author">
-              {% if twit.User.level_show == 0 %}
-                {{twit.User.nick}} level: {{twit.User.level}}
-              {%else%}
-                {{twit.User.nick}} level: ?
-              {%endif%}
-
-              <p>{{twit.msg}}</p>
+      <div class="promise-container">
+        <div class="promise-title">오늘의 다짐</div>
+        <hr style="border: 2px dashed white; margin: 1% 1%;"/>
+        {% if user %}
+          <form id="promise-form" action="/post" method="post" enctype="multipart/form-data">
+            <div class="promise-input">
+              <textarea id="promise-input" name="content" maxlength="100"></textarea>
             </div>
-            {%if user and twit.User.id==user.id%}
-             <button class="promise-delete" value="{{twit.id}}">삭제하기</button>
-            {%endif%}
-
-            {%set likeid=false%}
-            {%set likerNum=0%}
-            {%for like in twit.Liker%}
-              {% if like.id===user.id%}
-                {%set likeid=true%}
-              {%endif%}
-              {%set likerNum=likerNum+1 %}
-            {%endfor%}
-            {%if user and user.id!=twit.User.id and twit and not likeid%}
-              <button class="promise-like">좋아요</button>
-            {% elif user and user.id!=twit.User.id and twit and likeid%}
-              <button class="promise-like-cancel">좋아요취소</button>
-            {% endif %}
-            <div class="promise-like">{{likerNum}}</div>
-          </div>
-        {% endfor %}
-      </div>
-
-    </div>
-    <div class="ranking"> <!-- 랭커는 10명으로 제한 // 1,2,3등 class : rank1, rank2, rank3 -->
-      {%set i=0%}
-      {%for ranker in rankers%}
-        {% if 3>i %}
-          <div class="ranker rank{{i+1}}">{{i+1}}위 : {{ranker.nick}}</div>
-          {%set i=i+1%}
-        {% else %}
-          <div class="ranker">{{i+1}}위 : {{ranker.nick}}</div>
-          {%set i=i+1%}
+            <button id="promise-btn" type="submit">다짐🔥</button>
+          </form> 
         {% endif %}
-      {%endfor%}
+
+        <div class="p-container">
+          {% for twit in twits %}
+            <div class="promise">
+              <input type="hidden" value="{{twit.User.id}}" class="promise-user-id">
+              <input type="hidden" value="{{twit.id}}" class="promise-id">
+              <div class="promise-top">
+                <input type="hidden" value="{{twit.User.id}}" class="promise-user-id">
+                <input type="hidden" value="{{twit.id}}" class="promise-id">
+                {% if twit.User.level_show == 0 %}
+                  <span class="author">{{twit.User.nick}}</span> <span class="author-level">level: {{twit.User.level}}</span>
+                {%else%}
+                  <span class="author">{{twit.User.nick}}</span> <span class="author-level">level: ?</span>
+                {%endif%}
+                
+                {%set likeid=false%}
+                {%set likerNum=0%}
+                {%for like in twit.Liker%}
+                  {% if like.id===user.id%}
+                    {%set likeid=true%}
+                  {%endif%}
+                  {%set likerNum=likerNum+1 %}
+                {%endfor%}
+                {%if user and user.id!=twit.User.id and twit and not likeid%}
+                  <button class="p-butt promise-like">💙</button>
+                {% elif user and user.id!=twit.User.id and twit and likeid%}
+                  <button class="p-butt promise-like-cancel">💔</button>
+                {% endif %}
+                <div class="promise-like-num">{{likerNum}}</div>
+                {%if user and twit.User.id==user.id%}
+                <button class="p-butt promise-delete" value="{{twit.id}}">🗑</button>
+                {%endif%}
+                </div>
+                <div class="promise-content">{{twit.msg}}</div>
+                
+              
+            </div>
+          {% endfor %}
+        </div>
+      </div>
     </div>
-    
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     <!-- 랭커는 10명으로 제한 // 1,2,3등 class : rank1, rank2, rank3 -->
     <div class="ranking-block"> 
-      {%set i=0%}
-      {%for ranker in rankers%}
-        {% if 3>i %}
-          <div class="ranker rank{{i+1}}">{{i+1}}위 : {{ranker.nick}}</div>
-          {%set i=i+1%}
-        {% else %}
-          <div class="ranker">{{i+1}}위 : {{ranker.nick}}</div>
-          {%set i=i+1%}
-        {% endif %}
-      {%endfor%}
+      <div class="ranking-container">
+        {%set i=0%}
+        <div class="ranker-container">
+        {%for ranker in rankers%}
+          {% if 3>i %}
+            <span class="ranker3 rank{{i+1}}"><img class="ranker-img" src="/img/rank{{i+1}}.png"><br>{{i+1}}위 <br> {{ranker.nick}}</span>
+            {%if i==2%} </div>{%endif%}
+            {%set i=i+1%}
+          {% else %}
+            <div class="ranker">{{i+1}}위 : {{ranker.nick}}</div>
+            <hr style="border: 1px dashed black; margin: 0 2%;">
+            {%set i=i+1%}
+          {% endif %}
+        {%endfor%}
+      </div>
     </div>
 
   </div>

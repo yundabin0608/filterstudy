@@ -141,6 +141,20 @@
       </div>
 
     </div>
+    <div class="ranking"> <!-- 랭커는 10명으로 제한 // 1,2,3등 class : rank1, rank2, rank3 -->
+      {%set i=0%}
+      {%for ranker in rankers%}
+        {% if 3>i %}
+          <div class="ranker rank{{i+1}}">{{i+1}}위 : {{ranker.nick}}</div>
+          {%set i=i+1%}
+        {% else %}
+          <div class="ranker">{{i+1}}위 : {{ranker.nick}}</div>
+          {%set i=i+1%}
+        {% endif %}
+      {%endfor%}
+    </div>
+    
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     <!-- 랭커는 10명으로 제한 // 1,2,3등 class : rank1, rank2, rank3 -->
     <div class="ranking-block"> 

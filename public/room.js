@@ -11,7 +11,7 @@ const videoButt = document.querySelector('.novideo');
 const cutCall = document.querySelector('.cutcall');
 const screenShareButt = document.querySelector('.screenshare');
 const myId = document.querySelector('#my-id').value;
-
+const filter=document.querySelector()
 
 let videoAllowed = 1;
 let videoInfo = {};

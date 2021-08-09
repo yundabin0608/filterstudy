@@ -31,6 +31,7 @@ router.use((req,res,next)=>{
     res.locals.level_show=req.user?req.user.level_show:0;
     res.locals.nick=req.user?req.user.nick:'';
     res.locals.total_time=req.user?req.user.total_time:0;
+    res.locals.email=req.user?req.user.email:'';
     next();
 });
 

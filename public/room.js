@@ -23,11 +23,8 @@ myvideooff.style.visibility = 'hidden';
 const configuration = { iceServers: [{ 
     urls:[
         "stun:stun.l.google.com:19302",
-        // "stun01.sipphone.com",
-        // "stun.ekiga.net",
-        // "stun.fwdnet.net",
-        // "stun.ideasip.com",
-        // "stun.iptel.org",
+        "stun:stun.l.google.com:19302",
+        "stun:stun.l.google.com:19302",
         "stun:stun.stunprotocol.org"] }] }
 const mediaConstraints = { video: true, audio: false};
 

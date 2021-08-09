@@ -1,11 +1,16 @@
-{% extends 'layout.html' %}
 
-{% block profile %}
+ <link rel="stylesheet" href="/public/profile.css">
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+ <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
  <div class='upper-profile'>
+        <div id="profile-img">
+            <font style="font-weight: bold;"><p id="profile-tag">✨ 프로필</p></font>
+            <img src="/img/noonsongFace.PNG">
+        </div>
         <div id="profile-form"> 
             <form id="update-profile" action="/user/fix" method="post">   
-                <div>닉네임 : <input type="text" id="edit-nick" name="nick" value="{{user.nick}}"></div>
-                <div class="profile-level">레벨 : {{user.level}}</div>
+                <div><font style="font-weight: bold;"> name : </font><input type="text" id="edit-nick" name="nick" value="{{user.nick}}" maxlength='15' style="width:300px;height:40px;font-size:1em"></div>
+                <div class="profile-level"><font style="font-weight: bold;"> level : </font>{{user.level}}</div>
                 <div class="profile-level">
                     {% if user.level_show == 0 %} 
                     <input type="radio" name="chk" value=0 checked="checked">공개 
@@ -15,54 +20,55 @@
                     <input type="radio" name="chk" value=1 checked="checked" >비공개
                     {% endif %}
                 </div>
-                <button id="profile-edit" value="수정" type="submit">수정</button>
+                <div id="email"><font style="font-weight: bold;">email : </font>{{user.email}}</div>
+                <div id="edit"><button class="btn btn-outline-primary" value="수정" type="submit">수정</button></div>
             </form>        
         </div>
-        <div id="profile-img">
-            <img src="/img/zoom.jpg">
-        </div>
+</div>
+<div style="padding-left:5%;padding-right:5%;margin-top:10%">
+<hr style="color:#c2c2c2;border: solid 3px #c2c2c2;border-radius:5px;">
 </div>
 <div class="lower-profile">
-    <div id="next-level">
-        <div id="level-bar">
-        </div>
-        <div id="level-text">
-            <div>총 공부 시간: 
-            {% set total_time = user.total_time %}
-            {% set H=total_time//3600 %}
-            {{H}}시간
-            {% set total_time=total_time-H*3600%}
-            {% set total_time = total_time*10/6 %}
-            {% set M=total_time//100%}
-            {{M}}분
-            {% set total_time = total_time-M*100 %}
-            {% set S=total_time*0.6%}
-            {{S}}초</div>
+    <div class="level-container">
+        <p>🔥 레벨 업</p>
+        <div id="next-level">
+                {% set total_time = user.total_time %}
+                {% set H=total_time//3600 %}
+                {% set total_time=total_time-H*3600%}
+                {% set total_time = total_time*10/6 %}
+                {% set M=total_time//100%}
+                {%set percent=M/60*100%}
+            <div class="w3-light-grey w3-round-xlarge"><img id="noonsong" src="/img/noonsong.PNG" style="left:{{percent}}%;">
+            <div class="w3-container w3-padding-large w3-indigo w3-round-xlarge" style="width:{{percent}}%"></div></div>
+            <div id="percent"><div id="left-percent">0%</div><div id="right-percent">100%</div></div>
+            <div id="level-text">
+                <div><font style="font-weight: bold;">총 공부 시간: </font>
+                {{H}}시간
+                {{M}}분
+                {% set total_time = total_time-M*100 %}
+                {% set S=total_time*0.6%}
+                {{S//1}}초</div>
 
-            <div>다음 level까지 
-            {%set leftM=60-M%}
-            {{leftM}}분
-            필요합니다.</div>
-
+                <div>다음 level까지 
+                {%set leftM=60-M%}
+                {{leftM}}분
+                필요합니다.</div>
+            </div>
         </div>
     </div>
     <div id="my-posts">
-        <h3>나의 다짐</h3>
+        <p>📝 나의 다짐</p>
+            <div class="my-post scrollbar scrollbar-winter-neva">
             {% for promise in promises %}
                 {%set likerNum=0%}
                 {%for like in promise.Liker%}
                     {%set likerNum=likerNum+1 %}
                 {%endfor%}
-                <div class="my-post">
+                <div class="postlike force-overflow">
                     <div class="post-cont">{{promise.msg}}</div>
                     <div class="post-like">{{likerNum}}명이 좋아합니다.</div>
                 </div>
-            {% endfor %}    
+            {% endfor %}  
+            </div>  
     </div>
 </div>
-{% endblock %}
-{% block script %}
-  <script>
-  
-  </script>
-{% endblock %}

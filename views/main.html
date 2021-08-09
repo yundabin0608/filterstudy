@@ -1,13 +1,12 @@
 {% extends 'layout.html' %}
 
 {% block login %}
-  <div class="profile-wrap">
-    <div>
+  <div class="login-block">
         {% if user and user.id%}
           {% if user.popup==0 %}
-            <div id="myModal" class="modal" style="display:block;">
+            <div id="nick-modal" class="modal" style="display:block;">
               <div class="modal-content">
-                <span class="close" onclick="popupClose();">&times;</span>                                                               
+                <span class="modal-close" onclick="popupClose();">&times;</span>                                                               
                 <p>📌 닉네임은 내 프로필에서 바꿀 수 있습니다.</p>
                 <a href="/profile">내 프로필가기</a><br>
                 <input type="radio" value=0 onchange="popupRadioChange();"> 다시 보지 않기
@@ -19,7 +18,9 @@
           <a id="my-profile" href="/profile" class="btn">내 프로필</a>
           <a id="logout" href="/auth/logout" class="btn">로그아웃</a>
           <div display="hidden" class="usernick" data-usernick={{user.nick}}></div>
+
         {% else %}
+         <!-- 어차피 로그인은 구글빼고 다 삭제할거 아닌가? 라벨, 로그인폼, 회원가입 , 카카오톡 다 삭제아고 구글로그인 버튼만 남기면 될듯-->
           <div class="login-group">
             <label id="login-text">LOGIN</label>
           </div>
@@ -41,11 +42,10 @@
               </form>
           </form>  
         {% endif %}
-    </div>
   </div>
   <script>
-    var modal = document.getElementById('myModal');
-    var span = document.getElementsByClassName("close")[0];                                          
+    var modal = document.getElementById('nick-modal');
+    var span = document.getElementsByClassName("modal-close")[0];                                          
  
     function popupRadioChange(){
       axios.post('/user/popup');
@@ -57,73 +57,71 @@
 {%endblock%}
 
 {%block rooms%}
-<body>
-    <nav>
-        <div class="logo">QuickMeet</div>
-    </nav>
+  <div class="rooms-block">
+    
+    {%if user %}
+      <button id="createroom" class="createroom-butt unselectable" onclick="location.href='/room'" >Create Room</button><br>
+    {%endif%}
 
-    <div class="main">
-      {%if user %}
-        <button id="createroom" class="createroom-butt unselectable" onclick="location.href='/room'" >Create Room</button><br>
-      {%endif%}
-            <!-- 만들어진 방띄워주는곳 -->
-      <div class="room">
-        {%for room in rooms%}
-          <div class="room-box" data-id="{{room.uuid}}">
-          
+    <div class="room-container">
+      <!-- 1방 = 1room-box -->
+      {%for room in rooms%}
+        <div class="room-box" data-id="{{room.uuid}}">
           <div>{{room.title}}</div>
-          <div id='description'>{{room.description}}</div> 
+          <div>{{room.description}}</div> 
           <div>{{room.participants_num}}/{{room.max}}</div>
           <div>{{'비밀방' if room.password else '공개방'}}</div>
-          
           {% if room.img %}
             <div id="room-thumbnail"><img src="/img/{{room.img}}" width="172px"></div>
           {% endif %}
-
           {% if user %}
             <div>
               <button  data-password="{{'true' if room.password else 'false'}}"
-              data-id="{{room.uuid}}" class="join-btn">입장</button>
+              data-id="{{room.uuid}}" class="room-enter-btn">입장</button>
             </div>
           {% endif %}
         </div>
-        {%endfor%}
-      </div>
+      {%endfor%}
     </div>
-</body>
+    <!-- slide & 마지막 박스는 방생성박스로 div calss="room-plus" -->
+  </div>
 {%endblock%}
+
 {% block content %}
-    <div class="timeline">
+  <div class="content-block">
+
+    <div class="promise-block">
+      <div class="promise-title">오늘의 다짐</div>
+      <hr/>
       {% if user %}
-        <div>
-          <form id="twit-form" action="/post" method="post" enctype="multipart/form-data">
-            <div class="input-group">
-              <textarea id="twit" name="content" maxlength="100"></textarea>
-            </div>
-            <div>
-              <button id="twit-btn" type="submit" class="btn">짹짹</button>
-            </div>
-          </form>
-        </div>
+        <form id="promise-form" action="/post" method="post" enctype="multipart/form-data">
+          <div class="input-group">
+            <textarea id="promise-input" name="content" maxlength="100"></textarea>
+          </div>
+          <div>
+            <button id="promise-btn" type="submit" class="btn">짹짹</button>
+          </div>
+        </form> 
       {% endif %}
-      </div>
-      <div class="twits">
+
+      <div class="promises">
         {% for twit in twits %}
-          <div class="twit">
-            <input type="hidden" value="{{twit.User.id}}" class="twit-user-id">
-            <input type="hidden" value="{{twit.id}}" class="twit-id">
-            <div class="twit-author">
-              {{twit.User.nick}}
+          <div class="promise">
+            <input type="hidden" value="{{twit.User.id}}" class="promise-user-id">
+            <input type="hidden" value="{{twit.id}}" class="promise-id">
+            <div class="promise-author">
               {% if twit.User.level_show == 0 %}
-                level: {{twit.User.level}}
+                {{twit.User.nick}} level: {{twit.User.level}}
               {%else%}
-                level: ?
+                {{twit.User.nick}} level: ?
               {%endif%}
+
               <p>{{twit.msg}}</p>
             </div>
             {%if user and twit.User.id==user.id%}
-             <button class="delete" value="{{twit.id}}">삭제하기</button>
+             <button class="promise-delete" value="{{twit.id}}">삭제하기</button>
             {%endif%}
+
             {%set likeid=false%}
             {%set likerNum=0%}
             {%for like in twit.Liker%}
@@ -133,14 +131,15 @@
               {%set likerNum=likerNum+1 %}
             {%endfor%}
             {%if user and user.id!=twit.User.id and twit and not likeid%}
-              <button class="twit-like">좋아요</button>
+              <button class="promise-like">좋아요</button>
             {% elif user and user.id!=twit.User.id and twit and likeid%}
-              <button class="twit-like-cancel">좋아요취소</button>
+              <button class="promise-like-cancel">좋아요취소</button>
             {% endif %}
-            <h2>{{likerNum}}</h2>
+            <div class="promise-like">{{likerNum}}</div>
           </div>
         {% endfor %}
       </div>
+
     </div>
     <div class="ranking"> <!-- 랭커는 10명으로 제한 // 1,2,3등 class : rank1, rank2, rank3 -->
       {%set i=0%}
@@ -157,16 +156,33 @@
     
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
+    <!-- 랭커는 10명으로 제한 // 1,2,3등 class : rank1, rank2, rank3 -->
+    <div class="ranking-block"> 
+      {%set i=0%}
+      {%for ranker in rankers%}
+        {% if 3>i %}
+          <div class="ranker rank{{i+1}}">{{i+1}}위 : {{ranker.nick}}</div>
+          {%set i=i+1%}
+        {% else %}
+          <div class="ranker">{{i+1}}위 : {{ranker.nick}}</div>
+          {%set i=i+1%}
+        {% endif %}
+      {%endfor%}
+    </div>
+
+  </div>
+    
+ <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
  <script>
-    document.querySelectorAll('.delete').forEach(function(tag) {
+    document.querySelectorAll('.promise-delete').forEach(function(tag) {
         tag.addEventListener('click', function() {
           const myId = document.querySelector('#my-id');
-          const twitId = tag.parentNode.querySelector('.twit-id').value;
+          const promiseId = tag.parentNode.querySelector('.promise-id').value;
           if (myId) {
-            const userId = tag.parentNode.querySelector('.twit-user-id').value;
+            const userId = tag.parentNode.querySelector('.promise-user-id').value;
             if (userId === myId.value) {
               if (confirm('게시글을 삭제하시겠습니까?')) {
-                axios.delete(`/post/${twitId}`)
+                axios.delete(`/post/${promiseId}`)
                   .then(() => {
                     location.reload();
                   })
@@ -179,11 +195,11 @@
        });
       });
    
-      document.querySelectorAll('.twit-like').forEach(function(tag) {
+      document.querySelectorAll('.promise-like').forEach(function(tag) {
         tag.addEventListener('click', function() {
-          const twitId = tag.parentNode.querySelector('.twit-id').value;
+          const promiseId = tag.parentNode.querySelector('.promise-id').value;
               if (confirm('좋아요하시겠습니까?')) {
-                axios.post(`/post/${twitId}/like`)
+                axios.post(`/post/${promiseId}/like`)
                   .then(() => {
                     location.reload();
                   })
@@ -193,17 +209,17 @@
             }
           });
       });
-      document.querySelectorAll('.twit-like-cancel').forEach(function(tag) {
+      document.querySelectorAll('.promise-like-cancel').forEach(function(tag) {
         tag.addEventListener('click', function() {
           const myId = document.querySelector('#my-id');
-          const twitId = tag.parentNode.querySelector('.twit-id').value;
+          const promiseId = tag.parentNode.querySelector('.promise-id').value;
           if (myId) {
-            const userId = tag.parentNode.querySelector('.twit-user-id').value;
+            const userId = tag.parentNode.querySelector('.promise-user-id').value;
             if (userId !== myId.value) {
               if (confirm('좋아요 취소하시겠습니까?')) {
-                axios.delete(`/post/${twitId}/like`)
+                axios.delete(`/post/${promiseId}/like`)
                   .then(() => {
-                    location.reload();   //새로고침
+                    location.reload();  
                   })
                   .catch((err) => {
                     console.error(err);
@@ -219,7 +235,6 @@
 {% block script %}
   <script src="/socket.io/socket.io.js"></script>
   <script src="/public/landing.js"></script>
-
   <script>
       window.onload = () => {
         if (new URL(location.href).searchParams.get('loginError')) {

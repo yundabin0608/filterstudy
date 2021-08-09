@@ -139,7 +139,7 @@
     <div class="promise-block">
       <div class="promise-container">
         <div class="promise-title">오늘의 다짐</div>
-        <hr style="border: 2px dashed white; margin: 1% 1%;"/>
+        <hr style="border-top: 2px dashed white; border-bottom: none; margin: 1% 1%;"/>
         {% if user %}
           <form id="promise-form" action="/post" method="post" enctype="multipart/form-data">
             <div class="promise-input">
@@ -202,7 +202,7 @@
             {%set i=i+1%}
           {% else %}
             <div class="ranker">{{i+1}}위 : {{ranker.nick}}</div>
-            <hr style="border: 1px dashed black; margin: 0 2%;">
+            <hr style="border-top: 2px dashed black; border-bottom: none; margin: 0 2%;">
             {%set i=i+1%}
           {% endif %}
         {%endfor%}

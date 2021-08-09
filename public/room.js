@@ -387,7 +387,7 @@ sendButton.addEventListener('click', () => {
 
     setTimeout(function() {
         socket.emit('chat', chatting, usernick, roomid);
-         }, 2000);
+         }, 500);
     }
 })
 

@@ -371,17 +371,20 @@ socket.on('removePeer', sid => {
 sendButton.addEventListener('click', () => {
     const chatting = chatField.value;
     chatField.value = '';
-    const mytime=moment().format("h:mm a")
+    const mytime=moment().format("h:mm a");
 
     chatRoom.scrollTop = chatRoom.scrollHeight;
     if (chatting != ""){
-    chatRoom.innerHTML += `<div class="chat chat-mine">
-            <div class="info">
-                <span class="usernick">${usernick}</span>
-                <span class="time time-mine">${mytime}</span>
-            </div>
-            <div class="content">
-                ${chatting}
+        chatRoom.innerHTML += 
+        `<div class="chat">
+            <div class="chat-mine">
+                <div class="time time-mine">${mytime}</div>
+                <div class="sender">
+                    <span class="mynick">${usernick}</span>
+                </div>
+                <span class="content">
+                    ${chatting}
+                </span>
             </div>
         </div>`
 
@@ -401,24 +404,30 @@ chatField.addEventListener("keyup", function (event) {
 socket.on('chat', (chatting, sendername, time) => {
     chatRoom.scrollTop = chatRoom.scrollHeight;
     if (sendername=='System'){
-        chatRoom.innerHTML += `<div class="chat chat-system">
-            <div class="info">
-                <div class="usernick">${sendername}</div>
+        chatRoom.innerHTML += 
+        `<div class="chat">
+            <div class="chat-system">
+                <div class="sender">
+                    <span class="usernick">${sendername}</span>
+                </div>
+                <span class="content" id="system-content">
+                    ${chatting}
+                </span>
+                <br>
             </div>
-            <div class="content">
-                ${chatting}
-            </div>
-            <br>
         </div>`
     }
     else if (sendername != myId){
-       chatRoom.innerHTML += `<div class="chat chat-other">
-            <div class="info">
-                <span class="time time-other">${time}</span>
-                <span class="usernick">${sendername}</span>
+        chatRoom.innerHTML += 
+       `<div class="chat">
+            <div class="chat-other">
+                <div class="time time-other">${time}</div>
+                <div class="sender">
+                    <span class="othernick">${sendername}</span>
                 </div>
-            <div class="content">
-                ${chatting}
+                <span class="content">
+                    ${chatting}
+                </span>
             </div>
         </div>`
     }

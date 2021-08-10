@@ -1,60 +1,14 @@
 * { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; height: 100%; }
-.btn {
-  display: inline-block;
-  padding: 0 5px;
-  text-decoration: none;
-  cursor: pointer;
-  border-radius: 4px;
-  background: white;
-  border: 1px solid silver;
-  color: crimson;
-  height: 37px;
-  line-height: 37px;
-  vertical-align: top;
-  font-size: 12px;
-}
-
-input[type='text'], input[type='email'], input[type='password'], textarea {
-  border-radius: 4px;
-  height: 37px;
-  padding: 10px;
-  border: 1px solid silver;
-}
-
-#login-text{
-  text-align: center;
-  color: #483D8B;
-  font: bold 300% "Fira Sans", sans-serif;
-}
-
-.container { 
-  display:inline-block;
-  position: absolute;
-  width: 100%; 
-  height: 100%;
-  margin: 0px auto;
-  top: 40%;
-  left: 30%;
-}
-
+html {height: 100%;}
+/*
 @media screen and (min-width: 800px) {
   .container { width: 800px; margin: 0 auto; }
 }
+@media screen and (min-width: 800px) { .promise-block { width: 500px; } }
+*/
+
 
 /* login block */
-.login-block{
-  width: 100%;
-  display: inline-block;
-  vertical-align: top;
-  margin: 10px 0;
-}
-@media screen and (min-width: 800px) {
-  .login-block { 
-    width: 290px; 
-    margin-bottom: 0; 
-  }
-}
 .user-name { font-weight: bold; font-size: 18px; }
 
 /* nick-modal 안의 내용 */
@@ -79,105 +33,258 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
   cursor: pointer;
 }
 
+body { margin: 0; padding: 0; position:relative; }
 
-/* room block을 위한곳*/
-.room-container{
+.container { 
+  position: relative;
+  width: 1100px; /* ~ 1200px 기준 */
+  height: 100%;
+  top: 200px;
+  margin: auto;
+}
+
+.go-content{
+  position:fixed;
+  bottom: 5%;
+  right: 2%;
+  padding: 10px 15px 10px 15px;
+  font-size: 0.8em;
+  font-weight: 800;
+  text-decoration: none;
+  background: #003087;
+  color: white;
+  border-radius: 10px;
+  text-shadow: 0px -2px rgba(0, 0, 0, 0.44);
+  text-align: center;
+}
+
+/* =================== rooms block을 위한곳 =================== */
+.rooms-block{
+  position: absolute;
+  top: 0px;
   margin: 10px auto;
   width: 100%;
-  height: 250px;
-  border-radius: 4px;
-  background: #9b94cd;
-  float: left;
-  border: 3px solid black
+  height: 550px;
+}
+.room-container{
+  position:absolute;
+  width: 80%;
+  height: 350px;
+  left: 10%;
+  margin-top: 30px;
+  overflow: hidden; /* 뤠퍼 넘치는건 보일 필요없음 */
+}
+.room-slides{
+  display: flex;
+  position: absolute;
+  left: 0; 
+  top: 0;
+  transition: left 0.5s ease-out;
 }
 .room-box{
   text-align: center;
-  margin:10px auto;
-  height: 200px;
-  width: 180px;
-  background: white;
-  float: left;
-  border: 3px solid black
+  width: 250px;
+  height: 350px;
+  border: 3px solid #003087;
+  border-radius: 30px;
 }
-
-#room-thumbnail{
-  width:150px;
+.room-box:not(:last-child){ margin-right: 65px; } /* box 당 간격 */
+.slide-butt{
+  text-align: center;
+  margin-top: 50px;
+  position:absolute;
+  background: #003087;
+  color: #fff;
+  padding: 5px;
+  margin: 0 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 5px;
+}
+.slide-left{ left: 0%; }
+.slide-right{ right: 0%; }
+#room-thumbnail{ /*object fit 찾아서 해보기*/
+  left: 25px;
+  width: 250px;
+  height: 180px;
   display: block;
-}
-
-/* profile.html 을 위한 곳 */
-.profile {
-  text-align: left;
-  padding: 10px;
-  margin-right: 10px;
-  border-radius: 4px;
-  border: 1px solid silver;
-  background: lightcoral;
-}
-
-/* block content를 위한 곳 */
-
-.promise-block {
-  margin-top: 10px;
-  width: 100%;
-  border-radius: 4px;
-  vertical-align: top;
-  display: inline-block;
-}
-@media screen and (min-width: 800px) { .promise-block { width: 500px; } }
-#promise-form {
-  border-bottom: 1px solid silver;
-  padding: 10px;
-  background: lightcoral;
   overflow: hidden;
 }
-
-.input-group { margin-bottom: 15px; }
-.input-group label { width: 25%; display: inline-block; }
-.input-group input { width: 70%; }
-.half { float: left; width: 50%; margin: 10px 0; }
-#join { float: right; }
-
-#promise-input { width: 100%; min-height: 72px; }
-#promise-btn {
-  float: right;
-  color: white;
-  background: crimson;
+.room-enter-btn{
+  background: #c6d7f7;
+  position: relative;
+  margin-top: 5px;
+  border: none;
+  padding: 5px 10px 5px 10px;
+}
+.plus-butt{
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: auto;
+  top: 115px;
+  font-size: 50px;
+  color: #003087;
+  background: none;
+}
+.createroom-butt{
+  border-radius: 15px;
+  position: absolute;
+  width: 80%;
+  height: 50px;
+  left: 10%;
+  top: 410px;
+  font-size: 1em;
+  background: #c6d7f7;
+  color: black;
+}
+.rome-code-form{
+  border-radius: 15px;
+  position: absolute;
+  width: 80%;
+  height: 50px;
+  left: 10%;
+  top: 480px;
+  background: #c6d7f7;
+  color: black;
+  border: 2px solid black;
+}
+#room-code-input{
+  position: absolute;
+  left: 3%;
+  top: 10%;
+  width: 70%;
+  height: 80%;
+}
+.enter-btn{
+  position: absolute;
+  width: 10%;
+  right: 5%;
+  top: 10%;
+  height: 80%;
+  font-size: 1em;
   border: none;
 }
 
-#img-preview { max-width: 100%; }
-#img-label {
-  float: left;
-  cursor: pointer;
-  border-radius: 4px;
-  border: 1px solid crimson;
-  padding: 0 10px;
-  color: white;
-  font-size: 12px;
-  height: 37px;
-  line-height: 37px;
-}
-#img { display: none; }
-.promises{
-  margin-top: 10px;
-  width: 100%;
-  border-radius: 4px;
-  vertical-align: top;
-  height: 300px;
-  overflow: auto;}
+/* =================== block content를 위한 곳 =================== */ 
 
-.promise {
-  border: 1px solid silver;
-  border-radius: 4px;
-  padding: 10px;
-  position: relative;
-  margin-bottom: 10px;
+.content-block{
+  display: flex;
+  position: absolute;
+  width: 100%;
+  height: 600px;
+  top: 600px;
 }
+.promise-block {
+  margin: 50px 10px;
+  height: 500px;
+  width: 80%;
+  vertical-align: top;
+  display: inline-block;
+}
+.promise-container{
+  display: flex;
+  background-color: #003087;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+.promise-title{
+  color: white;
+  margin: 2% 4%;
+  text-align: left;
+  font-size: 1.5em;
+}
+#promise-form {
+  display: flex;
+  padding: 7px;
+  background: none;
+  overflow: hidden;
+}
+.promise-input { width: 70%; height: 40px; margin: auto;}
+#promise-input {width: 100%; height: 100%;}
+#promise-btn { width:20%; height:40px ; color: #003087; background:white; border: none; margin:auto;}
+.p-container{
+  width: 92%;
+  height: 65%;
+  margin: auto;
+  margin-top: 10px;
+  background-color: white;
+  overflow: auto;
+}
+.promise {
+  border-bottom: 1px solid #888;
+  padding: 0 1% 3% 3%;
+  position: relative;
+}
+.promise-top{width:100%;} /* 이름, 좋아요관련 버튼, 삭제 등등*/
+.author{ font-weight: 600; font-size: 1em; }
+.author-level{ font-size: 0.8em; padding: 2%; }
+.p-butt{
+  background: none;
+  border: none;
+  padding: 1%;
+  text-align: center;
+  font-size: 1em;
+}
+.promise-like-num{
+  display: inline;
+  font-size: 0.8em;
+  padding: 2%;
+}
+.promise-delete{
+  display: inline;
+  font-size: 0.8em;
+  padding: 2%;
+}
+.promise-like{ display: inline; }
+.promise-like-cancle{ display: inline; }
+
+
+.ranking-block{
+  margin: 50px 10px;
+  height: 500px;
+  width: 35%;
+  vertical-align: top;
+  display: inline-block;
+  overflow: hidden;
+}
+.ranking-container{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  border-style: dashed;
+  border-color: black;
+  padding: 2%;
+  border-radius: 5px;
+}
+.ranker-container{
+  display: flex;
+  height: 40%;
+  padding: 2%;
+}
+.ranker3{
+  text-align: center;
+  width: 30%;
+  height: 75%;
+  margin: 0% 1% 0% 1%;
+  border: 2px solid black;
+}
+.ranker-img{ position: relative; top: -7%; z-index: -1; }
+.rank1{order: 2; align-self: flex-start;}
+.rank2{order: 1; align-self: flex-end;}
+.rank3{order: 3; align-self: flex-end;}
+.ranker{font-size:0.9em; padding: 2%; margin-top: 1%;}
 
 .error-message { color: red; font-weight: bold; }
 
-/* join.html 관련 css */
-#join-form { padding: 10px; text-align: center; }
-#hashtag-form { text-align: right; }
-footer { text-align: center; }
+/* ============================================================== */
+#join { float: right; } /* 나중에 없앨것들 */
+.login-block{ 
+  width: 30%;
+  display: inline-block;
+  vertical-align: top;
+  margin: 10px 0;
+}

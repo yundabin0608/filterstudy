@@ -15,6 +15,11 @@ document.querySelectorAll('.room-enter-btn').forEach(function (btn) {
     btn.addEventListener('click', addBtnEvent);
 });
 
+var plusBtn = document.querySelector('.plus-butt');
+plusBtn.addEventListener('click', addBtnEvent);
+
+  
+
 socket.on('newRoom', function (data) { // 새 방 이벤트 시 새 방 생성
   const div = document.createElement('div');
   div.className='room-box';
@@ -47,7 +52,7 @@ socket.on('newRoom', function (data) { // 새 방 이벤트 시 새 방 생성
   button.dataset.id = data.uuid;
   button.addEventListener('click', addBtnEvent);
   div.appendChild(button);
-  document.querySelector('.room').appendChild(div); // 화면에 추가
+  document.querySelector('.room-slides').appendChild(div); // 화면에 추가
 });
 
 socket.on('mainCount', function (data) {//참가자 수 바로 보이게

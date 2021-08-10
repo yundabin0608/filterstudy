@@ -4,15 +4,13 @@
     <title>{{title}}</title>
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" href="/public/style.css">
+    <!--<link rel="stylesheet" href="/public/style.css">-->
     <link rel="stylesheet" href="/public/main.css">
     <script src="https://kit.fontawesome.com/6510466b6c.js" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   </head>
   <body>
-    <div class="container">
-    <!--여기까지 헤더부분으로 위쪽에 버튼으로 해야할것 가튼뎅-->
+    <header>
       <!-- 버튼으로 할것 -->
       {%block login%}
       {%endblock%}
@@ -20,8 +18,9 @@
        <!-- 버튼으로 할것 -->
       {%block profile%}
       {%endblock%}
-    <!---->
-    
+    </header>
+    <a class="go-content" href="#content-target">오늘의 다짐 <br/> 가기</a>
+    <div class="container">
     <!--환영메세지랑 반짝효과부분 추가하는 블럭-->
       {%block rooms%}
       {%endblock%}

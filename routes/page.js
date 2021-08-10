@@ -75,8 +75,8 @@ router.get('/',async(req,res,next)=>{
             order:[['createdAt','DESC']],
         });
         const rankers=await User.findAll({ // total_time 오름차순 정렬 후 10개 자르기
-          where:{},
-          attributes:['nick', 'level', 'total_time'],
+          where:{level_show:0},
+          attributes:['nick', 'level', 'total_time','level_show'],
           order:[['total_time','DESC']],
           limit: 10
         });

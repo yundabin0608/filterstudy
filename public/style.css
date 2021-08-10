@@ -296,7 +296,7 @@ hr{
   margin-bottom: 15px;
   word-break: break-all;
   word-wrap: break-word;
-  overflow: auto;
+  overflow: hidden;
 }
 /* .info .chat {
   display: flex;
@@ -324,13 +324,23 @@ hr{
   position: relative;
   font-size: 0.7em;
 }
+.chat-close-butt{
+  position: absolute;
+  right: 1%;
+  top: 1%;
+  font-size: 1.5em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+.chat-close-butt:hover{
+  cursor: pointer;
+  background: #c4c4c4;
+}
 .chat-mine:hover .time-mine{
   visibility: visible;
   right: 19vw;
 }
 .chat-other:hover .time-other{
-  /* visibility: visible;
-  left: 19vw; */
   visibility: visible;
   left: 19vw;
 }

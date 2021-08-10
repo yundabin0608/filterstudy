@@ -34,13 +34,25 @@ html {height: 100%;}
 }
 
 body { margin: 0; padding: 0; position:relative; }
-
+button{border-radius: 10%;}
+button:hover{cursor:pointer}
 .container { 
   position: relative;
   width: 1100px; /* ~ 1200px 기준 */
   height: 100%;
   top: 200px;
   margin: auto;
+}
+input {
+  border-radius: 10px;
+  width: 150px;
+  margin: 3%;
+}
+input:focus {
+  /*border-radius: 20px;*/
+  animation-name: border-focus;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
 }
 
 .go-content{
@@ -85,8 +97,9 @@ body { margin: 0; padding: 0; position:relative; }
   text-align: center;
   width: 250px;
   height: 350px;
-  border: 3px solid #003087;
+  border: 3px solid #c2c2c2;
   border-radius: 30px;
+  box-shadow: 5px 5px 2px #c2c2c2;
 }
 .room-box:not(:last-child){ margin-right: 65px; } /* box 당 간격 */
 .slide-butt{
@@ -103,12 +116,13 @@ body { margin: 0; padding: 0; position:relative; }
 }
 .slide-left{ left: 0%; }
 .slide-right{ right: 0%; }
-#room-thumbnail{ /*object fit 찾아서 해보기*/
-  left: 25px;
-  width: 250px;
-  height: 180px;
+#room-thumbnail{
+  position: relative;
   display: block;
-  overflow: hidden;
+  object-fit: scale-down;
+  margin-bottom: 5%;
+  border-radius: 15px;
+  /*overflow: hidden;*/
 }
 .room-enter-btn{
   background: #c6d7f7;

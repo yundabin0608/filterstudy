@@ -50,15 +50,15 @@
                         <div class="clearboard" id="colors" onclick="clearBoard()"><i class="fas fa-trash-alt"></i></div>
                     </div>
                 </div>
-    
+                
                 <div class="footer">
                     <div class="utils">
                         <div class="novideo" id="util">
                             <i class="fas fa-video"></i>
                         </div>
                         <div class="filter tooltip" id="util">
-                            <p class="fas">✨</p>
-                            <span class="tooltiptext">filter</span>
+                            <p class="fas">✨</p> <!--아이콘 바꿔야함-->
+                            <span class="tooltiptext">필터</span>
                         </div>
                         <div class="screenshare tooltip" id="util">
                             <i class="fas fa-desktop"></i>
@@ -104,6 +104,7 @@
         </div>
 
         <div class="container-right">
+            <div class="chat-close-butt">&times;</div>
             <div class="chat-box">
                 <div class="chat-head-cont">
                         <!--눈송이 넣기-->
@@ -132,5 +133,11 @@
             modal.style.display = "none";
         }
     }
+
+    var chatClose = document.querySelector('.chat-close-butt');
+    chatClose.addEventListener('click',function(event){
+       let chatContainer=document.querySelector('.container-right');
+       chatContainer.style.
+    }); 
 </script>
 </html>

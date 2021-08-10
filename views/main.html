@@ -63,11 +63,11 @@
         {%for room in rooms%}
           <div class="room-box" data-id="{{room.uuid}}">
             <div style="font-size: 1em; font-weight: 700; margin-top: 5px;">{{room.title}}</div>
-            <div style="font-size: 0.9em; margin-top: 3px;">{{room.description}}</div> 
+            <div style="font-size: 0.9em; margin-top: 3px;">{%if room.description==''%}<br>{%else%}{{room.description}}{%endif%}</div> 
             <div style="font-size: 0.9em; margin-top: 3px">{{room.participants_num}}/{{room.max}}</div>
             <div style="font-size: 0.9em; margin-top: 3px; margin-bottom: 10px">{{'비밀방' if room.password else '공개방'}}</div>
             {% if room.img %}
-              <div id="room-thumbnail"><img src="/img/{{room.img}}" style="object-fit: scale-down; margin-top: 10px;" width="85%" height="90%"></div>
+              <div id="room-thumbnail"><img src="/img/{{room.img}}" style="margin-top: 10px;width:60%;height:50%;border-radius: 30px;"></div>
             {% endif %}
             {% if user %}
               <div>
@@ -167,9 +167,9 @@
                 <input type="hidden" value="{{posting.User.id}}" class="promise-user-id">
                 <input type="hidden" value="{{posting.id}}" class="promise-id">
                 {% if posting.User.level_show == 0 %}
-                  <span class="author">{{posting.User.nick}}</span> <span class="author-level">level: {{posting.User.level}}</span>
+                  <span class="author">{{posting.User.nick}}</span> <span class="author-level">Lv. {{posting.User.level}}</span>
                 {%else%}
-                  <span class="author">{{posting.User.nick}}</span> <span class="author-level">level: ?</span>
+                  <span class="author">{{posting.User.nick}}</span> <span class="author-level">Lv. ?</span>
                 {%endif%}
                 
                 {%set likeid=false%}
@@ -180,9 +180,9 @@
                   {%endif%}
                   {%set likerNum=likerNum+1 %}
                 {%endfor%}
-                {%if user and user.id!=posting.User.id and posting and not likeid%}
+                {%if user and posting and not likeid%}
                   <button class="p-butt promise-like">💙</button>
-                {% elif user and user.id!=posting.User.id and posting and likeid%}
+                {% elif user and posting and likeid%}
                   <button class="p-butt promise-like-cancel">💔</button>
                 {% endif %}
                 <div class="promise-like-num">{{likerNum}}</div>
@@ -204,11 +204,12 @@
         <div class="ranker-container">
         {%for ranker in rankers%}
           {% if 3>i %}
-            <span class="ranker3 rank{{i+1}}"><img class="ranker-img" src="/img/rank{{i+1}}.png"><br>{{i+1}}위 <br> {{ranker.nick}}</span>
+            <span class="ranker3 rank{{i+1}}"><img class="ranker-img" src="/img/rank{{i+1}}.png"><br>{{i+1}}위 <br> {{ranker.nick}}<br> Lv. {{ranker.level}}</span>
             {%if i==2%} </div>{%endif%}
             {%set i=i+1%}
           {% else %}
             <div class="ranker">{{i+1}}위 : {{ranker.nick}}</div>
+            <div class="ranker-level">Lv. {{ranker.level}}</div>
             <hr style="border-top: 2px dashed black; border-bottom: none; margin: 0 2%;">
             {%set i=i+1%}
           {% endif %}

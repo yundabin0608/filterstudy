@@ -1,6 +1,5 @@
 
 {% extends 'layout.html' %}
-
 {% block login %}
   <div class="login-block">
         {% if user and user.id%}
@@ -135,7 +134,7 @@
 
 {% block content %}
   <div class="content-block">
-   
+    <a name="content-target"></a>
     <div class="promise-block">
       <div class="promise-container">
         <div class="promise-title">오늘의 다짐</div>
@@ -150,40 +149,38 @@
         {% endif %}
 
         <div class="p-container">
-          {% for twit in twits %}
+          {% for posting in twits %}
             <div class="promise">
-              <input type="hidden" value="{{twit.User.id}}" class="promise-user-id">
-              <input type="hidden" value="{{twit.id}}" class="promise-id">
+              <input type="hidden" value="{{posting.User.id}}" class="promise-user-id">
+              <input type="hidden" value="{{posting.id}}" class="promise-id">
               <div class="promise-top">
-                <input type="hidden" value="{{twit.User.id}}" class="promise-user-id">
-                <input type="hidden" value="{{twit.id}}" class="promise-id">
-                {% if twit.User.level_show == 0 %}
-                  <span class="author">{{twit.User.nick}}</span> <span class="author-level">level: {{twit.User.level}}</span>
+                <input type="hidden" value="{{posting.User.id}}" class="promise-user-id">
+                <input type="hidden" value="{{posting.id}}" class="promise-id">
+                {% if posting.User.level_show == 0 %}
+                  <span class="author">{{posting.User.nick}}</span> <span class="author-level">level: {{posting.User.level}}</span>
                 {%else%}
-                  <span class="author">{{twit.User.nick}}</span> <span class="author-level">level: ?</span>
+                  <span class="author">{{posting.User.nick}}</span> <span class="author-level">level: ?</span>
                 {%endif%}
                 
                 {%set likeid=false%}
                 {%set likerNum=0%}
-                {%for like in twit.Liker%}
+                {%for like in posting.Liker%}
                   {% if like.id===user.id%}
                     {%set likeid=true%}
                   {%endif%}
                   {%set likerNum=likerNum+1 %}
                 {%endfor%}
-                {%if user and user.id!=twit.User.id and twit and not likeid%}
+                {%if user and user.id!=posting.User.id and posting and not likeid%}
                   <button class="p-butt promise-like">💙</button>
-                {% elif user and user.id!=twit.User.id and twit and likeid%}
+                {% elif user and user.id!=posting.User.id and posting and likeid%}
                   <button class="p-butt promise-like-cancel">💔</button>
                 {% endif %}
                 <div class="promise-like-num">{{likerNum}}</div>
-                {%if user and twit.User.id==user.id%}
-                <button class="p-butt promise-delete" value="{{twit.id}}">🗑</button>
+                {%if user and posting.User.id==user.id%}
+                <button class="p-butt promise-delete" value="{{posting.id}}">🗑</button>
                 {%endif%}
                 </div>
-                <div class="promise-content">{{twit.msg}}</div>
-                
-              
+                <div class="promise-content">{{posting.msg}}</div> 
             </div>
           {% endfor %}
         </div>

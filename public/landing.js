@@ -14,9 +14,11 @@ function addBtnEvent(e) { // 방 입장 클릭 시
 document.querySelectorAll('.room-enter-btn').forEach(function (btn) {
     btn.addEventListener('click', addBtnEvent);
 });
-document.querySelector('.enter-btn').forEach(function (btn) {
-  btn.addEventListener('click', addBtnEvent);
-});
+
+var plusBtn = document.querySelector('.plus-butt');
+plusBtn.addEventListener('click', addBtnEvent);
+
+  
 
 socket.on('newRoom', function (data) { // 새 방 이벤트 시 새 방 생성
   const div = document.createElement('div');

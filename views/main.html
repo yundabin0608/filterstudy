@@ -1,4 +1,3 @@
-
 {% extends 'layout.html' %}
 {% block login %}
   <div class="login-block">
@@ -87,8 +86,8 @@
     </div>
     {%if user %}
         <button class="createroom-butt unselectable" onclick="location.href='/room'">방 만들기</button>
-        <form class="rome-code-form" action="/post" method="post" enctype="multipart/form-data">
-            <textarea id="room-code-input" name="roomCode" maxlength="30"></textarea>
+        <form class="rome-code-form" action="javascript:goRoomFunction()" method="post" enctype="multipart/form-data">
+            <input type="text" id="room-code-input" ></input>
             <button class="enter-btn" type="submit">방 입장</button>
         </form> 
     {%endif%}
@@ -129,7 +128,18 @@
             moveSlide(slideCount-3);
         }
     });
+
+    function goRoomFunction(){
+      var addr="http://localhost:8001/library/";
+      var roomUuid = document.getElementById("room-code-input").value;
+
+      window.location.href=addr.concat(roomUuid);
+    }
   </script>
+{%endblock%}
+
+{% block picture %}
+<div class="picture-container"></div>
 {%endblock%}
 
 {% block content %}

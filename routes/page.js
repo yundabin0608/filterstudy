@@ -159,46 +159,46 @@ router.post('/room/loadImage',isLoggedIn, upload.single('img'), async (req, res,
   }
 });
     
-  // 방 들어가면 library.html 렌더링 방주소랑 사용자 전달
-  router.get('/library/:id', async(req, res) => {
-      const user=req.user.id;
-      const uuid=req.params.id;
-      const room=await Room.findOne({where:{uuid}});
-      if (!room) {
-        return res.redirect('/?RoomError=존재하지 않는 방입니다.');
-      }
-      else if (req.query.password&&room.password && room.password !== req.query.password) {
-        return res.redirect('/?PwError=비밀번호가 틀렸습니다.');
-      }
-      else if (room.participants_num+1 > room.max) {
-        return res.redirect('/?RoomError=허용 인원을 초과하였습니다.');
-      }
-      await room.addUser(user);
-      const io = req.app.get('io');
-      
-      const users=await User.findAll({//현재 들어있는 사람들
-        include:[{
-          model:Room,
-          where:{
-            uuid
-          },
-        }]
-    });
-    await Room.update({ // 방인원수 update
-        participants_num:users.length
-      }, {
-        where:{uuid},  
-      }); 
-      const resultroom=await Room.findOne(
-        {where:{uuid}}
-      );
+// 방 들어가면 library.html 렌더링 방주소랑 사용자 전달
+router.get('/library/:id', async(req, res) => {
+    const user=req.user.id;
+    const uuid=req.params.id;
+    const room=await Room.findOne({where:{uuid}});
+    if (!room) {
+      return res.redirect('/?RoomError=존재하지 않는 방입니다.');
+    }
+    else if (req.query.password&&room.password && room.password !== req.query.password) {
+      return res.redirect('/?PwError=비밀번호가 틀렸습니다.');
+    }
+    else if (room.participants_num+1 > room.max) {
+      return res.redirect('/?RoomError=허용 인원을 초과하였습니다.');
+    }
+    await room.addUser(user);
+    const io = req.app.get('io');
+    
+    const users=await User.findAll({//현재 들어있는 사람들
+      include:[{
+        model:Room,
+        where:{
+          uuid
+        },
+      }]
+  });
+  await Room.update({ // 방인원수 update
+      participants_num:users.length
+    }, {
+      where:{uuid},  
+    }); 
+    const resultroom=await Room.findOne(
+      {where:{uuid}}
+    );
 
-    const userCount=users.length;
-    const max=resultroom.max;
-    setTimeout(() => {
-      req.app.get('io').emit('mainCount',{uuid,userCount,max});  //메인 화면에서 참가자 수 바뀌게
-    },100);
-    return res.render('library', { roomId: req.params.id,users,room:resultroom})
+  const userCount=users.length;
+  const max=resultroom.max;
+  setTimeout(() => {
+    req.app.get('io').emit('mainCount',{uuid,userCount,max});  //메인 화면에서 참가자 수 바뀌게
+  },100);
+  return res.render('library', { roomId: req.params.id,users,room:resultroom})
 });
 
 // 방 퇴장 라우터 -> room, user 관계 업데이트

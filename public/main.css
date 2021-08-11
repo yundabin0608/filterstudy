@@ -17,7 +17,7 @@ html {height: 100%;}
   margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
-  width: 50%; /* Could be more or less, depending on screen size */                          
+  width: 50%;                        
 }
 /* nick-modal 닫기 버튼 누를경우 */
 .modal-close {
@@ -34,8 +34,9 @@ html {height: 100%;}
 }
 
 body { margin: 0; padding: 0; position:relative; }
-button{border-radius: 10%;}
-button:hover{cursor:pointer}
+button{border-radius: 10px;}
+button:hover{cursor:pointer; box-shadow: 2px 2px 1px #c2c2c2, 0 -80px 0 0 rgba(0,0,0,0.025) inset;}
+
 .container { 
   position: relative;
   width: 1100px; /* ~ 1200px 기준 */
@@ -43,18 +44,28 @@ button:hover{cursor:pointer}
   top: 200px;
   margin: auto;
 }
-input {
+input{
   border-radius: 10px;
   width: 150px;
   margin: 3%;
+  text-align: center;
 }
-input:focus {
-  /*border-radius: 20px;*/
+input::placeholder{
+  text-align: center;
+}
+input:focus{
   animation-name: border-focus;
   animation-duration: 2s;
-  animation-fill-mode: forwards;
+  animation-fill-mode: both;
 }
-
+@keyframes border-focus {
+  from {
+    border-radius: 0;
+  }
+  to {
+    border-radius: 12px;
+  }
+}
 .go-content{
   position:fixed;
   bottom: 5%;
@@ -121,15 +132,16 @@ input:focus {
   display: block;
   object-fit: scale-down;
   margin-bottom: 5%;
-  border-radius: 15px;
+  border-radius: 5px;
   /*overflow: hidden;*/
 }
 .room-enter-btn{
-  background: #c6d7f7;
+  background: #abc8ff;
   position: relative;
   margin-top: 5px;
   border: none;
   padding: 5px 10px 5px 10px;
+  box-shadow: 2px 2px 1px #c2c2c2;
 }
 .plus-butt{
   position: relative;
@@ -151,6 +163,7 @@ input:focus {
   font-size: 1em;
   background: #c6d7f7;
   color: black;
+  border: 1px solid black;
 }
 .rome-code-form{
   border-radius: 15px;
@@ -161,7 +174,7 @@ input:focus {
   top: 480px;
   background: #c6d7f7;
   color: black;
-  border: 2px solid black;
+  border: 1px solid black;
 }
 #room-code-input{
   position: absolute;
@@ -169,6 +182,7 @@ input:focus {
   top: 10%;
   width: 70%;
   height: 80%;
+  border-radius: 5px;
 }
 .enter-btn{
   position: absolute;
@@ -187,7 +201,7 @@ input:focus {
   width: 1100px;
   height: 350px;
   border: 1px solid black;
-  top: 550px;
+  top: 600px;
 }
 
 /* =================== block content를 위한 곳 =================== */ 
@@ -196,30 +210,73 @@ input:focus {
   display: flex;
   position: absolute;
   width: 100%;
-  height: 600px;
   top: 1000px;
 }
 .promise-block {
   margin: 50px 10px;
-  height: 500px;
+  height: 470px;
   width: 80%;
   vertical-align: top;
   display: inline-block;
 }
 .promise-container{
   display: flex;
-  background-color: #003087;
   flex-direction: column;
+  background-color: #003087;
   width: 100%;
   height: 100%;
-  border-radius: 10px;
+  border-radius: 0px 0px 10px 10px;
+}
+.promise-title-container{
+  display: flex;
+  background-color: #003087;
+  border-radius: 10px 10px 0px 0px;
+  padding: 12px 20px 5px 20px;
 }
 .promise-title{
   color: white;
-  margin: 2% 4%;
-  text-align: left;
+  text-align:left;
   font-size: 1.5em;
+  margin-right: 10px;
 }
+.promise-info{
+  font-size: 0.8em;
+  text-align: center;
+  width: 1.5em;
+  height: 1.5em;
+  background-color: whitesmoke;
+  border-radius: 5px;
+  align-self:center;
+  cursor: pointer;
+}
+.arrow_box {
+  display: none;
+  position: absolute;
+  top: -10px;
+  text-align: center;
+  width: 350px;
+  padding: 10px; 
+  border-radius: 8px;
+  background: rgba(167, 167, 167, 0.9);
+  color: #fff;
+  font-size: 0.9em;
+}
+.arrow_box:after {
+  position: absolute;
+  bottom: -20px;
+  left: 114px;
+  width: 0;
+  height: 0;
+  border: solid transparent;
+  border-color: rgb(167, 167, 167, 0.9) transparent transparent transparent;
+  border-width: 10px;
+  pointer-events: none;
+  content: " ";
+}
+.promise-info:hover + p.arrow_box {
+  display: block;
+}
+
 #promise-form {
   display: flex;
   padding: 7px;
@@ -228,10 +285,10 @@ input:focus {
 }
 .promise-input { width: 70%; height: 40px; margin: auto;}
 #promise-input {width: 100%; height: 100%;}
-#promise-btn { width:20%; height:40px ; color: #003087; background:white; border: none; margin:auto;}
+#promise-btn { width:20%; height:40px ; color: #003087; background:white; margin:auto;border:none;border-radius: 10px;}
 .p-container{
   width: 92%;
-  height: 65%;
+  height: 72%;
   margin: auto;
   margin-top: 10px;
   background-color: white;
@@ -296,14 +353,27 @@ input:focus {
   margin: 0% 1% 0% 1%;
   border: 2px solid black;
 }
-.ranker-img{ position: relative; top: -7%; z-index: -1; }
-.rank1{order: 2; align-self: flex-start;}
-.rank2{order: 1; align-self: flex-end;}
-.rank3{order: 3; align-self: flex-end;}
-.ranker{font-size:0.9em; padding: 2%; margin-top: 1%;}
+.ranker-img{ position: relative;bottom:8%; z-index: -1; }
+.rank1{order: 2; align-self: flex-start;flex-shrink:1; z-index: -2;;}
+.rank2{order: 1; align-self: flex-end;flex-shrink:1;z-index: -2;}
+.rank3{order: 3; align-self: flex-end;flex-shrink:1;z-index: -2;}
+.rank-user{position: relative;}
+.rank-level{position: relative;}
+.rank{display: flex;text-align: center;}
+.ranker{flex-grow:1;font-size:0.9em; padding:2%;width: 100px;}
+.ranker-level{flex-grow:1;font-size:0.9em; padding: 2%;width: 100px;}
 
 .error-message { color: red; font-weight: bold; }
 
+/************newroom.html******************************/
+fieldset{
+  display: flex;
+}
+textarea{border-radius: 10px;text-align: center;}
+.label{
+  font-weight: bold;
+  font-size: 1.1em;
+}
 /* ============================================================== */
 #join { float: right; } /* 나중에 없앨것들 */
 .login-block{ 

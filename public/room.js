@@ -23,9 +23,25 @@ myvideooff.style.visibility = 'hidden';
 
 const configuration = { iceServers: [{ 
     urls:[
-        "stun:stun.l.google.com:19302",
-        "stun:stun.l.google.com:19302",
-        "stun:stun.l.google.com:19302",
+        "stun.l.google.com:19302",
+        "stun1.l.google.com:19302",
+        "stun2.l.google.com:19302",
+        "stun3.l.google.com:19302",
+        "stun4.l.google.com:19302",
+        "stun01.sipphone.com",
+        "stun.ekiga.net",
+        "stun.fwdnet.net",
+        "stun.ideasip.com",
+        "stun.iptel.org",
+        "stun.rixtelecom.se",
+        "stun.schlund.de",
+        "stunserver.org",
+        "stun.softjoys.com",
+        "stun.voiparound.com",
+        "stun.voipbuster.com",
+        "stun.voipstunt.com",
+        "stun.voxgratia.org",
+        "stun.xten.com",
         "stun:stun.stunprotocol.org"] }] }
 const mediaConstraints = { video: true, audio: false};
 
@@ -485,14 +501,11 @@ socket.on('action', (msg, sid) => {//남이 무엇을 했다~~는 걸 받음
     }
     else if(msg=='filteron'){
         console.log(sid + 'filter on');
-        document.querySelector(`#video${sid}`).style.filter = 'blur(20px)';
-        
+        document.querySelector(`#video${sid}`).style.filter = 'blur(20px)';     
     }
     else if(msg=='filteroff'){
         console.log(sid + 'filter off');
-        document.querySelector(`#video${sid}`).style.visibility = 'blur(0px)';
-        
-        
+        document.querySelector(`#video${sid}`).style.filter = 'blur(0px)';    
     }
 })
 
@@ -534,11 +547,6 @@ socket.on('filter-on', (sid) => {
         target.style.filter="blur(20px)";
         target.setAttribute('filter','blur(20px)');
     
-    /*else {
-        console.log(sid + '선명');
-        target.style.filter="blur(0px)";
-        target.setAttribute('filter','blur(0px)');
-    }*/
 })
 socket.on('filter-off', (sid) => { 
     console.log("여기예요~~~~");

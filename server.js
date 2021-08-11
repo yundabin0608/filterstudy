@@ -114,7 +114,7 @@ io.on('connect', (socket) => {
         io.to(roomid).emit('userCount', rooms[roomid].length);
         socket.to(roomid).emit('enterRoom',usernick,req.user.level_show,req.user.level);
     });
-
+    //여기 socket.io 공부 very 중요✅
     socket.on('action', msg => { //socket.id:비디오 켜고 끈 사람, msg:행동
         if (msg == 'videoon')
             videoSocket[socket.id] = 'on';
@@ -140,6 +140,14 @@ io.on('connect', (socket) => {
         socket.to(roomid).emit('chat', chatting, usernick, moment().format("h:mm a"));
     })
 
+    socket.on('filter-on', (roomid, sid)=> {
+        console.log("mSMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
+        io.to(roomid).emit('filter-on', sid );
+    })
+    socket.on('filter-off', (roomid, sid)=>{
+        console.log("mSMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
+        io.to(roomid).emit('filter-off', sid );
+    })
     socket.on('getCanvas', () => {
         if (roomBoard[socketroom[socket.id]]) //roomBoard[roomid]라는 뜻
             socket.emit('getCanvas', roomBoard[socketroom[socket.id]]);
@@ -152,7 +160,6 @@ io.on('connect', (socket) => {
     socket.on('clearBoard', () => {
         socket.to(socketroom[socket.id]).emit('clearBoard');
     });
-
     
     socket.on('storeCanvas', url => {
         roomBoard[socketroom[socket.id]] = url;

@@ -128,7 +128,7 @@
   height: 75vh;
 }
 .video-box {
-  background-color: #353b48;
+  background-color: whitesmoke;
   height: 100%;
   min-height: 200px;
   width: 100%;
@@ -136,16 +136,16 @@
   position: relative;
 }
 .video-frame { 
-  background-color: #353b48;
   height: 100%;
   min-height: 200px;
   width: 100%;
   object-fit: cover;
-  border-radius: 5px;
+  border-radius: 25px;
 }
 
 /* 다른 사람 이름 붙여줌 */
 .nametag {
+  background-color: #888;
   color: white;
   bottom: 10px;
   position: absolute;
@@ -255,8 +255,7 @@
 }
 
 /* 여기부터 */
-.container-right
- ::-webkit-scrollbar {
+.container-right ::-webkit-scrollbar {
   width: 10px;
   height: auto; /* 스크롤바 높이 조정 다시 하기 */
 }
@@ -271,21 +270,21 @@
 }
 
 /* 채팅 관련 css */
-.chats { height: 5vh; }
+.chat-head-cont { height: 5vh; }
+/* head랑 구분하려고 넣은 줄임 나중에 빼야지 */
 hr{
   position: relative;
   border-top:none;
-  border-bottom: 5px dotted #C4C4c4; 
+  border-bottom: 2px solid #C4C4c4; 
 } 
+/* 채팅창 관련 */
 .chat-cont {
-  display: flex;
-  flex-direction: column;
   background-color: #ffffff;
   height: 80vh;
-  padding: 10px;
-  padding-top: 10px;
+  padding: 5px 10px 10px 5px;
   overflow: auto;
 }
+/* 채팅 전송과 내용 입력 부분 관련 */
 .send-cont {
   display: flex;
   padding: 12px;
@@ -294,21 +293,20 @@ hr{
   box-shadow: 0px -4px 4px rgba(0, 0, 0, 0.15);
 }
 .chat{
-  /* flex-shrink: 0;
-	width: 100px; */
   margin-bottom: 15px;
-  margin-left: 10px;
-  background-color: #ffffff;
-  border: medium dashed green;
-  border-radius: 2px;
   word-break: break-all;
   word-wrap: break-word;
+  overflow: hidden;
 }
-.info .chat {
+/* .info .chat {
   display: flex;
   font-size: 0.85rem;
-}
-
+} */
+/* .content{
+  font-size: 1em;
+  word-break: break-all;
+  word-wrap: break-word;
+} */
 /* 참여자 목록 모달 */
 .attendies-list {
   background-color: #fefefe;
@@ -321,47 +319,89 @@ hr{
 /* mousehover chatting*/
 /* class=chat-time */
 .time{
-  display:none;
-  font-size: 0.7em;
-}
-/* class=chat-time-mine */
-.time-mine{
+  /* display: none; */
+  visibility: hidden;
   position: relative;
-  right: 70%;
-}
-/* class=chat-time-other */
-.time-other{
-  position: relative; 
-  left:70%; 
-}
-/* .info {
-  position: absolute; 
-  text-align: right;
-  padding-right: 2%;
-  padding-left: 20%;
-} */
-.chat:hover .time{
-  display:inline;
   font-size: 0.7em;
 }
-.chat-system{ text-align: center; }
-.chat-mine{ text-align: right; }
-.chat-other{ text-align: left }
+.chat-close-butt{
+  position: absolute;
+  right: 1%;
+  top: 1%;
+  font-size: 1.5em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+.chat-close-butt:hover{
+  cursor: pointer;
+  background: #c4c4c4;
+}
+.chat-mine:hover .time-mine{
+  visibility: visible;
+  right: 19vw;
+}
+.chat-other:hover .time-other{
+  visibility: visible;
+  left: 19vw;
+}
+.chat-other{ 
+  position: relative;
+	background: #4ecca3;
+	border-radius: .4em;
+  padding: 0 1em 0.7em 1em;
+  max-width: fit-content;
+  text-align: left;
+  float: left;
+  width: 19vw;
+  /* position: relative;
+	background: #4ecca3;
+	border-radius: .4em;
+  padding: 0 1em 0.7em 1em;
+  max-width: fit-content;
+  text-align: left; 
+  float: left;
+  width: 19vw; */
+}
+.chat-mine{ 
+  position: relative;
+	background: whitesmoke;
+	border-radius: .4em;
+  padding: 0 1em 0.7em 1em;
+  max-width: fit-content;
+  text-align: right;
+  float: right;
+  width: 19vw;
+}
+.chat-system{ 
+  padding: 0.7em 0 0.7em 0;
+  text-align: center; 
+}
+#system-content{
+  font-size: 14px;
+}
+
 
 /* 채팅 - 유저이름, 채팅 내용 css */
 
 /* class=chat-usernick */
-.usernick {
+.usernick,
+.mynick {
+  font-size: 0.9rem;
   font-weight: bold;
   color: #4ecca3;
 }
-/* class=chat-chat*/
-.chat { margin-left: 12px; }
-/* class=chat-style */
-.content {
-  margin-top: 5px;
+.othernick {
   font-size: 0.9rem;
+  font-weight: bold;
+  color: whitesmoke;
 }
+/* class=chat-chat*/
+/* .chat { margin-left: 12px; } */
+/* class=chat-style */
+/* .content {
+  margin-top: 5px;
+  font-size: 1rem;
+} */
 /* class = send-chat */
 .ci-cont {
   width: 80%;

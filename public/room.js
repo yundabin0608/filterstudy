@@ -11,11 +11,12 @@ const videoButt = document.querySelector('.novideo');
 const cutCall = document.querySelector('.cutcall');
 const screenShareButt = document.querySelector('.screenshare');
 const myId = document.querySelector('#my-id').value;
-const filter=document.querySelector()
+let filterButt=document.querySelector('.filter');
 
 let videoAllowed = 1;
 let videoInfo = {};
 let videoTrackReceived = {};
+let filterornot=0;
 
 let myvideooff = document.querySelector("#myvideooff");
 myvideooff.style.visibility = 'hidden';
@@ -371,17 +372,20 @@ socket.on('removePeer', sid => {
 sendButton.addEventListener('click', () => {
     const chatting = chatField.value;
     chatField.value = '';
-    const mytime=moment().format("h:mm a")
+    const mytime=moment().format("h:mm a");
 
     chatRoom.scrollTop = chatRoom.scrollHeight;
     if (chatting != ""){
-    chatRoom.innerHTML += `<div class="chat chat-mine">
-            <div class="info">
-                <span class="usernick">${usernick}</span>
-                <span class="time time-mine">${mytime}</span>
-            </div>
-            <div class="content">
-                ${chatting}
+        chatRoom.innerHTML += 
+        `<div class="chat">
+            <div class="chat-mine">
+                <div class="time time-mine">${mytime}</div>
+                <div class="sender">
+                    <span class="mynick">${usernick}</span>
+                </div>
+                <span class="content">
+                    ${chatting}
+                </span>
             </div>
         </div>`
 
@@ -401,24 +405,30 @@ chatField.addEventListener("keyup", function (event) {
 socket.on('chat', (chatting, sendername, time) => {
     chatRoom.scrollTop = chatRoom.scrollHeight;
     if (sendername=='System'){
-        chatRoom.innerHTML += `<div class="chat chat-system">
-            <div class="info">
-                <div class="usernick">${sendername}</div>
+        chatRoom.innerHTML += 
+        `<div class="chat">
+            <div class="chat-system">
+                <div class="sender">
+                    <span class="usernick">${sendername}</span>
+                </div>
+                <span class="content" id="system-content">
+                    ${chatting}
+                </span>
+                <br>
             </div>
-            <div class="content">
-                ${chatting}
-            </div>
-            <br>
         </div>`
     }
     else if (sendername != myId){
-       chatRoom.innerHTML += `<div class="chat chat-other">
-            <div class="info">
-                <span class="time time-other">${time}</span>
-                <span class="usernick">${sendername}</span>
+        chatRoom.innerHTML += 
+       `<div class="chat">
+            <div class="chat-other">
+                <div class="time time-other">${time}</div>
+                <div class="sender">
+                    <span class="othernick">${sendername}</span>
                 </div>
-            <div class="content">
-                ${chatting}
+                <span class="content">
+                    ${chatting}
+                </span>
             </div>
         </div>`
     }
@@ -462,7 +472,7 @@ videoButt.addEventListener('click', () => {
     }
 })
 
-socket.on('action', (msg, sid) => { 
+socket.on('action', (msg, sid) => {//남이 무엇을 했다~~는 걸 받음
     if (msg == 'videooff') {
         console.log(sid + 'turned video off');
         document.querySelector(`#vidoff${sid}`).style.visibility = 'visible';
@@ -473,9 +483,94 @@ socket.on('action', (msg, sid) => {
         document.querySelector(`#vidoff${sid}`).style.visibility = 'hidden';
         videoInfo[sid] = 'on';
     }
+    else if(msg=='filteron'){
+        console.log(sid + 'filter on');
+        document.querySelector(`#video${sid}`).style.filter = 'blur(20px)';
+        
+    }
+    else if(msg=='filteroff'){
+        console.log(sid + 'filter off');
+        document.querySelector(`#video${sid}`).style.visibility = 'blur(0px)';
+        
+        
+    }
 })
 
+filterButt.addEventListener('click', () => {
+    if (filterornot==0) {//1일 때 blur할 것이다
+        filterButt.innerHTML = `<p class="fas filter-slash">✨</p>`;
+        filterButt.style.backgroundColor = "#b12c2c";     
+        console.log("켰다!!!!!~~~``");
+        console.log("mysocketid"+socket.id);
+        myvideo.style.filter="blur(20px)";
+        myvideo.setAttribute('filter','blur(20px)');
+        socket.emit('action', 'filteron');//내가 했다고 동네방네 알려야함
+        console.log("emit했다");
+        filterornot=1;
+    }
+    else {//필터 끌 거다
+        filterButt.innerHTML = `<p class="fas filter">✨</p>`;
+        filterButt.style.backgroundColor = "#4ECCA3"; 
+        myvideo.style.filter="blur(0px)";
+        myvideo.setAttribute('filter','blur(0px)');
+        console.log("껐당!!!!!~~~``");
+        socket.emit('action', 'filteroff');
+        filterornot=0;   
+    }
+})
 
+socket.on('filter-on', (sid) => { 
+    console.log("여기예요~~~~");
+    let videos=document.getElementsByClassName('video-frame');
+    let target;
+    videos.forEach((video)=>{
+        if(video.id==`video${sid}`){
+            console.log('찾았다 내사랑~~');
+            target=video;
+        }
+    })
+    //필터 적용한 사람의 video찾아서 blur
+        console.log(sid + 'blur');
+        target.style.filter="blur(20px)";
+        target.setAttribute('filter','blur(20px)');
+    
+    /*else {
+        console.log(sid + '선명');
+        target.style.filter="blur(0px)";
+        target.setAttribute('filter','blur(0px)');
+    }*/
+})
+socket.on('filter-off', (sid) => { 
+    console.log("여기예요~~~~");
+    let videos=document.getElementsByClassName('video-frame');
+    let target;
+    videos.forEach((video)=>{
+        if(video.id==`video${sid}`){
+            console.log('찾았다 내사랑~~');
+            target=video;
+        }
+    })
+    console.log(sid + '선명');
+    target.style.filter="blur(0px)";
+    target.setAttribute('filter','blur(0px)');
+})
+/*
+function blurCam(){
+    if(filterornot==0){
+        myvideo.style.filter="blur(10px)";
+        myvideo.setAttribute('filter','blur(20px)');
+        //myvideo.setAttribute('-webkit-filter','blur(20px)');
+        filterornot=1;
+    }
+    else{
+        myvideo.style.filter="blur(0px)";
+        myvideo.setAttribute('filter','blur(0px)');
+        //myvideo.setAttribute('-webkit-filter','blur(0px)');
+        filterornot=0;
+    }
+
+}
+*/
 cutCall.addEventListener('click', () => {
     location.href = '/';
 })

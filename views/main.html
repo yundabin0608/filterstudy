@@ -67,7 +67,7 @@
             <div style="font-size: 0.9em; margin-top: 3px">{{room.participants_num}}/{{room.max}}</div>
             <div style="font-size: 0.9em; margin-top: 3px; margin-bottom: 10px">{{'비밀방' if room.password else '공개방'}}</div>
             {% if room.img %}
-              <div id="room-thumbnail"><img src="/img/{{room.img}}" style="margin-top: 10px;width:60%;height:50%;border-radius: 30px;"></div>
+              <div id="room-thumbnail"><img src="/img/{{room.img}}" style="margin-top: 10px;width:60%;height:50%;border-radius: 15px;"></div>
             {% endif %}
             {% if user %}
               <div>
@@ -79,15 +79,15 @@
         {%endfor%}
         {%if user %}
           <div class="room-box">
-            <button class="plus-butt unselectable" onclick="location.href='/room'" >&#43;</button>
+            <button class="plus-butt" onclick="location.href='/room'">&#43;</button>
           </div>
         {%endif%}
       </div>
     </div>
     {%if user %}
-        <button class="createroom-butt unselectable" onclick="location.href='/room'">방 만들기</button>
+    <button class="createroom-butt" onclick="location.href='/room'">방 만들기</button>
         <form class="rome-code-form" action="javascript:goRoomFunction()" method="post" enctype="multipart/form-data">
-            <input type="text" id="room-code-input" ></input>
+            <input type="text" id="room-code-input" placeholder="방 코드를 입력하세요." >
             <button class="enter-btn" type="submit">방 입장</button>
         </form> 
     {%endif%}
@@ -132,7 +132,6 @@
     function goRoomFunction(){
       var addr="http://localhost:8001/library/";
       var roomUuid = document.getElementById("room-code-input").value;
-
       window.location.href=addr.concat(roomUuid);
     }
   </script>
@@ -146,15 +145,19 @@
   <div class="content-block">
     <a name="content-target"></a>
     <div class="promise-block">
-      <div class="promise-container">
+      <div class="promise-title-container">
         <div class="promise-title">오늘의 다짐</div>
+        <div class="promise-info">?</div>
+        <p class="arrow_box">오늘의 목표나 캠스터디할 시간을 적어 참여자를 모으세요!</p>
+      </div>
+      <div class="promise-container">
         <hr style="border-top: 2px dashed white; border-bottom: none; margin: 1% 1%;"/>
         {% if user %}
           <form id="promise-form" action="/post" method="post" enctype="multipart/form-data">
             <div class="promise-input">
-              <textarea id="promise-input" name="content" maxlength="100"></textarea>
+              <input type="text" id="promise-input" name="content" maxlength="100">
             </div>
-            <button id="promise-btn" type="submit">다짐🔥</button>
+            <button id="promise-btn" type="submit"><b>다짐</b>🔥</button>
           </form> 
         {% endif %}
 
@@ -204,12 +207,14 @@
         <div class="ranker-container">
         {%for ranker in rankers%}
           {% if 3>i %}
-            <span class="ranker3 rank{{i+1}}"><img class="ranker-img" src="/img/rank{{i+1}}.png"><br>{{i+1}}위 <br> {{ranker.nick}}<br> Lv. {{ranker.level}}</span>
+            <span class="ranker3 rank{{i+1}}"><img class="ranker-img" src="/img/rank{{i+1}}.png"><div class="rank-user" style="font-weight:bold;font-size:1em;"> {{ranker.nick}}</div><span class="rank-level"><b>Lv. </b>{{ranker.level}}</span></span>
             {%if i==2%} </div>{%endif%}
             {%set i=i+1%}
           {% else %}
-            <div class="ranker">{{i+1}}위 : {{ranker.nick}}</div>
-            <div class="ranker-level">Lv. {{ranker.level}}</div>
+            <div class="rank">
+            <span class="ranker"><b>{{i+1}}위 :</b> {{ranker.nick}}</span>
+            <span class="ranker-level"><b>Lv.</b> {{ranker.level}}</span>
+            </div>
             <hr style="border-top: 2px dashed black; border-bottom: none; margin: 0 2%;">
             {%set i=i+1%}
           {% endif %}

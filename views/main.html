@@ -67,7 +67,7 @@
             <div style="font-size: 0.9em; margin-top: 3px">{{room.participants_num}}/{{room.max}}</div>
             <div style="font-size: 0.9em; margin-top: 3px; margin-bottom: 10px">{{'비밀방' if room.password else '공개방'}}</div>
             {% if room.img %}
-              <div id="room-thumbnail"><img src="/img/{{room.img}}" style="margin-top: 10px;width:60%;height:50%;border-radius: 15px;"></div>
+              <div id="room-thumbnail"><img src="/img/{{room.img}}" style="width:190px; height:140px;"></div>
             {% endif %}
             {% if user %}
               <div>
@@ -85,11 +85,11 @@
       </div>
     </div>
     {%if user %}
-    <button class="createroom-butt" onclick="location.href='/room'">방 만들기</button>
         <form class="rome-code-form" action="javascript:goRoomFunction()" method="post" enctype="multipart/form-data">
             <input type="text" id="room-code-input" placeholder="방 코드를 입력하세요." >
-            <button class="enter-btn" type="submit">방 입장</button>
+            <button class="enter-btn" type="submit">방코드 입장</button>
         </form> 
+        <button class="createroom-butt" onclick="location.href='/room'">+</button>
     {%endif%}
       <span class="slide-butt slide-left">&#60;</span>
       <span class="slide-butt slide-right">&#62;</span>
@@ -102,13 +102,13 @@
     var slideCount=slide.length;
     let leftBtn=document.querySelector('.slide-left');
     let rightBtn=document.querySelector('.slide-right');
-    let slidewidth=250; // maybe document.querySelector('.room-box').style.width 로 가져오면 될듯;
-    let slideMargin=65;
+    let slidewidth=220; // maybe document.querySelector('.room-box').style.width 로 가져오면 될듯;
+    let slideMargin=80;
 
     slides.style.width = (slidewidth+slideMargin) * (slideCount+1) - slideMargin + 'px';
 
     function moveSlide(num){
-        slides.style.left= -num * 315 + 'px';
+        slides.style.left= -num * 300 + 'px';
         currentIndex=num;
     }
 
@@ -137,12 +137,27 @@
   </script>
 {%endblock%}
 
-{% block picture %}
-<div class="picture-container"></div>
-{%endblock%}
-
 {% block content %}
-  <div class="content-block">
+    <!-- 랭커는 10명으로 제한 // 1,2,3등 class : rank1, rank2, rank3 -->
+    <div class="ranking-block"> 
+      <div class="ranking-container">
+        {%set i=0%}
+        {%for ranker in rankers%}
+          {% if 3>i %}
+            <div class="ranker3 rank{{i+1}}"><img class="ranker-img" src="/img/rank{{i+1}}.png"><div class="rank-user" style="font-weight:bold;font-size:1em;"> {{ranker.nick}}</div><span class="rank-level"><b>Lv. </b>{{ranker.level}}</span></div>
+            {%set i=i+1%}
+          {% else %}
+            <div class="rank">
+            <span class="ranker"><b>{{i+1}}위 :</b> {{ranker.nick}}</span>
+            <span class="ranker-level"><b>Lv.</b> {{ranker.level}}</span>
+            </div>
+            <hr style="border-top: 2px dashed black; border-bottom: none; margin: 0 2%;">
+            {%set i=i+1%}
+          {% endif %}
+        {%endfor%}
+      </div>
+    </div>
+
     <a name="content-target"></a>
     <div class="promise-block">
       <div class="promise-title-container">
@@ -200,29 +215,7 @@
       </div>
     </div>
 
-    <!-- 랭커는 10명으로 제한 // 1,2,3등 class : rank1, rank2, rank3 -->
-    <div class="ranking-block"> 
-      <div class="ranking-container">
-        {%set i=0%}
-        <div class="ranker-container">
-        {%for ranker in rankers%}
-          {% if 3>i %}
-            <span class="ranker3 rank{{i+1}}"><img class="ranker-img" src="/img/rank{{i+1}}.png"><div class="rank-user" style="font-weight:bold;font-size:1em;"> {{ranker.nick}}</div><span class="rank-level"><b>Lv. </b>{{ranker.level}}</span></span>
-            {%if i==2%} </div>{%endif%}
-            {%set i=i+1%}
-          {% else %}
-            <div class="rank">
-            <span class="ranker"><b>{{i+1}}위 :</b> {{ranker.nick}}</span>
-            <span class="ranker-level"><b>Lv.</b> {{ranker.level}}</span>
-            </div>
-            <hr style="border-top: 2px dashed black; border-bottom: none; margin: 0 2%;">
-            {%set i=i+1%}
-          {% endif %}
-        {%endfor%}
-      </div>
-    </div>
 
-  </div>
     
  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
  <script>

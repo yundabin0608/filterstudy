@@ -5,7 +5,7 @@ const whiteboardCont = document.querySelector('.whiteboard-cont');
 const canvas = document.querySelector("#whiteboard");
 const ctx = canvas.getContext('2d');
 
-let boardVisisble = false;
+let boardVisible = false;
 
 whiteboardCont.style.visibility = 'hidden';
 
@@ -120,13 +120,18 @@ socket.on('draw', (newX, newY, prevX, prevY, color, size) => {
     drawRemote(newX, newY, prevX, prevY);
 })
 
+const video = document.getElementById('vcont');
 whiteboardButt.addEventListener('click', () => {
-    if (boardVisisble) {
+    if (boardVisible) { //보드가 보이는 상태면
+        video.style.filter = 'blur(0px)';
+        whiteboardButt.style.backgroundColor = "#d8d8d8";  
+        whiteboardButt.style.color = "#393e46";
         whiteboardCont.style.visibility = 'hidden';
-        boardVisisble = false;
+        boardVisible = false;
     }
     else {
+        video.style.filter = 'blur(20px)';
         whiteboardCont.style.visibility = 'visible';
-        boardVisisble = true;
+        boardVisible = true;
     }
 })

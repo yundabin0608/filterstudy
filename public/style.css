@@ -10,6 +10,7 @@ body{
   background-color: whitesmoke;
 }
 .container-room {
+  position: absolute;
   height: 90%;
   width: 100%;
   display: flex;
@@ -17,22 +18,26 @@ body{
   background-color: whitesmoke;
 }
 .container-left {
+  position: relative;
   width: 75vw; /* 가로 크기 줄어들면 width 줄어들게 만들고 싶다고!! */
   height: 100%;
-  padding: 30px 10px 7px 30px;
+  padding: 30px 10px 2% 30px;
   text-align: center;
-  position: relative;
 }
 .container-right {
+  position: relative;
   display: block;
-  position: absolute;
   width: 430px;
-  height: 92%;
+  height: 100%;
   right: 5px;
-  padding: 30px 20px 30px 10px;
+  padding: 30px 10px 2% 30px;
   background-color: whitesmoke;
 }
 .chat-box {
+  position:relative;
+  padding:2%;
+  margin-top: 0;
+  margin:1%;
   height: 100%;
   background-color: white;
   border-radius: 10px;
@@ -296,9 +301,11 @@ body{
 }
 /* 채팅창 관련 */
 .chat-cont {
+  position: relative;
   background-color: #ffffff;
-  height: 70vh;
+  height:80%;
   padding: 5px 10px 10px 5px;
+  margin:3%;
   overflow: auto;
 }
 .chat{
@@ -310,13 +317,16 @@ body{
 }
 /* 채팅 전송과 내용 입력 부분 관련 */
 .send-cont {
-  position: absolute;
+  position: relative;
   display: flex;
-  top: 80vh;
+  /*top: 80vh;*/
   width: 89%;
-  margin: 0px 7px 10px 7px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  /*margin: 0px 7px 7px 7px;*/
+  margin-top:5%;
+  margin-bottom:5%;
+  margin-left: 5%;
+  padding-top: 5px;
+  padding-bottom: 8px;
   background-color: #F5F5F5;
   border-radius: 40px;
 }

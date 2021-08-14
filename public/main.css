@@ -30,6 +30,12 @@ html {height: 100%;}
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
 /*******************************************layout 내용********************************************/
 .left-line{
   background-color:#C9D9E9;
@@ -101,17 +107,22 @@ html {height: 100%;}
 }
 
 .icon{
-  margin:5%;
+  margin:6%;
   position: relative;
-  left:7%;
-  width: 100px;
-  padding-bottom:30%;
-  margin-bottom:30%;
+  right:2px;
+  margin-left:40%;
+  padding-bottom:100%;
+  margin-bottom:200%;
+  width: 40px;
+  height: 40px;
 }
 
 .icon-img{
- width: 30%;
- height: 30%;
+  left:0px;
+  margin: 10%;
+  width: 30px;
+  height: 30px;
+  position:absolute;
 }
 
 .tooltiptext {
@@ -147,6 +158,18 @@ html {height: 100%;}
   visibility: visible;
   opacity: 0.8;
 }
+
+.icon:hover{
+  border-radius: 5px;
+  background-color:#C9D9E9;
+  margin:6%;
+  position: relative;
+  margin-left:40%;
+  padding-bottom:100%;
+  margin-bottom:200%;
+  width: 40px;
+  height: 40px;
+}
 /* login block */
 .login-block{ 
   width: 40%;
@@ -181,15 +204,25 @@ html {height: 100%;}
 }
 #google:hover{cursor:pointer;color:white; background-color: #1B3C77;box-shadow: 2px 2px 1px #c2c2c2, 0 -80px 0 0 rgba(0,0,0,0.025) inset;}
 /* nick-modal 안의 내용 */
+.nick-modal{
+  z-index: 3;
+  position: absolute;
+  left: 100%;
+  width:100%;
+  height: 50px;
+}
 .modal-content {
   background-color: #fefefe;
   margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
-  border: 1px solid #888;
-  width: 50%;                        
+  border: 1px solid #888;    
+
 }
 /* nick-modal 닫기 버튼 누를경우 */
 .modal-close {
+  position: absolute;
+  top: 5px;
+  right: 15px;
   color: #aaa;
   float: right;
   font-size: 28px;
@@ -211,7 +244,7 @@ button{cursor:pointer;}
   left:6%;
   width: 94%;
   height: 1350px;
-  background:whitesmoke;
+  background:rgb(250, 250, 250);
 }
 input{
   border-radius: 10px;
@@ -221,6 +254,7 @@ input{
 }
 input::placeholder{
   text-align: center;
+  color:rgb(187, 187, 187);
 }
 input:focus{
   animation-name: border-focus;
@@ -345,29 +379,45 @@ input:focus{
   object-fit: scale-down;
   top: 130px;
   width: 190px;
+  /*box-shadow: 5px 5px 10px 0px #aeaec07e , 0px 3px 10px 0px #ffffff;*/
 }
 .room-enter-btn{
   position: absolute;
-  background: #C9D9E9;
-  color: rgb(8, 22, 40);
+  background: #9ab1c6;
+  color: white;
   width: 70px;
   height: 40px;
   top: 255px;
   right: 0%;
+  /* box-shadow: spread #1B3C77; */
   border: none;
-  box-shadow: 5px 5px 4px #c2c2c2;
+  border-radius: 4px 0px 0px 4px;
+  box-shadow: 5px 5px 10px 0px #aeaec07e , 0px 3px 10px 0px #ffffff;
   font-size: 1em;
   font-family:'EliceDigitalBaeum_Bold';
 }
+.room-enter-btn:hover{
+  transition-property: background-color, color;
+  transition-duration: 0.5s;
+  background:white;
+  color: #9ab1c6;
+}
 .plus-butt{
-  position: absolute;
+  position: relative;
   width: 100px;
   height: 100px;
-  margin: auto;
+  margin: 20%;
+  margin-left:28%;
   top: 115px;
-  font-size: 50px;
-  color: #003087;
+  font-size: 55px;
+  font-weight:bold;
+  border-radius: 5px;
+  color: rgba(221, 221, 221, 0.6);
   background: none;
+  border: 2mm solid rgba(221, 221, 221, 0.6);
+}
+.plus-butt:hover{
+  transform: scale(1.2);
 }
 .room-btn-container{
   position: absolute;
@@ -380,14 +430,15 @@ input:focus{
 .createroom-butt{
   position: absolute;
   border-radius: 50%;
-  border: none;
   width: 50px;
   height: 50px;
   right: 0%;
   transform: translateX(-50%);
+  border:none;
   font-size: 40px;
   background: whitesmoke;
-  box-shadow: -10px -10px 30px 0px #ffffff, 2px 2px 30px 0px #aeaec07e ;
+  box-shadow: -10px -10px 30px 0px #ffffff, 3px 3px 20px 0px #aeaec07e ;
+  text-shadow: 2px -2px rgba(0,0,0,0.5);
  }
  .createroom-butt:hover{
    box-shadow: -10px -10px 10px 0px #ffffff70, 10px 10px 10px 0px #aeaec020 ;
@@ -411,18 +462,26 @@ input:focus{
   border: none;
   border-radius: 25px 0% 0% 25px ;
   font-family:'EliceDigitalBaeum_Bold';
+  box-shadow: 5px 5px 10px 0px #aeaec07e , 0px 3px 10px 0px #ffffff;
 }
 .enter-btn{
+  border-radius: 0px 25px 25px 0px;
   position: absolute;
   width: 35%;
   right: 0%;
   top: 0%;
   height: 100%;
   font-size: 1em;
-  border: none;
-  border-radius: 0% 25px 25px 0% ;
-  background-color: #C9D9E9;
+  background-color: #1B3C77;
+  color:white;
   font-family:'EliceDigitalBaeum_Bold';
+  box-shadow: 5px 5px 10px 0px #aeaec07e , 0px 3px 10px 0px #ffffff;
+}
+.enter-btn:hover{
+  transition-property: color, box-shadow;
+  transition-duration: 0.5s;
+  color: white;
+  box-shadow: 5px 5px 10px 0px #282829a8 inset
 }
 
 /* =================== ranking을 위한 곳 =================== */ 
@@ -430,7 +489,7 @@ input:focus{
 .ranking-block{
   position: absolute;
   top: 600px;
-  height: 300px;
+  height: 340px;
   width: 90%;
   left: 50%;
   transform: translateX(-50%);
@@ -444,7 +503,7 @@ input:focus{
 }
 .ranking-left{
   position:absolute;
-  top: 60px;
+  top: 65px;
   width: 35%;
   left: 8%;
   flex-direction: column;
@@ -452,13 +511,31 @@ input:focus{
 }
 .ranking-right{
   position:absolute;
+  top: 65px;
   width: 35%;
-  top: 60px;
   right: 8%;
   flex-direction: column;
   margin: 10px 0px 10px 0px;
 }  
+.ranking-right .rank{
+  padding: 4px 0px 0px 0px;
+}
+.ranker img{
+  width: 28px;
+  height: 28px;
+  margin: 0px 0px -5px -5px;
+}
+.rank img{
+  width: 20px;
+  height: 20px;
+  margin: 0px 5px -3px -3px;
+}
 .rank{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 20px;
+}
+.ranker{
   margin-top: 10px;
   margin-bottom: 10px;
   margin-left: 20px;
@@ -489,6 +566,8 @@ input:focus{
   bottom:30px;
   right:300px;
   position:absolute;
+  font-size: 15px;
+  font-family: 'Pretendard-Regular';
 }
 .promise-info:hover .tooltiptext {
   visibility: visible;
@@ -497,6 +576,8 @@ input:focus{
   left:-140px;
   bottom:30px;
   right:300px;
+  font-size: 15px;
+  font-family: 'Pretendard-Regular';
 }
 
 /* =================== promise를 위한 곳 =================== */ 
@@ -540,32 +621,98 @@ input:focus{
   cursor: pointer;
   color:white;
 }
-#write{
-  position: absolute;
-  right: 40px;
-  box-shadow: 2px 2px 1px #b1b1b1;
-}
+
 #write-modal{
-  z-index: 2;
+  z-index: 1;
   position:absolute;
-  background: white;
-  width: 400px;
+  width: 350px;
+  height: 80px;
+  right: 40px;
+  top: -60px;
+}
+.modal_bar{
+  z-index: 1;
+  position: absolute;
+  width:100%;
+  height: 30px;
+  background-color:rgb(233, 233, 233);
+  border-radius: 10px 10px 0px 0px;
+  top: 0px;
+  left: 0px;
+}
+.contents{
+  width: 100%;
   height: 100px;
-  right: 20px;
-  top: -30px;
+  background-color: #ffffff;
+  position: absolute;
+  top: 30px;
+  left: 0px;
+  border: 5px solid rgb(233, 233, 233); /*1pt는 어떤지*/
+  padding: 10px;
+  padding-right: 8px;
+  text-align: center;
+}
+.modal_buttons { 
+width: 66px;
+height: 10px;
+opacity: 1;
+position: absolute;
+top: 10px;
+right: 5px;
+}
+.button{
+  width: 12px;
+  height: 12px;
+  opacity: 1;
+  position: absolute;
+  top: 0px;
+  border-radius: 50%;
+}
+.green {
+  left: 40px;
+  background: rgb(46, 120, 199);
 }
 
+.yellow {
+  left: 20px;
+  background: rgb(145, 185, 242); 
+}
+.red {
+  left: 0px;
+  background: rgb(189, 221, 254);
+}
 #promise-form {
+  position: absolute;
+  top: 10px;
+  width: 90%;
   display: flex;
-  padding: 7px;
+  margin: auto;
   background: none;
-  overflow: hidden;
 }
-.promise-input { width: 70%; height: 40px; margin: auto;}
-#promise-input {width: 100%; height: 100%;}
-#promise-btn { width:20%; height:40px ; color: #003087; background:white; margin:auto;border:none;border-radius: 10px;}
-
-
+#promise-input {
+  width: 80%; 
+  height: 40px;
+  font-family:'EliceDigitalBaeum_Bold';
+  margin: 10px 5px;
+  border: 0.3px solid rgb(193, 191, 191);
+  box-shadow: 3px 3px 3px rgb(193, 191, 191);
+}
+#promise-btn { 
+  width:20%; 
+  height:40px ; 
+  font-family:'EliceDigitalBaeum_Bold';
+  color: #000b5e; 
+  background:#C9D9E9; 
+  border:none; 
+  border-radius: 10px;
+  font-weight: 600;
+  margin: 10px 5px;
+}
+#promise-btn:hover{
+  transition-property: box-shadow;
+  transition-duration: 0.5s;
+  box-shadow: 2px 2px 10px rgba(106, 106, 106, 0.5) inset;
+} 
 
 .promise-slide-btn{
   position: absolute;
@@ -644,7 +791,7 @@ input:focus{
 .promise-like{ position:absolute; left: 137px; font-size: 0.8em; padding: 2.5%;}
 .promise-like-cancel{position:absolute; left: 137px; font-size: 0.8em; padding: 2.5%;}
 .promise-like-num{ position:absolute; left: 155px; font-size: 0.7em; padding: 2%;}
-.promise-delete{ position:absolute; left: 180px;font-size: 0.7em; padding: 2%;}
+.promise-delete{ position:absolute; left: 175px;font-size: 0.7em; padding: 2%;}
 
 .error-message { color: red; font-weight: bold; }
 
@@ -662,25 +809,28 @@ textarea{border-radius: 10px;text-align: center;}
 
 
 /***********************************/
-
 #write {
+  position: absolute;
   -webkit-font-smoothing: antialiased;
   background-color:#C9D9E9;
   border: none;
   color: #fff;
-  display: inline-block;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 14px;
-  font-weight: 100;
+  font-family:'EliceDigitalBaeum_Bold';
+  right: 50px;
+  box-shadow: 2px 2px 1px #b1b1b195;
+  font-size: 1.1em;
+  font-weight: 800;
   text-decoration: none;
   user-select: none;
   letter-spacing: 1px;
   color: white;
-  padding: 10px 30px;
-  padding-right:20px;
+  padding: 7px 10px 7px 20px;
   transition: all 0.1s ease-out;
+  border-radius: 5px;
 }
-
+#write:hover{
+  transform: scale(1.15);
+}
 #write:active {
     transform: scale(0.95);
   }
@@ -699,3 +849,4 @@ textarea{border-radius: 10px;text-align: center;}
         filter: hue-rotate(360deg);
       }
 }
+

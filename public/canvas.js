@@ -58,7 +58,7 @@ window.onresize = reportWindowSize;
 //
 
 function clearBoard() {
-    if (window.confirm('Are you sure you want to clear board? This cannot be undone')) {
+    if (window.confirm('화이트보드를 정말 지우시겠습니까?')) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         socket.emit('store canvas', canvas.toDataURL());
         socket.emit('clearBoard');

@@ -55,39 +55,6 @@
                         <div class="clearboard" id="colors" onclick="clearBoard()"><i class="fas fa-trash-alt"></i></div>
                     </div>
                 </div>
-                
-                <div class="footer">
-                    <div class="utils">
-                        <div class="novideo" id="util">
-                            <i class="fas fa-video"></i>
-                        </div>
-                        <div class="copycode tooltip" id="util">
-                            <div class="roomcode"></div>
-                            <i class="fas fa-external-link-alt"></i>
-                            <span class="tooltiptext">방 코드 복사</span>
-                        </div>
-                        <div class="filter tooltip" id="util">
-                            <i class="fas fa-filter"></i>
-                            <span class="tooltiptext">필터</span>
-                        </div>
-                        <div class="screenshare tooltip" id="util">
-                            <i class="fas fa-desktop"></i>
-                            <span class="tooltiptext">화면 공유</span>
-                        </div>
-                        <div class="board-icon tooltip" id="util">
-                            <i class="fas fa-chalkboard"></i>
-                            <span class="tooltiptext">화이트 보드</span>
-                        </div>
-                        <div class="attendies tooltip" id="util-attendies">
-                            <i class="fas fa-users"></i>
-                            <span class="tooltiptext">참가자</span>
-                        </div>
-                        <div class="cutcall tooltip" id="util">
-                            <i class="fas fa-phone-slash"></i>
-                            <span class="tooltiptext">방 나가기</span>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div class="open-chat" id="open-chat">
                 <button class="open-chat-btn"><<</button>
@@ -151,7 +118,42 @@
             </div>
         </div>
     </div>
+    <div class="footer">
+        <div class="cover-utils">
+            <div class="utils">
+                <div class="novideo" id="util">
+                    <i class="fas fa-video"></i>
+                </div>
+                <div class="copycode tooltip" id="util">
+                    <div class="roomcode"></div>
+                    <i class="fas fa-external-link-alt"></i>
+                    <span class="tooltiptext">방 코드 복사</span>
+                </div>
+                <div class="filter tooltip" id="util">
+                    <i class="fas fa-filter"></i>
+                    <span class="tooltiptext">필터</span>
+                </div>
+                <div class="screenshare tooltip" id="util">
+                    <i class="fas fa-desktop"></i>
+                    <span class="tooltiptext">화면 공유</span>
+                </div>
+                <div class="board-icon tooltip" id="util">
+                    <i class="fas fa-chalkboard"></i>
+                    <span class="tooltiptext">화이트 보드</span>
+                </div>
+                <div class="attendies tooltip" id="util-attendies">
+                    <i class="fas fa-users"></i>
+                    <span class="tooltiptext">참가자</span>
+                </div>
+                <div class="cutcall tooltip" id="util">
+                    <i class="fas fa-phone-slash"></i>
+                    <span class="tooltiptext">방 나가기</span>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+
 <script>
     var modal = document.getElementById('attendies-modal');
     var utilAttendiesButt = document.getElementById('util-attendies');

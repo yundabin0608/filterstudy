@@ -1,6 +1,6 @@
 {% extends 'layout.html' %}
 {% block login %}
-  <div class="login-block" id="home">
+  <div class="login-block">
         {% if user and user.id%}
           {% if user.popup==0 %}
             <div id="nick-modal" class="modal" style="display:block;">
@@ -66,7 +66,7 @@
           </div>
         {%endfor%}
         {%if user %}
-          <div class="room-box">
+          <div class="room-box" id="make-room-slide">
             <button class="plus-butt" onclick="location.href='/room'">&#43;</button>
           </div>
         {%endif%}
@@ -76,9 +76,9 @@
       <div class="room-btn-container">
         <form class="room-code-form" action="javascript:goRoomFunction()" method="post" enctype="multipart/form-data">
             <input type="text" id="room-code-input" placeholder="방 코드를 입력하세요." >
-            <button class="enter-btn" type="submit">방코드 입장</button>
+            <button class="enter-btn" type="submit">방 입장</button>
         </form> 
-        <button class="createroom-butt" onclick="location.href='/room'">+</button>
+        <button class="createroom-butt" onclick="location.href='/room'"><img src="/img/add.png" style="width:35px; height:35px;"/></button>
       </div>
     {%endif%}
       <span class="slide-butt slide-left"><img src="/img/back.png" width="50px" height="50px"></span>
@@ -136,11 +136,11 @@
         <div class="ranking-left">
         {%for ranker in rankers%}
           {% if 3>i %}
-            <div class="rank rank{{i+1}}">{{i+1}}위 :&nbsp;{{ranker.nick}} &nbsp;&nbsp;&nbsp; Lv.&nbsp;{{ranker.level}}</div>
+            <div class="ranker"><img src="/img/rank{{i+1}}.png"/>위&nbsp;: &nbsp;{{ranker.nick}} &nbsp;&nbsp;&nbsp; Lv.&nbsp;{{ranker.level}}</div>
             <hr style="border-top: 2px dashed black; border-bottom: none; margin: 0 2%;">
             {%set i=i+1%}
           {% else %}
-            <div class="rank">{{i+1}}위 :&nbsp;{{ranker.nick}} &nbsp;&nbsp;&nbsp; Lv.&nbsp;{{ranker.level}}</div>
+            <div class="rank"><img src="/img/rank{{i+1}}.png"/>위 :&nbsp;{{ranker.nick}} &nbsp;&nbsp;&nbsp; Lv.&nbsp;{{ranker.level}}</div>
             <hr style="border-top: 2px dashed black; border-bottom: none; margin: 0 2%;">
             {%if i==4%}</div><div class="ranking-right"> {%endif%}
             {%set i=i+1%}
@@ -156,18 +156,22 @@
         </div>
       </div>
           {% if user %}  
-            <button id="write" onclick="writePromise();">
-              <b>다짐</b> 📌
-            </button>
-            <div id="write-modal" style="display:block;visibility:hidden;">
-              <span class="modal-close" onclick="writeClose();">&times;</span>
-              <form id="promise-form" action="/post" method="post" enctype="multipart/form-data">
-                  <div class="promise-input">
-                    <input type="text" id="promise-input" name="content" maxlength="100">
-                  </div>
-                  <button id="promise-btn" type="submit"><b>다짐</b>🔥</button>
-              </form>
-            </div> 
+            <button id="write" onclick="writePromise();">다짐📌</button>
+            <div id="write-modal" class="modal-overlay" style="display:block;visibility:hidden;">
+                <div class="modal_bar">
+                    <div class="modal_buttons" onclick="writeClose();">
+                        <div class="button red"></div><div class="button yellow"></div><div class="button green"></div>
+                    </div>
+                </div>
+                <div class="contents">
+                  <form id="promise-form" action="/post" method="post" enctype="multipart/form-data">
+                    <input type="text" id="promise-input" name="content" placeholder="다짐을 입력하세요" minlength="1" maxlength="50">
+                    <button id="promise-btn" type="submit">다짐🔥</button>
+                </form>
+                </div>
+              
+            </div>
+  
           {%endif%}  
       </div>
       <span class="promise-slide-btn pslide-left">
@@ -177,17 +181,6 @@
         <i class="fas fa-chevron-circle-right fa-2x"></i>
       </span>
       <div class="promise-container">
-        {% if user %}
-        <!-- <div id="write-modal" style="display:block;visibility:hidden;">
-          <span class="modal-close" onclick="writeClose();">&times;</span>
-          <form id="promise-form" action="/post" method="post" enctype="multipart/form-data">
-              <div class="promise-input">
-                <input type="text" id="promise-input" name="content" maxlength="100">
-              </div>
-              <button id="promise-btn" type="submit"><b>다짐</b>🔥</button>
-          </form>
-        </div> -->
-        {% endif %}
 
         <div class="p-slides">
           {% for posting in twits %}
@@ -271,6 +264,14 @@
   }
 
   window.addEventListener("load", boxColor());
+
+
+  let pmodal = document.getElementById('write-modal');
+  /*
+  window.addEventListener('click', (e) => {
+  e.target === modal ? modal.classList.remove('show-modal') : false
+  })
+  */
 
 </script>
     

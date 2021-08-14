@@ -48,7 +48,6 @@ function CopyClassText() {
     const textArea = document.createElement('textarea'); 
     document.body.appendChild(textArea); 
     textArea.value = `${roomid}`;
-    console.log(textArea.value);
     textArea.select(); document.execCommand('copy');
     document.body.removeChild(textArea);
 
@@ -197,7 +196,6 @@ copycodeButt.addEventListener('click',()=>{
 })
 // 참가자 모달 관련
 attendiesButt.addEventListener('click',()=>{
-    console.log(attendiesVisible);
     if (attendiesVisible){
         attendiesVisible=false;
         modal.style.display = "none";
@@ -411,20 +409,16 @@ sendButton.addEventListener('click', () => {
     chatting.replaceAll(/\r/g,'') 
     
     const space1=''; const space2=' ';
-    console.log(chatting!=space1 && chatting!=space2 && chatting!='\n');
     if (chatting!=space1 && chatting!=space2 && chatting!='\n'){
         chatField.value = '';
         const mytime=moment().format("h:mm a");
-        // console.log(scrollBottom);
-        
         chatRoom.scrollTop = chatRoom.scrollHeight;
-        console.log(chatRoom.scrollHeight);
         chatRoom.innerHTML += 
             `<div class="chat">
                 <div class="chat-mine">
                     <div class="time time-mine">${mytime}</div>
                     <div class="sender">
-                        <span class="mynick">${usernick}</span>
+                        <span class="chat-mynick">${usernick}</span>
                     </div>
                     <span class="content">
                         ${chatting}
@@ -641,3 +635,17 @@ function blurCam(){
 cutCall.addEventListener('click', () => {
     location.href = '/';
 });
+
+function resizeApply(){
+    var minWidth = "120px";
+    var body = document.getElementById('cont-left');
+    if (window.innerWidth < minWidth){
+        body.style.zoom = (window.innerWidth / minWidth);
+    } else body.style.zoom = 1;
+}
+window.onload = function() { 
+    window.addEventListener('resize', function() { 
+        resizeApply(); 
+    }); 
+} 
+resizeApply();

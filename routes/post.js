@@ -15,6 +15,7 @@ router.post('/',isLoggedIn,upload2.none(),async(req,res,next)=>{
             UserId:req.user.id,
         });   
         res.redirect('/');
+    
     }catch(error){
         console.error(error);
         next(error);

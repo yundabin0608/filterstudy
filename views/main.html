@@ -1,6 +1,6 @@
 {% extends 'layout.html' %}
 {% block login %}
-  <div class="login-block">
+  <div class="login-block" id="home">
         {% if user and user.id%}
           {% if user.popup==0 %}
             <div id="nick-modal" class="modal" style="display:block;">
@@ -27,14 +27,13 @@
               <form id="login-google" action="/auth/mail" method="post">
                 <input type="hidden" name="scope" value="https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo#email https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/tasks https://www-opensocial.googleusercontent.com/api/people https://www.googleapis.com/auth/plus.login" />
                
-               <button class="google__btn"><a id="google" style="color:#1B3C77;text-decoration: none" href="/auth/google"><img id="google-img" src="https://image.flaticon.com/icons/png/128/281/281764.png"> Sign In</a></button>
+               <a id="google" style="text-decoration: none" href="/auth/google"><img id="google-img" src="https://image.flaticon.com/icons/png/128/281/281764.png"> Sign In</a>
               </form>
         {% endif %}
   </div>
   <script>
     var modal = document.getElementById('nick-modal');
-    var span = document.getElementsByClassName("modal-close")[0];                                          
- 
+    var span = document.getElementsByClassName("modal-close")[0];
     function popupRadioChange(){
       axios.post('/user/popup');
     }
@@ -51,19 +50,19 @@
       <div class="room-slides"> 
         {%for room in rooms%}
           <div class="room-box" data-id="{{room.uuid}}">
-            <div style="font-size: 1em; font-weight: 700; margin-top: 5px;">{{room.title}}</div>
-            <div style="font-size: 0.9em; margin-top: 3px;">{%if room.description==''%}<br>{%else%}{{room.description}}{%endif%}</div> 
-            <div style="font-size: 0.9em; margin-top: 3px">{{room.participants_num}}/{{room.max}}</div>
-            <div style="font-size: 0.9em; margin-top: 3px; margin-bottom: 10px">{{'비밀방' if room.password else '공개방'}}</div>
-            {% if room.img %}
-              <div id="room-thumbnail"><img src="/img/{{room.img}}" style="width:190px; height:140px;"></div>
-            {% endif %}
-            {% if user %}
-              <div>
-                <button  data-password="{{'true' if room.password else 'false'}}"
-                data-id="{{room.uuid}}" class="room-enter-btn">입장</button>
-              </div>
-            {% endif %}
+            <div class="room-box-container">
+              <span class="roomLock">{{"🗝️" if room.password else "🔓"}}</span>
+              <span class="roomTitle">{{room.title}}</span>
+              <div class="roomDescription">{%if room.description==''%}<br>{%else%}{{room.description}}{%endif%}</div> 
+              {% if room.img %}
+                <div id="room-thumbnail"><img src="/img/{{room.img}}" style="width:190px; height:140px;"></div>
+              {% endif %}
+              <div class="roomParticipant">{{room.participants_num}}/{{room.max}}</div>
+              {% if user %}
+                  <button  data-password="{{'true' if room.password else 'false'}}"
+                  data-id="{{room.uuid}}" class="room-enter-btn">입&nbsp;&nbsp;장</button>
+              {% endif %}
+            </div>
           </div>
         {%endfor%}
         {%if user %}
@@ -82,18 +81,17 @@
         <button class="createroom-butt" onclick="location.href='/room'">+</button>
       </div>
     {%endif%}
-      <span class="slide-butt slide-left">&#60;</span>
-      <span class="slide-butt slide-right">&#62;</span>
+      <span class="slide-butt slide-left"><img src="/img/back.png" width="50px" height="50px"></span>
+      <span class="slide-butt slide-right"><img src="/img/next.png" width="50px" height="50px"></span>
   </div>
   <script>
-    // ㄴㅓ비 퍼센트 바꿀거임 
     var slides=document.querySelector('.room-slides');
     var slide=document.querySelectorAll('.room-box');
     var currentIndex=0;
     var slideCount=slide.length;
-    let leftBtn=document.querySelector('.slide-left');
-    let rightBtn=document.querySelector('.slide-right');
-    let slidewidth=220; // maybe document.querySelector('.room-box').style.width 로 가져오면 될듯;
+    let leftSlide=document.querySelector('.slide-left');
+    let rightSlide=document.querySelector('.slide-right');
+    let slidewidth=220; 
     let slideMargin=80;
 
     slides.style.width = (slidewidth+slideMargin) * (slideCount+1) - slideMargin + 'px';
@@ -103,15 +101,7 @@
         currentIndex=num;
     }
 
-    rightBtn.addEventListener('click', function(){
-        if(currentIndex < slideCount - 3){
-            moveSlide(currentIndex+1);
-        }
-        else{
-            moveSlide(0);
-        }
-    });
-    leftBtn.addEventListener('click', function(){
+    leftSlide.addEventListener('click', function(){
         if(currentIndex > 0){
             moveSlide(currentIndex-1);
         }
@@ -119,6 +109,15 @@
             moveSlide(slideCount-3);
         }
     });
+    rightSlide.addEventListener('click', function(){
+        if(currentIndex < slideCount - 3){
+            moveSlide(currentIndex+1);
+        }
+        else{
+            moveSlide(0);
+        }
+    });
+    
 
     function goRoomFunction(){
       var addr="http://localhost:8001/library/";
@@ -130,8 +129,9 @@
 
 {% block content %}
     <!-- 랭커는 10명으로 제한 // 1,2,3등 class : rank1, rank2, rank3 -->
-    <div class="ranking-block"> 
-      <div class="ranking-title">Ranking</div>
+    <div class="ranking-block" id="ranking"> 
+      <div class="ranking-title">Ranking <div class="ranking-info">?<div class="tooltiptext">Lv를 공개한 유저에 한해 산출한 랭킹입니다.</div></div>
+    </div>
         {%set i=0%}
         <div class="ranking-left">
         {%for ranker in rankers%}
@@ -148,67 +148,87 @@
         {%endfor%}
         </div>
     </div>
-
-    <a name="content-target"></a>
-    <div class="promise-block">
+    <div class="promise-block" id="promise">
       <div class="promise-title-container">
-        <div class="promise-title">오늘의 다짐</div>
-        <div class="promise-info">?</div>
-        <p class="arrow_box">오늘의 목표나 캠스터디할 시간을 적어 참여자를 모으세요!</p>
-        <div class="slideBtnContainer">
-          <span class="promise-slide-btn pslide-left">&#60;</span>
-          <span class="promise-slide-btn pslide-right">&#62;</span>
+        <div class="promise-title">오늘의 다짐
+        <div class="promise-info">?
+        <div class="tooltiptext">오늘의 목표나 스터디할 시간을 적어 참여자를 모으세요!</div>
         </div>
       </div>
+          {% if user %}  
+            <button id="write" onclick="writePromise();">
+              <b>다짐</b> 📌
+            </button>
+            <div id="write-modal" style="display:block;visibility:hidden;">
+              <span class="modal-close" onclick="writeClose();">&times;</span>
+              <form id="promise-form" action="/post" method="post" enctype="multipart/form-data">
+                  <div class="promise-input">
+                    <input type="text" id="promise-input" name="content" maxlength="100">
+                  </div>
+                  <button id="promise-btn" type="submit"><b>다짐</b>🔥</button>
+              </form>
+            </div> 
+          {%endif%}  
+      </div>
+      <span class="promise-slide-btn pslide-left">
+        <i class="fas fa-chevron-circle-left fa-2x"></i>
+      </span>
+      <span class="promise-slide-btn pslide-right">
+        <i class="fas fa-chevron-circle-right fa-2x"></i>
+      </span>
       <div class="promise-container">
         {% if user %}
-          <!-- <form id="promise-form" action="/post" method="post" enctype="multipart/form-data">
-            <div class="promise-input">
-              <input type="text" id="promise-input" name="content" maxlength="100">
-            </div>
-            <button id="promise-btn" type="submit"><b>다짐</b>🔥</button>
-          </form>  -->
+        <!-- <div id="write-modal" style="display:block;visibility:hidden;">
+          <span class="modal-close" onclick="writeClose();">&times;</span>
+          <form id="promise-form" action="/post" method="post" enctype="multipart/form-data">
+              <div class="promise-input">
+                <input type="text" id="promise-input" name="content" maxlength="100">
+              </div>
+              <button id="promise-btn" type="submit"><b>다짐</b>🔥</button>
+          </form>
+        </div> -->
         {% endif %}
 
         <div class="p-slides">
           {% for posting in twits %}
             <div class="promise">
-              <input type="hidden" value="{{posting.User.id}}" class="promise-user-id">
-              <input type="hidden" value="{{posting.id}}" class="promise-id">
-              <div class="promise-content">{{posting.msg}}</div> 
-              <div class="promise-bottom">
+              <div class="pContainer">
                 <input type="hidden" value="{{posting.User.id}}" class="promise-user-id">
                 <input type="hidden" value="{{posting.id}}" class="promise-id">
-                {% if posting.User.level_show == 0 %}
-                  <span class="author">{{posting.User.nick}}</span> <span class="author-level">Lv. {{posting.User.level}}</span>
-                {%else%}
-                  <span class="author">{{posting.User.nick}}</span> <span class="author-level">Lv. ?</span>
-                {%endif%}
-                
-                {%set likeid=false%}
-                {%set likerNum=0%}
-                {%for like in posting.Liker%}
-                  {% if like.id===user.id%}
-                    {%set likeid=true%}
+                <div class="promise-content">{{posting.msg}}</div> 
+                <div class="promise-bottom">
+                  <input type="hidden" value="{{posting.User.id}}" class="promise-user-id">
+                  <input type="hidden" value="{{posting.id}}" class="promise-id">
+                  {% if posting.User.level_show == 0 %}
+                    <span class="author">{{posting.User.nick}}</span> <span class="author-level">Lv. {{posting.User.level}}</span>
+                  {%else%}
+                    <span class="author">{{posting.User.nick}}</span> <span class="author-level">Lv. ?</span>
                   {%endif%}
-                  {%set likerNum=likerNum+1 %}
-                {%endfor%}
-                {%if user and posting and not likeid%}
-                  <button class="p-butt promise-like">💙</button>
-                {% elif user and posting and likeid%}
-                  <button class="p-butt promise-like-cancel">💔</button>
-                {% endif %}
-                <div class="promise-like-num">{{likerNum}}</div>
-                {%if user and posting.User.id==user.id%}
-                <button class="p-butt promise-delete" value="{{posting.id}}">🗑</button>
-                {%endif%}
+                  
+                  {%set likeid=false%}
+                  {%set likerNum=0%}
+                  {%for like in posting.Liker%}
+                    {% if like.id===user.id%}
+                      {%set likeid=true%}
+                    {%endif%}
+                    {%set likerNum=likerNum+1 %}
+                  {%endfor%}
+                  {%if user and posting and not likeid%}
+                    <button class="p-butt promise-like"><i class="far fa-heart" style="color:red;"></i></button>
+                  {% elif user and posting and likeid%}
+                    <button class="p-butt promise-like-cancel"><i class="fas fa-heart" style="color:red"></i></button>
+                  {% endif %}
+                  <div class="promise-like-num">{{likerNum}}</div>
+                  {%if user and posting.User.id==user.id%}
+                  <button class="p-butt promise-delete" value="{{posting.id}}">🗑</button>
+                  {%endif%}
+                </div>
               </div>
             </div>
           {% endfor %}
         </div>
       </div>
     </div>
-
 <script>
   var pslides=document.querySelector('.p-slides');
   var promise=document.querySelectorAll('.promise');
@@ -221,24 +241,24 @@
 
   slides.style.width = (pslidewidth+pslideMargin) * (pslideCount+1) - pslideMargin + 'px';
 
-  function moveSlide(num){
+  function pmoveSlide(num){
       pslides.style.left= -num * 260 + 'px';
       pcurrentIndex=num;
   }
   PleftBtn.addEventListener('click', function(){
       if(pcurrentIndex > 0){
-          moveSlide(pcurrentIndex-1);
+          pmoveSlide(pcurrentIndex-1);
       }
       else{
-          moveSlide(pslideCount-4);
+          pmoveSlide(pslideCount-4);
       }
   });
   PrightBtn.addEventListener('click', function(){
       if(pcurrentIndex < pslideCount - 4){
-          moveSlide(pcurrentIndex+1);
+          pmoveSlide(pcurrentIndex+1);
       }
       else{
-          moveSlide(0);
+          pmoveSlide(0);
       }
   });
 
@@ -246,7 +266,7 @@
   function boxColor(){
     let i;
     for(i=0;i<promise.length;i++){
-    promise[i].style.boxShadow="-7px 0px 0px" + pColor[i]
+      promise[i].style.boxShadow="-7px 0px 0px" + pColor[i%5]
     }
   }
 
@@ -256,6 +276,14 @@
     
  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
  <script>
+  var write=document.getElementById('write');                               
+  var write_modal = document.getElementById('write-modal');
+  function writePromise(){
+    write_modal.style.visibility='visible';
+  }
+  function writeClose(){
+    write_modal.style.visibility='hidden';
+  }
     document.querySelectorAll('.promise-delete').forEach(function(tag) {
         tag.addEventListener('click', function() {
           const myId = document.querySelector('#my-id');
@@ -309,6 +337,52 @@
               }
             }
           }
+        });
+      });
+      $('.button--bubble').each(function() {
+        var $circlesTopLeft = $(this).parent().find('.circle.top-left');
+        var $circlesBottomRight = $(this).parent().find('.circle.bottom-right');
+      
+        var tl = new TimelineLite();
+        var tl2 = new TimelineLite();
+      
+        var btTl = new TimelineLite({ paused: true });
+      
+        tl.to($circlesTopLeft, 1.2, { x: -25, y: -25, scaleY: 2, ease: SlowMo.ease.config(0.1, 0.7, false) });
+        tl.to($circlesTopLeft.eq(0), 0.1, { scale: 0.2, x: '+=6', y: '-=2' });
+        tl.to($circlesTopLeft.eq(1), 0.1, { scaleX: 1, scaleY: 0.8, x: '-=10', y: '-=7' }, '-=0.1');
+        tl.to($circlesTopLeft.eq(2), 0.1, { scale: 0.2, x: '-=15', y: '+=6' }, '-=0.1');
+        tl.to($circlesTopLeft.eq(0), 1, { scale: 0, x: '-=5', y: '-=15', opacity: 0 });
+        tl.to($circlesTopLeft.eq(1), 1, { scaleX: 0.4, scaleY: 0.4, x: '-=10', y: '-=10', opacity: 0 }, '-=1');
+        tl.to($circlesTopLeft.eq(2), 1, { scale: 0, x: '-=15', y: '+=5', opacity: 0 }, '-=1');
+      
+        var tlBt1 = new TimelineLite();
+        var tlBt2 = new TimelineLite();
+        
+        tlBt1.set($circlesTopLeft, { x: 0, y: 0, rotation: -45 });
+        tlBt1.add(tl);
+      
+        tl2.set($circlesBottomRight, { x: 0, y: 0 });
+        tl2.to($circlesBottomRight, 1.1, { x: 30, y: 30, ease: SlowMo.ease.config(0.1, 0.7, false) });
+        tl2.to($circlesBottomRight.eq(0), 0.1, { scale: 0.2, x: '-=6', y: '+=3' });
+        tl2.to($circlesBottomRight.eq(1), 0.1, { scale: 0.8, x: '+=7', y: '+=3' }, '-=0.1');
+        tl2.to($circlesBottomRight.eq(2), 0.1, { scale: 0.2, x: '+=15', y: '-=6' }, '-=0.2');
+        tl2.to($circlesBottomRight.eq(0), 1, { scale: 0, x: '+=5', y: '+=15', opacity: 0 });
+        tl2.to($circlesBottomRight.eq(1), 1, { scale: 0.4, x: '+=7', y: '+=7', opacity: 0 }, '-=1');
+        tl2.to($circlesBottomRight.eq(2), 1, { scale: 0, x: '+=15', y: '-=5', opacity: 0 }, '-=1');
+        
+        tlBt2.set($circlesBottomRight, { x: 0, y: 0, rotation: 45 });
+        tlBt2.add(tl2);
+      
+        btTl.add(tlBt1);
+        btTl.to($(this).parent().find('.button.effect-button'), 0.8, { scaleY: 1.1 }, 0.1);
+        btTl.add(tlBt2, 0.2);
+        btTl.to($(this).parent().find('.button.effect-button'), 1.8, { scale: 1, ease: Elastic.easeOut.config(1.2, 0.4) }, 1.2);
+      
+        btTl.timeScale(2.6);
+      
+        $(this).on('mouseover', function() {
+          btTl.restart();
         });
       });
     </script>

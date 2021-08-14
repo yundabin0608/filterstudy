@@ -4,11 +4,14 @@
 * {
   text-decoration: none;
   box-sizing: border-box;
-  font-family: "Open Sans", sans-serif;
+  font-family: 'EliceDigitalBaeum_Bold';
+}
+body{
+  background-color: whitesmoke;
 }
 /* library.html 전체적인 div css */
 .container-room {
-  height: 100vh;
+  height: 100%;
   display: inline-flex; /* flex */
   flex-direction: row;
   background-color: whitesmoke;
@@ -16,27 +19,33 @@
 /* container-left */
 .container-left {
   width: 75vw;
-  padding: 50px;
+  height: 100%;
+  padding: 30px;
   text-align: center;
   position: relative;
 }
 /* container-right */
 .container-right {
-  width: 25vw;
-  padding: 5px;
-  background-color: #ffffff;
+  display:block;
+  position: absolute;
+  width: 430px;
+  height: 100%;
+  right: 5px;
+  padding: 30px 20px 30px 30px;
+  background-color: whitesmoke;
 }
 /* container-right 안에 붙는 chat-box */
-/* .chat-box {
-  padding: 10px;
-  margin: 10px;
-  border-radius: 30px;
-} */
+.chat-box {
+  height: 100%;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 10px 10px 20px gray;
+}
 
 /* 룸 코드 복사하는 곳 */
 .main .roomcode {
   width: 100%;
-  margin-top: 30px;
+  margin-top: 60px;
   font-size: 24px;
   color: #393e46;
   text-align: center;
@@ -54,7 +63,7 @@
 
 /* whiteboard 관련 디자인 */
 .whiteboard-cont {
-  height: 85vh;
+  height: 80vh;
   width: 100%;
   position: absolute;
   left: 0;
@@ -65,6 +74,7 @@
 }
 #whiteboard {
   background-color: white;
+  box-shadow: 10px 10px 20px gray;
   border-radius: 10px;
 }
 
@@ -120,32 +130,33 @@
 /* 비디오 css */
 .video-cont {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(20%, auto));
   grid-gap: 20px;
-  height: 75vh;
+  /* width: 75%; */
+  height: 85%;
 }
 .video-cont-single {
-  height: 75vh;
+  height: 85%;
 }
 .video-box {
+  position: relative;
   background-color: whitesmoke;
   height: 100%;
   min-height: 200px;
   width: 100%;
   border-radius: 5px;
-  position: relative;
 }
 .video-frame { 
   height: 100%;
-  min-height: 200px;
+  /* min-height: 200px; */
   width: 100%;
   object-fit: cover;
-  border-radius: 25px;
+  border-radius: 10px;
 }
 
 /* 다른 사람 이름 붙여줌 */
 .nametag {
-  background-color: #888;
+  background-color: whitesmoke;
   color: white;
   bottom: 10px;
   position: absolute;
@@ -166,37 +177,44 @@
 
 .footer {
   position: relative;
+  display: flex;
+  top: 80%;
 }
 
 /* utils - 비디오끄기, 화면공유, 화이트보드, 나가기, 참가자 */
 .utils {
   text-align: center;
-  margin: 0 auto;
   display: flex;
-  margin-top: 50px;
-  width: 260px;
+  /* margin: 60px 300px 50px 300px; */
+  margin-top: 4%;
+  margin-left: 30%;
+  margin-right: 30%;
+  width: 500px;
   background-color: #ffffff;
-  border-radius: 10px;
+  border-radius: 30px;
   padding: 10px;
   justify-content: center;
 }
-#util {
+#util,
+#util-attendies {
   text-align: center;
   margin-left: 10px;
   padding: 10px;
   height: 40px;
-  width: 40px;
+  width: 65px;
   border-radius: 100px;
   transition: background-color 0.3s;
 }
 .novideo {
-  /* 배경색을 바꾸지 말고 그림자를 만들자 */
-  background-color: #4ecca3;
+  background-color: #0067A3;
   color: white;
 }
+.novide,
 .screenshare,
 .board-icon,
-.attendies {
+.attendies,
+.filter,
+.copycode{
   background-color: #d8d8d8;
   color: #393e46;
   transition: color 0.3s;
@@ -205,16 +223,20 @@
   background-color: #cc4e4e;
   color: white;
 }
+.filter {
+  border-radius: 10px;
+}
 #util:hover{
   cursor: pointer;
 }
-.novideo:hover {
-  background-color: #393e46;
-}
+.novideo:hover,
 .screenshare:hover,
 .board-icon:hover,
 .attendies:hover,
-.cutcall:hover {
+.cutcall:hover,
+.copycode:hover,
+.filter:hover,
+.open-chat-btn:hover {
   color: white;
   background-color: #393e46;
 }
@@ -224,23 +246,18 @@
   position: absolute;
   top: 10px;
   left: 0;
-  display: flex;
+  visibility: hidden;
 }
 .roomcode {
-  color: #4ecca3;
-  padding: 10px 20px;
-  background-color: white;
-  border-bottom: 3px solid #4ecca3;
-  font-weight: bold;
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
+  display: none;
 }
 .copycode-button {
   padding: 10px 0;
   width: 100px;
+  margin-top: 20%;
   text-align: center;
   color: white;
-  background-color: #4ecca3;
+  background-color: #0067A3;
   border: none;
   font-weight: bold;
   outline: none;
@@ -257,7 +274,7 @@
 /* 여기부터 */
 .container-right ::-webkit-scrollbar {
   width: 10px;
-  height: auto; /* 스크롤바 높이 조정 다시 하기 */
+  height: 130%;
 }
 .container-right ::-webkit-scrollbar-track {
   background: #f1f1f1;
@@ -271,12 +288,23 @@
 
 /* 채팅 관련 css */
 .chat-head-cont { height: 5vh; }
-/* head랑 구분하려고 넣은 줄임 나중에 빼야지 */
-hr{
-  position: relative;
-  border-top:none;
-  border-bottom: 2px solid #C4C4c4; 
-} 
+.open-chat{
+  display:none;
+  position: absolute;
+  top: 45%;
+  right: 3.5px;
+}
+.open-chat-btn{
+  background-color: whitesmoke;
+  border:0;
+  outline:0;
+  border-radius: 20px;
+}
+.open-chat-btn:hover{
+  color:white;
+  background-color: #393e46;
+  box-shadow: none;
+}
 /* 채팅창 관련 */
 .chat-cont {
   background-color: #ffffff;
@@ -287,90 +315,99 @@ hr{
 /* 채팅 전송과 내용 입력 부분 관련 */
 .send-cont {
   display: flex;
-  padding: 12px;
-  height: 5vh;
-  background-color: #ffffff;
-  box-shadow: 0px -4px 4px rgba(0, 0, 0, 0.15);
+  margin-left: 7px;
+  margin-right: 7px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #F5F5F5;
+  border-radius: 40px;
 }
 .chat{
   margin-bottom: 15px;
+  padding: 0px 3px 0px 7px;
   word-break: break-all;
   word-wrap: break-word;
   overflow: hidden;
 }
-/* .info .chat {
-  display: flex;
-  font-size: 0.85rem;
-} */
-/* .content{
-  font-size: 1em;
-  word-break: break-all;
-  word-wrap: break-word;
-} */
 /* 참여자 목록 모달 */
 .attendies-list {
-  background-color: #fefefe;
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 50%;                        
+  position: fixed; 
+  z-index: 1;
+  top: 45px;
+  left: 50%;
+  width: 18%;
+  height: 40%; 
+  overflow: auto; 
+  background-color: white;
+  box-shadow: 5px 5px 10px gray;
+  border-radius: 10px;
 }
-
+.attendies-close-butt {
+  position: absolute;
+  right: 1%;
+  font-size: 1.5em;
+  padding: 0.4em 0.7em 0em 0.5em;
+}
+.attendies-close-butt:hover {
+  cursor: pointer;
+  color: #cc4e4e;
+}
+.attendies-cont{
+  padding: 20px 20px 10px 20px;
+}
+.attendies-title{
+  font-size: 18pt;
+}
+#attendies-user,
+#attendies-nick{
+  padding-top: 11px;
+  padding-left: 5px;
+  font-size: 12pt;
+}
 /* mousehover chatting*/
-/* class=chat-time */
 .time{
-  /* display: none; */
   visibility: hidden;
   position: relative;
   font-size: 0.7em;
 }
 .chat-close-butt{
+  cursor: pointer;
   position: absolute;
   right: 1%;
   top: 1%;
   font-size: 1.5em;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
+  padding: 0.9em 1.2em 0em 0.5em;
 }
 .chat-close-butt:hover{
-  cursor: pointer;
-  background: #c4c4c4;
+  color: #0067A3;
 }
 .chat-mine:hover .time-mine{
   visibility: visible;
-  right: 19vw;
+  right: 120%;
 }
 .chat-other:hover .time-other{
   visibility: visible;
-  left: 19vw;
+  left: 120%;
 }
 .chat-other{ 
   position: relative;
-	background: #4ecca3;
-	border-radius: .4em;
+	background: whitesmoke;
+	border-radius: 5px 30px 30px;
   padding: 0 1em 0.7em 1em;
   max-width: fit-content;
   text-align: left;
   float: left;
-  width: 19vw;
-  /* position: relative;
-	background: #4ecca3;
-	border-radius: .4em;
-  padding: 0 1em 0.7em 1em;
-  max-width: fit-content;
-  text-align: left; 
-  float: left;
-  width: 19vw; */
+  width: 65%;
 }
 .chat-mine{ 
   position: relative;
-	background: whitesmoke;
-	border-radius: .4em;
+	background: #AABCD6;
+	border-radius: 30px 5px 30px 30px;
   padding: 0 1em 0.7em 1em;
   max-width: fit-content;
   text-align: right;
   float: right;
-  width: 19vw;
+  width: 65%;
 }
 .chat-system{ 
   padding: 0.7em 0 0.7em 0;
@@ -379,84 +416,87 @@ hr{
 #system-content{
   font-size: 14px;
 }
-
+.chat-empty-alert{
+  display: none;
+  position: absolute;
+  bottom: 38px;
+  right: 4%;
+  padding: 10px;
+  /* background-color: #E39293; */
+  color: #cc4e4e;
+  /* border-radius: 30px 30px 5px 30px; */
+  z-index:1;
+}
 
 /* 채팅 - 유저이름, 채팅 내용 css */
-
-/* class=chat-usernick */
 .usernick,
 .mynick {
-  font-size: 0.9rem;
-  font-weight: bold;
-  color: #4ecca3;
-}
-.othernick {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: bold;
   color: whitesmoke;
 }
-/* class=chat-chat*/
-/* .chat { margin-left: 12px; } */
-/* class=chat-style */
-/* .content {
-  margin-top: 5px;
+.system,
+.othernick {
   font-size: 1rem;
-} */
-/* class = send-chat */
-.ci-cont {
+  font-weight: bold;
+  color: #AABCD6;
+}
+.send-chat {
   width: 80%;
+  overflow: hidden;
 }
-/* class = send-btn */
-.ci-send {
-  width: 20%;
-  margin-left: 20px;
+.send-btn {
+  position: absolute;
+  right: 45px;
+  padding-right: 8px;
+  color: #F5F5F5;
 }
-/* class=send-chat */
-.send-cont .chat-input {
+
+.chat-input {
   width: 100%;
-  height: 36px;
+  height: 30px;
   font-size: 0.85rem;
-  padding: 4px 10px;
+  padding: 10px;
+  margin: 3px 3px 3px 10px;
+  text-align: left;
   border: none;
-  border-bottom: 3px solid #4ecca3;
+  background-color: #F5F5F5;
   color: #393e46;
+  resize: none;
+  overflow: hidden;
 }
 /* 채팅칠 때 박스 감싸져 있는 박스 안보이게 해주는 css */
-/* class=send-chat */
-.send-cont .chat-input:focus {
+.chat-input:focus {
   outline: none;
 }
-/* class=send-btn 버튼 디자인 */
-.send-cont .chat-send {
+.chat-send {
   height: 36px;
-  padding: 5px 20px;
   border: none;
-  background-color: white;
-  color: #4ecca3;
+  background-color: #F5F5F5;
+  color: #AABCD6;
   font-weight: bold;
-  font-size: 0.85rem;
-  border-radius: 2px;
+  font-size: 1rem;
+  border-radius: 30px;
+  margin-bottom: 10px;
   transition: background-color 0.5s;
 }
-/* class=send-btn 버튼 호버 */
 .chat-send:hover {
-  color: #2980b9;
-  cursor: pointer;
-  background-color: #f3f3f3;
+  color: #003087;
+  /* cursor: pointer; */
+  background-color: #F5F5F5;
+  box-shadow: none;
 }
 /* send버튼 누를 때 박스 감싸져 있는 박스 안보이게 해주는 css */
 .chat-send:focus {
   outline: none;
 }
 
-/* 여기까지 */
-
 /* utils 관련 */
 .tooltip {
   position: relative;
   display: inline-block;
+  width: 100%;
 }
-
 .tooltip .tooltiptext {
   visibility: hidden;
   width: 120px;
@@ -490,6 +530,3 @@ hr{
   visibility: visible;
   opacity: 0.8;
 }
-
-/*# sourceMappingURL=style.css.map */
-

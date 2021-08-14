@@ -14,7 +14,7 @@ module.exports = class Room extends Sequelize.Model {
         unique: true,
       },
       description: {
-        type: Sequelize.STRING(15),
+        type: Sequelize.STRING(30),
         allowNull: false,
         default:"",
       },

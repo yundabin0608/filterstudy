@@ -8,10 +8,15 @@ const chatField = document.querySelector('.chat-input');
 const videoContainer = document.querySelector('#vcont');
 const overlayContainer = document.querySelector('#overlay');
 const videoButt = document.querySelector('.novideo');
+const copycodeButt = document.querySelector('.copycode');
 const cutCall = document.querySelector('.cutcall');
 const screenShareButt = document.querySelector('.screenshare');
 const myId = document.querySelector('#my-id').value;
-let filterButt=document.querySelector('.filter');
+const filterButt=document.querySelector('.filter');
+const closeButt=document.querySelector('.chat-close-butt');
+const boardButt=document.querySelector('.board-icon');
+const attendiesButt=document.querySelector('.attendies');
+const attendiesCloseButt=document.querySelector('.attendies-close-butt');
 
 let videoAllowed = 1;
 let videoInfo = {};
@@ -26,7 +31,8 @@ const configuration = { iceServers: [{
         "stun:stun.l.google.com:19302",
         "stun:stun.l.google.com:19302",
         "stun:stun.l.google.com:19302",
-        "stun:stun.stunprotocol.org"] }] }
+        "stun:stun.stunprotocol.org"
+        ] }] }
 const mediaConstraints = { video: true, audio: false};
 
 let connections = {};
@@ -35,32 +41,21 @@ let videoTrackSent = {};
 
 let mystream, myscreenshare;
 
-document.querySelector('.roomcode').innerHTML = `${roomid}`
+document.querySelector('.roomcode').textContent = `${roomid}`
 socket.emit("join", roomid, usernick);
 
 function CopyClassText() {
-    var textToCopy = document.querySelector('.roomcode');
-    var currentRange;
-    if (document.getSelection().rangeCount > 0) {
-        currentRange = document.getSelection().getRangeAt(0);
-        window.getSelection().removeRange(currentRange);
-    }
-    else {
-        currentRange = false;
-    }
-    var CopyRange = document.createRange();
-    CopyRange.selectNode(textToCopy);
-    window.getSelection().addRange(CopyRange);
-    document.execCommand("copy");
+    const textArea = document.createElement('textarea'); 
+    document.body.appendChild(textArea); 
+    textArea.value = `${roomid}`;
+    console.log(textArea.value);
+    textArea.select(); document.execCommand('copy');
+    document.body.removeChild(textArea);
 
-    window.getSelection().removeRange(CopyRange);
-    if (currentRange) {
-        window.getSelection().addRange(currentRange);
-    }
-    document.querySelector(".copycode-button").textContent = "Copied!"
+    document.querySelector(".tooltiptext").textContent = "복사됨"
     setTimeout(()=>{
-        document.querySelector(".copycode-button").textContent = "Copy Code";
-    }, 5000);
+        document.querySelector(".tooltiptext").textContent = "방 코드 복사";
+    }, 1000);
 }
 
 let participant_num;
@@ -196,8 +191,47 @@ function handleVideoAnswer(answer, sid) {
     connections[sid].setRemoteDescription(ans);
 }
 
+// 방 코드 복사 관련
+copycodeButt.addEventListener('click',()=>{
+    CopyClassText();
+})
+// 참가자 모달 관련
+attendiesButt.addEventListener('click',()=>{
+    console.log(attendiesVisible);
+    if (attendiesVisible){
+        attendiesVisible=false;
+        modal.style.display = "none";
+        utilAttendiesButt.style.backgroundColor = "#d8d8d8";  
+        utilAttendiesButt.style.color = "#393e46";
+    } else {
+        modal.style.display = "block";
+        attendiesVisible=true;
+        utilAttendiesButt.style.backgroundColor = "#393e46";  
+        utilAttendiesButt.style.color = "white";
+        
+    }
+})
+attendiesCloseButt.addEventListener('click',()=>{
+    attendiesVisible=false;
+    modal.style.display = "none";
+    utilAttendiesButt.style.backgroundColor = "#d8d8d8";  
+    utilAttendiesButt.style.color = "#393e46";
+})
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+// 채팅창 닫기 관련
+var chatClose = document.querySelector('.chat-close-butt');
+chatClose.addEventListener('click',function(event){
+   let chatContainer=document.querySelector('.container-right');
+}); 
+
 // 화면공유 버튼 관련
 screenShareButt.addEventListener('click', () => {
+    screenShareButt.style.backgroundColor = "#393e46";  
+    screenShareButt.style.color = "white";
     screenShareToggle();
 });
 let screenshareEnabled = false;
@@ -215,6 +249,8 @@ function screenShareToggle() {
         }
     } else {
         screenMediaPromise = navigator.mediaDevices.getUserMedia({ video: true });
+        screenShareButt.style.backgroundColor = "#d8d8d8";  
+        screenShareButt.style.color = "#393e46";
     }
     screenMediaPromise
         .then((myscreenshare) => {
@@ -241,8 +277,8 @@ function screenShareToggle() {
             };
         })
         .catch((e) => {
-            alert("Unable to share screen:" + e.message);
-            console.error(e);
+            screenShareButt.style.backgroundColor = "#d8d8d8";  
+            screenShareButt.style.color = "#393e46";
         });
 }
 
@@ -335,19 +371,20 @@ socket.on('join', async (conc, cnames,videoinfo) => {
 
 socket.on('enterRoom',(usernick,level_show,level)=>{
     //참가자 들어옴
-    console.log(usernick);
     document.querySelector('#attendies').textContent=`참가자들 (${participant_num})`;
     let div1 = document.createElement('div');
     div1.classList.add('user');
     let nick = document.createElement('span');
+    nick.style.paddingLeft="30px";
+    nick.style.fontSize="12pt";
+    nick.style.fontWeight="bold";
+
     if(level_show==0){
-        nick.textContent=`${usernick} level: ${level}`;
+        nick.textContent=`Lv. ${level}  ${usernick}`;
     }
     else{
-        nick.textContent=`${usernick} level: ?`;
+        nick.textContent=`Lv: ?  ${usernick} `;
     }
-    //div1.setAttribute('data-nick',usernick);
-    //nick.setAttribute('data-nick',usernick);
     div1.appendChild(nick);
     document.querySelector('.attendies-list').appendChild(div1); 
 });
@@ -371,27 +408,40 @@ socket.on('removePeer', sid => {
 
 sendButton.addEventListener('click', () => {
     const chatting = chatField.value;
-    chatField.value = '';
-    const mytime=moment().format("h:mm a");
-
-    chatRoom.scrollTop = chatRoom.scrollHeight;
-    if (chatting != ""){
+    chatting.replaceAll(/\r/g,'') 
+    
+    const space1=''; const space2=' ';
+    console.log(chatting!=space1 && chatting!=space2 && chatting!='\n');
+    if (chatting!=space1 && chatting!=space2 && chatting!='\n'){
+        chatField.value = '';
+        const mytime=moment().format("h:mm a");
+        // console.log(scrollBottom);
+        
+        chatRoom.scrollTop = chatRoom.scrollHeight;
+        console.log(chatRoom.scrollHeight);
         chatRoom.innerHTML += 
-        `<div class="chat">
-            <div class="chat-mine">
-                <div class="time time-mine">${mytime}</div>
-                <div class="sender">
-                    <span class="mynick">${usernick}</span>
+            `<div class="chat">
+                <div class="chat-mine">
+                    <div class="time time-mine">${mytime}</div>
+                    <div class="sender">
+                        <span class="mynick">${usernick}</span>
+                    </div>
+                    <span class="content">
+                        ${chatting}
+                    </span>
                 </div>
-                <span class="content">
-                    ${chatting}
-                </span>
-            </div>
-        </div>`
-
-    setTimeout(function() {
-        socket.emit('chat', chatting, usernick, roomid);
-         }, 500);
+            </div>`
+    
+            setTimeout(function() {
+                socket.emit('chat', chatting, usernick, roomid);
+             }, 500);
+    } else {
+        chatField.value = '';
+        var chatAlert = document.getElementById('chat-empty-alert');
+        chatAlert.style.display="block";
+        setTimeout(()=>{
+            chatAlert.style.display="none";
+        },1000);
     }
 })
 
@@ -402,6 +452,9 @@ chatField.addEventListener("keyup", function (event) {
     }
 });
 
+const chatAlert = document.getElementById('chat-empty-alert');
+chatAlert
+
 socket.on('chat', (chatting, sendername, time) => {
     chatRoom.scrollTop = chatRoom.scrollHeight;
     if (sendername=='System'){
@@ -409,7 +462,7 @@ socket.on('chat', (chatting, sendername, time) => {
         `<div class="chat">
             <div class="chat-system">
                 <div class="sender">
-                    <span class="usernick">${sendername}</span>
+                    <span class="system">${sendername}</span>
                 </div>
                 <span class="content" id="system-content">
                     ${chatting}
@@ -459,7 +512,7 @@ videoButt.addEventListener('click', () => {
         }
         videoButt.innerHTML = `<i class="fas fa-video"></i>`;
         videoAllowed = 1;
-        videoButt.style.backgroundColor = "#4ECCA3";
+        videoButt.style.backgroundColor = "#0067A3";
         if (mystream) {
             mystream.getTracks().forEach(track => {
                 if (track.kind === 'video')
@@ -495,8 +548,9 @@ socket.on('action', (msg, sid) => {//남이 무엇을 했다~~는 걸 받음
 
 filterButt.addEventListener('click', () => {
     if (filterornot==0) {//1일 때 blur할 것이다
-        filterButt.innerHTML = `<p class="fas filter-slash">✨</p>`;
-        filterButt.style.backgroundColor = "#b12c2c";     
+        filterButt.innerHTML = `<i class="fas fa-filter"></i>`;
+        filterButt.style.backgroundColor = "#393e46";  
+        filterButt.style.color = "white";
         console.log("켰다!!!!!~~~``");
         console.log("mysocketid"+socket.id);
         myvideo.style.filter="blur(20px)";
@@ -506,14 +560,35 @@ filterButt.addEventListener('click', () => {
         filterornot=1;
     }
     else {//필터 끌 거다
-        filterButt.innerHTML = `<p class="fas filter">✨</p>`;
-        filterButt.style.backgroundColor = "#4ECCA3"; 
+        filterButt.innerHTML = `<i class="fas fa-filter"></i>`;
+        filterButt.style.backgroundColor = "#d8d8d8"; 
+        filterButt.style.color = "#393e46";
         myvideo.style.filter="blur(0px)";
         myvideo.setAttribute('filter','blur(0px)');
         console.log("껐당!!!!!~~~``");
         socket.emit('action', 'filteroff');
         filterornot=0;   
     }
+})
+
+boardButt.addEventListener('click',()=>{
+    boardButt.style.backgroundColor = "#393e46";  
+    boardButt.style.color = "white";
+})
+
+const openChatButt = document.getElementById('open-chat');
+const containerRight = document.getElementById('cont-right');
+const containerLeft = document.getElementById('cont-left');
+closeButt.addEventListener('click',()=>{
+    containerRight.style.display = "none";
+    containerLeft.style.width="100vw";
+    openChatButt.style.display="block";
+})
+
+openChatButt.addEventListener('click',()=>{
+    containerRight.style.display="block";
+    containerLeft.style.width="75vw";
+    openChatButt.style.display="none";
 })
 
 socket.on('filter-on', (sid) => { 
@@ -565,4 +640,4 @@ function blurCam(){
 */
 cutCall.addEventListener('click', () => {
     location.href = '/';
-})
+});

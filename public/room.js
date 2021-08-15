@@ -230,6 +230,8 @@ chatClose.addEventListener('click',function(event){
 screenShareButt.addEventListener('click', () => {
     screenShareButt.style.backgroundColor = "#393e46";  
     screenShareButt.style.color = "white";
+    // myvideo.style.gridColumn = "2";
+    // myvideo.style.gridRow = "3";
     screenShareToggle();
 });
 let screenshareEnabled = false;
@@ -636,16 +638,32 @@ cutCall.addEventListener('click', () => {
     location.href = '/';
 });
 
-function resizeApply(){
-    var minWidth = "120px";
-    var body = document.getElementById('cont-left');
-    if (window.innerWidth < minWidth){
-        body.style.zoom = (window.innerWidth / minWidth);
-    } else body.style.zoom = 1;
+let count=2;
+window.onresize = function(event){
+    var innerWidth = window.innerWidth;
+    var widthPerParticipant;
+    while (1){
+        if (participant_num%count <= count){
+            widthPerParticipant = innerWidth/count;
+            break;
+        } else {
+            count++;
+        }
+    }
+    console.log("widthPerParticipant: "+widthPerParticipant);
+    myvideo.style.width = widthPerParticipant;
 }
-window.onload = function() { 
-    window.addEventListener('resize', function() { 
-        resizeApply(); 
-    }); 
-} 
-resizeApply();
+
+
+// function resizeApply(){
+//     var minWidth = "120px";
+    
+//         body.style.zoom = (window.innerWidth / minWidth);
+//     } else body.style.zoom = 1;
+// }
+// window.onload = function() { 
+//     window.addEventListener('resize', function() { 
+//         resizeApply(); 
+//     }); 
+// } 
+// resizeApply();

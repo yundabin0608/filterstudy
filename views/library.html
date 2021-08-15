@@ -23,6 +23,21 @@
         $(function () { 
             $('.attendies-list').draggable(); 
         });
+        var count=2;
+        $(window).resize(function (){
+            var width_size = window.innerWidth;
+            var widthPerParticipant;
+            while (1){
+                if (participant_num % count <= count){
+                    widthPerParticipant = width_size/count;
+                    break;
+                } else {
+                    count++;
+                }
+            }
+            console.log("widthPerParticipant: "+widthPerParticipant);
+            myvideo.style.width = widthPerParticipant;
+          })
     </script>
 </head>
 
@@ -71,6 +86,13 @@
                     {% for user in users %}
                     <!--사용자 레벨에 따라서 눈송이 사진 붙여넣기-->
                     <div class="user" id="attendies-user" data-nick="{{user.nick}}">
+                        {%if user.level >= 10%}
+                            <img src="/img/level2_noonsong.png">
+                        {%elif user.level >= 30%}
+                            <img src="/img/level3_noonsong.png">
+                        {%else%}
+                            <img src="/img/level1_noonsong.png">
+                        {%endif%}
                         <span class="nick" id="attendies-nick" data-nick="{{user.nick}}">
                         {%if user.level_show==0%}
                             <span>

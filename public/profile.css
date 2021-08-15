@@ -81,6 +81,11 @@
     text-align: left;
     padding-left: 5%;
   }
+  .w3-light-grey{
+    display: inline-box;
+    height: 30px;
+    width: 100%;
+  }
   #next-level{
     border: 3px solid #c2c2c2;;
     border-radius: 8px;
@@ -93,15 +98,15 @@
     position: relative;
   }
   .w3-indigo{
-    width:10px;
+    height:30px;
+    background-color: #afb6c3;
   }
   #noonsong{
     z-index: 1;
-    object-fit: scale-down;
     position: absolute;
-    width: 10%;
-    height: 10%;
-    margin-bottom: 5px;
+    width: 14%;
+    height: 17%;
+    top:14px;
   }
   #percent{
     display: flex;

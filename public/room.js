@@ -373,18 +373,39 @@ socket.on('enterRoom',(usernick,level_show,level)=>{
     //참가자 들어옴
     document.querySelector('#attendies').textContent=`참가자들 (${participant_num})`;
     let div1 = document.createElement('div');
+    div1.dataset.nick=usernick;
     div1.classList.add('user');
+    div1.id="attendies-user";
+    let img = document.createElement('img');
     let nick = document.createElement('span');
-    nick.style.paddingLeft="30px";
+    img.style.marginLeft="20px";
+    nick.style.paddingLeft="5px";
     nick.style.fontSize="12pt";
     nick.style.fontWeight="bold";
-
-    if(level_show==0){
-        nick.textContent=`Lv. ${level}  ${usernick}`;
+    if(level>=10){
+        img.setAttribute('src','/img/level2_noonsong.png');
+    }
+    else if(level>=30){
+        img.setAttribute('src','/img/level3_noonsong.png');
     }
     else{
-        nick.textContent=`Lv: ?  ${usernick} `;
+        img.setAttribute('src','/img/level1_noonsong.png');
     }
+    if(level_show==0){
+        nick.innerHTML+=`
+        <strong>
+            <span>Lv. ${level} </span><span>&nbsp;&nbsp;${usernick}</span>
+        </strong>
+        `;
+    }
+    else{
+        nick.innerHTML+=`
+        <strong>
+            <span>Lv. ? </span><span>&nbsp;&nbsp;${usernick}</span>
+        </strong>
+        `;
+    }
+    div1.appendChild(img);
     div1.appendChild(nick);
     document.querySelector('.attendies-list').appendChild(div1); 
 });
@@ -637,33 +658,3 @@ function blurCam(){
 cutCall.addEventListener('click', () => {
     location.href = '/';
 });
-
-let count=2;
-window.onresize = function(event){
-    var innerWidth = window.innerWidth;
-    var widthPerParticipant;
-    while (1){
-        if (participant_num%count <= count){
-            widthPerParticipant = innerWidth/count;
-            break;
-        } else {
-            count++;
-        }
-    }
-    console.log("widthPerParticipant: "+widthPerParticipant);
-    myvideo.style.width = widthPerParticipant;
-}
-
-
-// function resizeApply(){
-//     var minWidth = "120px";
-    
-//         body.style.zoom = (window.innerWidth / minWidth);
-//     } else body.style.zoom = 1;
-// }
-// window.onload = function() { 
-//     window.addEventListener('resize', function() { 
-//         resizeApply(); 
-//     }); 
-// } 
-// resizeApply();

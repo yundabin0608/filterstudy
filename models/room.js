@@ -4,12 +4,12 @@ module.exports = class Room extends Sequelize.Model {
   static init(sequelize) {
     return super.init({
       title: {
-        type: Sequelize.STRING(100),
+        type: Sequelize.STRING(20),
         allowNull: false,
         unique: true,
       },
       uuid:{
-        type: Sequelize.STRING(20),
+        type: Sequelize.STRING(60),
         allowNull: false,
         unique: true,
       },
@@ -19,7 +19,7 @@ module.exports = class Room extends Sequelize.Model {
         default:"",
       },
       participants_num: {
-        type: Sequelize.INTEGER(100),
+        type: Sequelize.INTEGER(20),
         allowNull: false,
         defaultValue:0,
       },
@@ -34,7 +34,7 @@ module.exports = class Room extends Sequelize.Model {
         default:20,  // 임의로 설정
       },
       password: {
-        type: Sequelize.STRING(100),
+        type: Sequelize.STRING(10),
         allowNull: false,
       },
       option: {

@@ -53,7 +53,13 @@
         {%for room in rooms%}
           <div class="room-box" data-id="{{room.uuid}}">
             <div class="room-box-container">
-              <span class="roomLock">{{"🗝️" if room.password else "🔓"}}</span>
+              <span class="roomLock">
+                {% if room.password %}
+                  <i class="lock fas fa-lock fa-lg"></i>
+                {% else %}
+                  <i class="lock fas fa-lock-open fa-lg"></i>
+                {%endif%}
+              </span>
               <span class="roomTitle">{{room.title}}</span>
               <div class="roomDescription">{%if room.description==''%}<br>{%else%}{{room.description}}{%endif%}</div> 
               {% if room.img %}
@@ -76,8 +82,8 @@
     </div>
     {%if user %}
       <div class="room-btn-container">
-        <form class="room-code-form" action="javascript:goRoomFunction()" method="post" enctype="multipart/form-data">
-            <input type="text" id="room-code-input" placeholder="방 코드를 입력하세요." >
+        <form class="room-code-form" action="javascript:goRoomFunction()" method="post" enctype="multipart/form-data" >
+            <input type="text" id="room-code-input" placeholder="방 코드를 입력하세요" >
             <button class="enter-btn" type="submit">방 입장</button>
         </form> 
         <button class="createroom-butt" onclick="location.href='/room'"><img src="/img/add.png" style="width:35px; height:35px;"/></button>
@@ -120,12 +126,20 @@
         }
     });
     
-
     function goRoomFunction(){
-      var addr="http://localhost:8001/library/";
-      var roomUuid = document.getElementById("room-code-input").value;
-      window.location.href=addr.concat(roomUuid);
+      var rinput = document.getElementById("room-code-input");
+      if(rinput.value.length<1 || /\s/g.test(rinput.value) ){  /* 공백, 탭문자, 엔터, 값입력X 는 안되도록 함*/
+        rinput.style.background="#e9f2ffc2"
+        rinput.placeholder="방코드를 공백 없이 제대로 입력해 주세요"
+        rinput.value=""
+      }
+      else{
+        var addr="http://localhost:8001/library/";
+        var roomUuid = document.getElementById("room-code-input").value;
+        window.location.href=addr.concat(roomUuid);
+      }
     }
+   
   </script>
 {%endblock%}
 
@@ -278,9 +292,9 @@
 
   function submitCheck(i) {
     var cont = document.getElementById("promise-input");
-    if(cont.value.length < 1) {
-        cont.value =  cont.value.substr(0, 20);
+    if(cont.value.length < 1 || cont.value== " ") {
         cont.placeholder="다짐을 한 글자 이상 입력하세요"
+        cont.value=""
         cont.style.background="#e9f2ffc2"
         return false;
     }

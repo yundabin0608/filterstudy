@@ -9,7 +9,7 @@ module.exports = class Room extends Sequelize.Model {
         unique: true,
       },
       uuid:{
-        type: Sequelize.STRING(60),
+        type: Sequelize.STRING(30),
         allowNull: false,
         unique: true,
       },

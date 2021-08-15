@@ -41,6 +41,7 @@
 {%endblock%}
 
 {%block rooms%}
+<div class="container">
   <div class="rooms-block">
     <div class="room-container">
       <!-- 1방 = 1room-box slide가 옆으로 움직이면서 컨테이너부분에서 보이는것-->
@@ -78,7 +79,7 @@
     {%if user %}
       <div class="room-btn-container">
         <form class="room-code-form" action="javascript:goRoomFunction()" method="post" enctype="multipart/form-data" >
-            <input type="text" id="room-code-input" placeholder="방 코드를 입력하세요" >
+            <input type="text" id="room-code-input" placeholder="방 코드를 입력하세요" maxlength="15" >
             <button class="enter-btn" type="submit">방 입장</button>
         </form> 
         <button class="createroom-butt" onclick="location.href='/room'"><img src="/img/add.png" style="width:35px; height:35px;"/></button>

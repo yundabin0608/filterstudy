@@ -289,6 +289,7 @@ button{cursor:pointer;}
 input{
   /* border-bottom:1px solid  tomato; */
   margin: 1% 1% 2% 1%;
+  text-align: center;
 
   /* -webkit-animation: increase 3s;
   -moz-animation:    increase 3s; 
@@ -298,6 +299,7 @@ input{
 }
 input::placeholder{
   color:rgb(187, 187, 187);
+  text-align: center;
 }
 /* @keyframes increase {
     100% {
@@ -589,10 +591,13 @@ input::placeholder{
   grid-column: 1/4;
 	grid-row:5/6;
 }
-/* .make-room-thumbnail-img{
- 
-} */
+.make-room-thumbnail-img{
+  width: 240px;
+  height: 180px;
+  object-fit:scale-down ;
+}
 .newroom {
+  border:1px solid #4e7cd1;
   border-style: hidden hidden solid hidden;
   border-radius: 0px;
   font-size: 16pt;
@@ -607,6 +612,7 @@ input::placeholder{
   position:relative; 
   left: 0%; 
   width: 95%;
+  font-weight: bold;
 }
 .make_room_max .newroom {
   position:relative; 
@@ -618,12 +624,13 @@ input::placeholder{
   left: 0%; 
   width: 90%;
 }
-.make_room_info textarea{
+.make_room_info .description{
   position: relative;
   width: 90%;
   height: 24pt;
   left: 0%;
   font-size: 16pt;
+  font-weight: normal;
 }
 .newroom:focus {
   outline: none;
@@ -631,6 +638,25 @@ input::placeholder{
 .make_room_out .label{
   margin-right: 15%;
   font-size: 1.1em;
+}
+.label label{
+  margin-top: 2px;
+  padding: 3px;
+  padding-left: 10px;
+  padding-right:10px;
+  background-color: white;
+  border:2px solid #8d8d8d;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 2px 2px 1px #c2c2c2;
+  font-size: 1em;
+}
+.label label:hover{
+  border:1px solid white;
+  box-shadow: 2px 2px 5px 0px #8d8d8d inset
+}
+.label:active{
+  transform: scale(1,0.97);
 }
 .make_room_out input {
   margin-left: 10%;
@@ -641,7 +667,18 @@ input::placeholder{
 .make_room_btn button{
   position: absolute;
   right: 5%;
+  background-color: #1B3C77;
+  width: 100px;
+  height: 30px;
+  font-size: 1em;
+  font-weight: 700;
+  border-radius: 6px;
+  border: 2px solid rgb(83, 105, 177);
+  cursor: pointer;
+  color:white;
+  box-shadow: 2px 2px 1px #c2c2c2;
 }
+.make_room_btn button:hover{cursor:pointer;color:#1B3C77; background-color:white;box-shadow: 2px 2px 1px #c2c2c2, 0 -80px 0 0 rgba(0,0,0,0.025) inset;}
 
 /*<style="font-size:16pt;font-family:'EliceDigitalBaeum_Regular'">*/
 /* =================== ranking을 위한 곳 =================== */ 

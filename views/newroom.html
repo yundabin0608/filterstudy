@@ -1,18 +1,28 @@
 {% extends 'layout.html' %}
 {% set path = null %}
+{% block login %}
+  <div class="login-block">
+    <div class="banner-login">
+            <a id="my-profile" href="/profile" class="btn"><img id="welcomeImg" src="/img/welcome_noonsong.png" style="width:38px;height:38px;z-index:2"></a>
+            <span>{{'안녕하세요, ' + user.nick + '송!'}}</span>
+            <a id="logout" href="/auth/logout" class="btn" style="text-decoration:none;"><button class="logout">Sign Out</button></a>
+    </div>  
+  </div>
+{%endblock%}
 {% block content %}
+<div class="container2">
   <div class="make_room">
     <h3>방 생성하기</h3>
     <form method="post" class="make_room_content" enctype="multipart/form-data">
       <div class="make_room_title">
-        <span class="label">방 제목</span>
+        <span class="label">방 제목<font style="color:red">*</font></span>
         <br>
-        <input class="newroom" type="text" name="title" placeholder="방 제목" required>
+        <input class="newroom" type="text" name="title" maxlength="20" placeholder="방 제목" required>
       </div>
       <div class="make_room_thumbnail" id="newroom-thumbnail">
-        <div class="make-room-thumbnail-img" src="./img/zoom.jpg"></div>
-        <div class="label">썸네일
-          <label for="thumbnail" class="label">선택</label>
+        <img class="make-room-thumbnail-img" src="/img/zoom.jpg" style="width: 240px;height: 180px;"></img>
+        <div class="label">
+          <label for="thumbnail" class="label">썸네일</label>
           <input type="hidden" onchange="javascript: form.action='/room';">
           <p>
             <input type="hidden" id="chooseImg" onchange="chooseImage();">
@@ -29,12 +39,12 @@
       <div class="make_room_max">
         <span class="label">최대 인원</span>
         <br>
-        <input type="number" class="newroom" name="max" placeholder="수용 인원" min="0" value="20">
+        <input type="number" class="newroom" name="max" placeholder="수용 인원" min="0" value="20" max="20">
       </div>
       <div class="make_room_pw">
         <span class="label">입장 암호</span>
         <br>
-        <input type="password" class="newroom" name="password" placeholder="방 암호">
+        <input type="password" class="newroom" name="password" placeholder="방 암호" maxlength="10">
       </div>
       <div class="make_room_out">
         <span class="label">모두 퇴장 시</span>
@@ -44,7 +54,7 @@
       </div>
       <div class="make_room_info">
         <div class="label">방 소개</divs>
-        <textarea type="text" class="newroom" name="description" placeholder="방 소개를 적으세요"></textarea>
+        <input type="text" class="newroom description" name="description" placeholder="방 소개를 적으세요" maxlength="30">
       </div>
       
       <div class="make_room_btn">
@@ -52,6 +62,7 @@
 
       </div>
     </form>
+  </div>
   </div>
   <script>
     function chooseImage(){
@@ -64,3 +75,17 @@
   </script>
 
 {% endblock %}
+{%block script%}
+<script>
+    let logoA=document.getElementById('logoA');
+    logoA.setAttribute('href','/');
+    let homeA=document.getElementById('homeA');
+    homeA.setAttribute('href','/');
+    let ranking=document.getElementById('rankingA');
+    rankingA.setAttribute('href','http://localhost:8001/#ranking');
+    let promiseA=document.getElementById('promiseA');
+    promiseA.setAttribute('href','http://localhost:8001/#promise');
+    let profileA=document.getElementById('profileA');
+    profileA.setAttribute('href','/profile');
+</script>
+{%endblock%}

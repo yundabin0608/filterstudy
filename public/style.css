@@ -10,10 +10,10 @@ body{
   background-color: whitesmoke;
 }
 .container-room {
+  display: flex;
   position: absolute;
   height: 90%;
   width: 100%;
-  display: flex;
   flex-direction: row;
   background-color: whitesmoke;
 }
@@ -25,23 +25,13 @@ body{
   text-align: center;
 }
 .container-right {
-  position: relative;
   display: block;
+  position: relative;
   width: 430px;
   height: 100%;
   right: 5px;
   padding: 30px 10px 2% 30px;
   background-color: whitesmoke;
-}
-.chat-box {
-  position:relative;
-  padding:2%;
-  margin-top: 0;
-  margin:1%;
-  height: 100%;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 10px 10px 20px gray;
 }
 .main .roomcode {
   width: 100%;
@@ -61,72 +51,6 @@ body{
   border-radius: 0;
 }
 
-/* whiteboard 관련 디자인 */
-.whiteboard-cont {
-  height: 80vh;
-  width: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
-  padding: 50px;
-  padding-bottom: 0;
-  min-height: 600px;
-}
-#whiteboard {
-  background-color: white;
-  box-shadow: 10px 10px 20px gray;
-  border-radius: 10px;
-}
-
-#colors {
-  height: 30px;
-  width: 30px;
-  border-radius: 50px;
-  margin-top: 10px;
-}
-.colors-cont {
-  position: absolute;
-  right: 80px;
-  top: 80px;
-  display: flex;
-  flex-direction: column;
-}
-
-.black {background-color: black;}
-.red {background-color: #e74c3c;}
-.yellow {background-color: #f1c40f;}
-.green {background-color: #badc58;}
-.orange {background-color: #e67e22;}
-.purple {background-color: #9b59b6;}
-.blue {background-color: #3498db;}
-.pink {background-color: #fd79a8;}
-.brown {background-color: #834c32;}
-.grey {background-color: gray;}
-.eraser {
-  font-size: 26px;
-  color: #2b2b2b;
-}
-.clearboard {
-  font-size: 26px;
-  color: #2b2b2b;
-}
-
-.black:hover,
-.red:hover,
-.yellow:hover,
-.green:hover,
-.orange:hover,
-.purple:hover,
-.blue:hover,
-.pink:hover,
-.brown:hover,
-.grey:hover,
-.eraser:hover,
-.clearboard:hover,
-.grey:hover {
-  cursor: pointer;
-}
-
 /* 비디오 css */
 .mynick,
 .nametag {
@@ -139,14 +63,15 @@ body{
   text-shadow:1px 1px 1px gray;
 }
 .video-cont {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(20%, auto));
+  display: grid; 
+  grid-template-columns: repeat(auto-fit, minmax(16%, auto));
+  grid-auto-rows: repeat(auto-fit, minmax(20%, auto)); 
   grid-gap: 20px;
   height: 100%;
 }
-.video-cont-single {
+/* .video-cont-single {
   height: 100%;
-}
+} */
 .video-box {
   position: relative;
   background-color: whitesmoke;
@@ -176,8 +101,12 @@ body{
   position: absolute;
   width: 100%;
   height: 50px;
-  top: 90%;
-  padding: 20px 30px 30px 30px;
+  top: 88%;
+  padding: 0px 20px 10px 20px;
+}
+.cover-utils{
+  display: inline-block;
+  position: relative;
 }
 .utils {
   display: flex;
@@ -232,7 +161,8 @@ body{
 .filter:hover,
 .open-chat-btn:hover {
   color: white;
-  background-color: #393e46;
+  background-color: #b8b8b8;
+  opacity: 0.6;
 }
 
 /* 방 url 복사하는 코드의 css */
@@ -281,18 +211,22 @@ body{
 }
 
 /* 채팅 관련 css */
-.chat-head-cont { height: 5vh; }
 .open-chat{
   display:none;
   position: absolute;
   top: 45%;
   right: 3.5px;
+  border-radius: 20px;
 }
 .open-chat-btn{
+  padding-top:50px;
+  padding-bottom:50px;
+  padding-left:15px;
   background-color: whitesmoke;
+  opacity: 0.6;
   border:0;
   outline:0;
-  border-radius: 20px;
+  border-radius: 40px 1px 1px 40px;
 }
 .open-chat-btn:hover{
   color:white;
@@ -300,10 +234,22 @@ body{
   box-shadow: none;
 }
 /* 채팅창 관련 */
+.chat-box {
+  display: flex;
+  flex-direction: column;
+  position:relative;
+  padding:2%;
+  margin-top: 0;
+  margin:1%;
+  height: 100%;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 10px 10px 20px gray;
+}
 .chat-cont {
   position: relative;
   background-color: #ffffff;
-  height:80%;
+  height:84%;
   padding: 5px 10px 10px 5px;
   margin:3%;
   overflow: auto;
@@ -319,11 +265,9 @@ body{
 .send-cont {
   position: relative;
   display: flex;
-  /*top: 80vh;*/
   width: 89%;
-  /*margin: 0px 7px 7px 7px;*/
-  margin-top:5%;
-  margin-bottom:5%;
+  margin-top:2%;
+  margin-bottom:2%;
   margin-left: 5%;
   padding-top: 5px;
   padding-bottom: 8px;
@@ -359,6 +303,12 @@ body{
 .attendies-title{
   font-size: 18pt;
 }
+.user>img{
+  position: relative;
+  margin-bottom: -4%;
+  width:35px;
+  height:35px;
+}
 #attendies-user,
 #attendies-nick{
   padding-top: 11px;
@@ -373,11 +323,12 @@ body{
 }
 .chat-close-butt{
   cursor: pointer;
-  position: absolute;
-  right: 1%;
-  top: 1%;
+  position: relative;
+  margin-left: 93%;
+  right: 2%;
+  top:1%;
   font-size: 1.5em;
-  padding: 0.9em 1.2em 0em 0.5em;
+  padding: 1.2px 8px 1.2px 1.2px;
 }
 .chat-close-butt:hover{
   color: #0067A3;
@@ -393,7 +344,7 @@ body{
 .chat-other{ 
   position: relative;
 	background: whitesmoke;
-	border-radius: 5px 30px 30px;
+	border-radius: 2px 30px 30px;
   padding: 0 1em 0.7em 1em;
   max-width: fit-content;
   text-align: left;
@@ -403,7 +354,7 @@ body{
 .chat-mine{ 
   position: relative;
 	background: #AABCD6;
-	border-radius: 30px 5px 30px 30px;
+	border-radius: 30px 2px 30px 30px;
   padding: 0 1em 0.7em 1em;
   max-width: fit-content;
   float: right;
@@ -530,4 +481,69 @@ body{
 .tooltip:hover .tooltiptext {
   visibility: visible;
   opacity: 0.8;
+}
+
+.whiteboard-cont {
+  height: 80vh;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 50px;
+  padding-bottom: 0;
+  min-height: 600px;
+}
+#whiteboard {
+  background-color: white;
+  box-shadow: 10px 10px 20px gray;
+  border-radius: 10px;
+}
+
+#colors {
+  height: 30px;
+  width: 30px;
+  border-radius: 50px;
+  margin-top: 10px;
+}
+.colors-cont {
+  position: absolute;
+  right: 80px;
+  top: 80px;
+  display: flex;
+  flex-direction: column;
+}
+
+.black {background-color: black;}
+.red {background-color: #e74c3c;}
+.yellow {background-color: #f1c40f;}
+.green {background-color: #badc58;}
+.orange {background-color: #e67e22;}
+.purple {background-color: #9b59b6;}
+.blue {background-color: #3498db;}
+.pink {background-color: #fd79a8;}
+.brown {background-color: #834c32;}
+.grey {background-color: gray;}
+.eraser {
+  font-size: 26px;
+  color: #2b2b2b;
+}
+.clearboard {
+  font-size: 26px;
+  color: #2b2b2b;
+}
+
+.black:hover,
+.red:hover,
+.yellow:hover,
+.green:hover,
+.orange:hover,
+.purple:hover,
+.blue:hover,
+.pink:hover,
+.brown:hover,
+.grey:hover,
+.eraser:hover,
+.clearboard:hover,
+.grey:hover {
+  cursor: pointer;
 }

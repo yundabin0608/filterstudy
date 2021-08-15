@@ -129,6 +129,7 @@ function handleVideoOffer(offer, sid, cname, vidinf) {
             vidCont.appendChild(videoOff);
 
             videoContainer.appendChild(vidCont);
+            videoResize(); 
         }
     };
 
@@ -230,6 +231,8 @@ chatClose.addEventListener('click',function(event){
 screenShareButt.addEventListener('click', () => {
     screenShareButt.style.backgroundColor = "#393e46";  
     screenShareButt.style.color = "white";
+    // myvideo.style.gridColumn = "2";
+    // myvideo.style.gridRow = "3";
     screenShareToggle();
 });
 let screenshareEnabled = false;
@@ -367,22 +370,73 @@ socket.on('join', async (conc, cnames,videoinfo) => {
     }
 })
 
+function videoResize(){
+    var vidNum=document.querySelectorAll('.video-frame').length;
+    var videos=document.querySelector('.video-cont'); /* video-box */
+    
+    let vheight='100%';
+    let vwidth='100%';
+    if (vidNum>1 && vidNum<9){
+        vheight='50%';
+        var temp=parseInt(vidNum/2)+1;
+        temp=String(parseInt(100/temp));
+        vwidth=temp+"%";
+    }
+    else if (vidNum<13){
+        vheight='33%';
+        if(videos==9){vwidth='33%';}
+        else{vwidth="25%";}
+    }
+    else{
+        vheight='25%';
+        if(vidNum<17){ vwidth='25%'; }
+        else{ vwidth='20%';}
+    }
+    videos.style.width=vwidth;
+    videos.style.height=vheight;
+    // for(i=0;i<vidNum;i++){
+    //     videos[i].style.width=vwidth;
+    //     videos[i].style.height=vheight;
+    // }
+}
+
 socket.on('enterRoom',(usernick,level_show,level)=>{
     //참가자 들어옴
     document.querySelector('#attendies').textContent=`참가자들 (${participant_num})`;
     let div1 = document.createElement('div');
+    div1.dataset.nick=usernick;
     div1.classList.add('user');
+    div1.id="attendies-user";
+    let img = document.createElement('img');
     let nick = document.createElement('span');
-    nick.style.paddingLeft="30px";
+    img.style.marginLeft="20px";
+    nick.style.paddingLeft="5px";
     nick.style.fontSize="12pt";
     nick.style.fontWeight="bold";
-
-    if(level_show==0){
-        nick.textContent=`Lv. ${level}  ${usernick}`;
+    if(level>=10){
+        img.setAttribute('src','/img/level2_noonsong.png');
+    }
+    else if(level>=30){
+        img.setAttribute('src','/img/level3_noonsong.png');
     }
     else{
-        nick.textContent=`Lv: ?  ${usernick} `;
+        img.setAttribute('src','/img/level1_noonsong.png');
     }
+    if(level_show==0){
+        nick.innerHTML+=`
+        <strong>
+            <span>Lv. ${level} </span><span>&nbsp;&nbsp;${usernick}</span>
+        </strong>
+        `;
+    }
+    else{
+        nick.innerHTML+=`
+        <strong>
+            <span>Lv. ? </span><span>&nbsp;&nbsp;${usernick}</span>
+        </strong>
+        `;
+    }
+    div1.appendChild(img);
     div1.appendChild(nick);
     document.querySelector('.attendies-list').appendChild(div1); 
 });
@@ -635,17 +689,3 @@ function blurCam(){
 cutCall.addEventListener('click', () => {
     location.href = '/';
 });
-
-function resizeApply(){
-    var minWidth = "120px";
-    var body = document.getElementById('cont-left');
-    if (window.innerWidth < minWidth){
-        body.style.zoom = (window.innerWidth / minWidth);
-    } else body.style.zoom = 1;
-}
-window.onload = function() { 
-    window.addEventListener('resize', function() { 
-        resizeApply(); 
-    }); 
-} 
-resizeApply();

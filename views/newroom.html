@@ -1,47 +1,69 @@
 {% extends 'layout.html' %}
 {% set path = null %}
+{% block login %}
+  <div class="login-block">
+    <div class="banner-login">
+            <a id="my-profile" href="/profile" class="btn"><img id="welcomeImg" src="/img/welcome_noonsong.png" style="width:38px;height:38px;z-index:2"></a>
+            <span>{{'안녕하세요, ' + user.nick + '송!'}}</span>
+            <a id="logout" href="/auth/logout" class="btn" style="text-decoration:none;"><button class="logout">Sign Out</button></a>
+    </div>  
+  </div>
+{%endblock%}
 {% block content %}
-  <fieldset>
-    <legend>방 생성</legend>
-    <form method="post" enctype="multipart/form-data">
-      <div>
-        <span class="label">방 제목</span><input class="newroom" type="text" name="title" placeholder="방 제목" required>
+<div class="container2">
+  <div class="make_room">
+    <h3>방 생성하기</h3>
+    <form method="post" class="make_room_content" enctype="multipart/form-data">
+      <div class="make_room_title">
+        <span class="label">방 제목<font style="color:red">*</font></span>
+        <br>
+        <input class="newroom" type="text" name="title" maxlength="20" placeholder="방 제목" required>
       </div>
-      <div>
-        <span class="label">방 소개</span><textarea type="text" class="newroom" name="description" placeholder="방 소개를 적으세요"></textarea>
-      </div>
-      <div>
-        <span class="label">최대 인원</span><input type="number" class="newroom" name="max" placeholder="수용 인원" min="0" value="20">
-      </div>
-      <div>
-        <span class="label">입장 암호</span><input type="password" class="newroom" name="password" placeholder="방 암호">
-      </div>
-      <div id="room-thumbnail">
-        <label class="label">썸네일</label>
-        <label for="thumbnail" class="label">선택</label>
+      <div class="make_room_thumbnail" id="newroom-thumbnail">
+        <img class="make-room-thumbnail-img" src="/img/zoom.jpg" style="width: 240px;height: 180px;"></img>
+        <div class="label">
+          <label for="thumbnail" class="label">썸네일</label>
           <input type="hidden" onchange="javascript: form.action='/room';">
-        <p>
-          <input type="hidden" id="chooseImg" onchange="chooseImage();">
-          <input 
-            type="file" 
-            id="thumbnail" 
-            name="img" 
-            accept="image/*" 
-            style="visibility: hidden;"
-            onchange="javascript: form.action='/room/loadImage';"
-          >
-        </p>
-        
+          <p>
+            <input type="hidden" id="chooseImg" onchange="chooseImage();">
+            <input 
+              type="file" 
+              id="thumbnail" 
+              name="img" 
+              accept="image/*" 
+              style="visibility: hidden;"
+              onchange="javascript: form.action='/room/loadImage';">
+          </p>
+        </div>
       </div>
-      <div><span class="label">모두 퇴장 시</span>
-        <input type="radio" name="room_option" value=0 checked="checked">방 삭제
-        <input type="radio" name="room_option" value=1>방 유지
+      <div class="make_room_max">
+        <span class="label">최대 인원</span>
+        <br>
+        <input type="number" class="newroom" name="max" placeholder="수용 인원" min="0" value="20" max="20">
       </div>
-      <div>
+      <div class="make_room_pw">
+        <span class="label">입장 암호</span>
+        <br>
+        <input type="password" class="newroom" name="password" placeholder="방 암호" maxlength="10">
+      </div>
+      <div class="make_room_out">
+        <span class="label">모두 퇴장 시</span>
+        <input type="radio" name="room_option" value=0 checked="checked">
+          <span>&nbsp;&nbsp;&nbsp;방 &nbsp;&nbsp;삭&nbsp;제</span>
+        <input type="radio" name="room_option" value=1> <span>&nbsp;&nbsp;&nbsp;방&nbsp;&nbsp; 유&nbsp;지</span>
+      </div>
+      <div class="make_room_info">
+        <div class="label">방 소개</divs>
+        <input type="text" class="newroom description" name="description" placeholder="방 소개를 적으세요" maxlength="30">
+      </div>
+      
+      <div class="make_room_btn">
         <button type="submit">생성</button>
+
       </div>
     </form>
-  </fieldset>
+  </div>
+  </div>
   <script>
     function chooseImage(){
       let e = document.getElementById("thumbnail");
@@ -53,3 +75,17 @@
   </script>
 
 {% endblock %}
+{%block script%}
+<script>
+    let logoA=document.getElementById('logoA');
+    logoA.setAttribute('href','/');
+    let homeA=document.getElementById('homeA');
+    homeA.setAttribute('href','/');
+    let ranking=document.getElementById('rankingA');
+    rankingA.setAttribute('href','http://localhost:8001/#ranking');
+    let promiseA=document.getElementById('promiseA');
+    promiseA.setAttribute('href','http://localhost:8001/#promise');
+    let profileA=document.getElementById('profileA');
+    profileA.setAttribute('href','/profile');
+</script>
+{%endblock%}

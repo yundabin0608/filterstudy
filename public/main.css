@@ -648,9 +648,25 @@ input:focus{
   z-index: 1;
   position:absolute;
   width: 350px;
-  height: 80px;
+  height: 130px;
   right: 40px;
   top: -60px;
+}
+.modal-overlay{
+  position: fixed;
+  top: -750px;
+  left: -200px;
+  width: 140vw;
+  height: 120vh;
+  margin:0px;
+}
+#promise-form {
+  position: absolute;
+  top: 10px;
+  width: 90%;
+  display: flex;
+  left: 5%;
+  background: none;
 }
 .modal_bar{
   z-index: 1;
@@ -703,14 +719,6 @@ right: 5px;
   left: 0px;
   background: rgb(189, 221, 254);
 }
-#promise-form {
-  position: absolute;
-  top: 10px;
-  width: 90%;
-  display: flex;
-  margin: auto;
-  background: none;
-}
 #promise-input {
   width: 80%; 
   height: 40px;
@@ -718,6 +726,7 @@ right: 5px;
   margin: 10px 5px;
   border: 0.3px solid rgb(193, 191, 191);
   box-shadow: 3px 3px 3px rgb(193, 191, 191);
+  
 }
 #promise-btn { 
   width:20%; 
@@ -742,12 +751,8 @@ right: 5px;
   padding: 2px 7px 2px 7px;
 }
 .promise-slide-btn{cursor: pointer;}
-.pslide-left{
-  left: 0%;
-}
-.pslide-right{
-  right: 1%;
-}
+.pslide-left{left: -5%;}
+.pslide-right{right: -4%;}
 
 .promise-container{
   position:absolute;
@@ -795,6 +800,7 @@ right: 5px;
   width: 90%;
   height: 85px;
   font-size: 0.9em;
+  word-break:break-all;
 }
 .promise-bottom{  /* 이름, 좋아요관련 버튼, 삭제 등등*/
   position: absolute;

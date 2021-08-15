@@ -1,4 +1,4 @@
-* { box-sizing: border-box; }
+* { box-sizing: border-box; font-family: 'EliceDigitalBaeum_Bold';}
 html {height: 100%;}
 /*
 @media screen and (min-width: 800px) {
@@ -9,6 +9,12 @@ html {height: 100%;}
 @font-face {
   font-family: 'EliceDigitalBaeum_Bold';
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/EliceDigitalBaeum_Bold.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'EliceDigitalBaeum_Regular';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/EliceDigitalBaeum_Regular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
@@ -82,7 +88,7 @@ html {height: 100%;}
 
 .navbar{
   width: 5%;
-  height:1350px;/*페이지 총 길이:325%*/
+  height:1350px;
   top:15%;
   left:30px;
   right: 90%;
@@ -264,7 +270,12 @@ html {height: 100%;}
   cursor: pointer;
 }
 
-body { margin:0;padding: 0;display: relative;font-family: 'EliceDigitalBaeum_Bold';}
+body { 
+  margin:0;
+  padding: 0;
+  display: relative;
+  font-family: 'EliceDigitalBaeum_Bold';
+}
 /****************************************layout끝************************************************/
 button{cursor:pointer;}
 .container { 
@@ -276,28 +287,36 @@ button{cursor:pointer;}
   background:rgb(250, 250, 250);
 }
 input{
-  border-radius: 10px;
-  width: 150px;
-  margin: 3%;
-  text-align: center;
+  /* border-bottom:1px solid  tomato; */
+  margin: 1% 1% 2% 1%;
+
+  /* -webkit-animation: increase 3s;
+  -moz-animation:    increase 3s; 
+  -o-animation:      increase 3s; 
+  animation:         increase 3s; 
+  animation-fill-mode: forwards; */
 }
 input::placeholder{
-  text-align: center;
   color:rgb(187, 187, 187);
 }
-input:focus{
+/* @keyframes increase {
+    100% {
+        width: 300px;
+    }
+} */
+/* input:focus{
   animation-name: border-focus;
   animation-duration: 2s;
   animation-fill-mode: both;
-}
-@keyframes border-focus {
+}  */
+/* @keyframes border-focus {
   from {
-    border-radius: 0;
+    border-style: black;
   }
   to {
-    border-radius: 12px;
+    border-style: #1B3C77;
   }
-}
+} */
 .go-content{
   position:fixed;
   bottom: 5%;
@@ -405,14 +424,13 @@ input:focus{
 }
 .slide-left{ left: 0%; }
 .slide-right{ right: 0%; }
-#room-thumbnail{ /* img 는 main.html에서 크기 조정*/
+#room-thumbnail{ 
   position: absolute;
   display: block;
   object-fit: scale-down;
   top: 130px;
   width: 190px;
-  /*box-shadow: 5px 5px 10px 0px #aeaec07e , 0px 3px 10px 0px #ffffff;*/
-}
+} 
 .room-enter-btn{
   position: absolute;
   background: #9ab1c6;
@@ -515,7 +533,117 @@ input:focus{
   color: white;
   box-shadow: 5px 5px 10px 0px #282829a8 inset
 }
+.make_room{
+  margin: 2%;
+  padding: 2%;
+  height:100%;
+}
+.make_room>h3{
+  font-size: 24pt;
+  color: #1B3C77;
+  font-family: 'EliceDigitalBaeum_Bold';
+  margin: 0 0 2% 0;
+}
 
+.make_room_content{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  margin: 2%;
+  font-family: 'EliceDigitalBaeum_Regular';
+}
+.make_room_title {
+  margin-top: 2%;
+  grid-column: 1/3;
+	grid-row: 1/2;
+}
+.make_room_title>input{
+  width:50%;
+}
+.make_room_thumbnail{
+  margin-top: 2%;
+  grid-column: 3/4;
+	grid-row: 1/4;
+}
+.make_room_max {
+  margin-top: 2%;
+  grid-column: 1/2;
+	grid-row: 2/3;
+}
+.make_room_pw {
+  margin-top: 2%;
+  grid-column: 2/3;
+	grid-row: 2/3;
+}
+.make_room_out{
+  margin-top: 2%;
+  grid-column: 1/3;
+	grid-row: 3/4;
+}
+.make_room_info{
+  grid-column: 1/4;
+	grid-row: 4/5;
+}
+.make_room_btn{
+  margin-top: 2%;
+  grid-column: 1/4;
+	grid-row:5/6;
+}
+/* .make-room-thumbnail-img{
+ 
+} */
+.newroom {
+  border-style: hidden hidden solid hidden;
+  border-radius: 0px;
+  font-size: 16pt;
+  margin-top: 2%;
+  font-family: 'EliceDigitalBaeum_Regular';
+  background-color: rgb(250, 250, 250);
+}
+.newroom:focus{
+  border-radius: 0px;
+}
+.make_room_title .newroom {
+  position:relative; 
+  left: 0%; 
+  width: 95%;
+}
+.make_room_max .newroom {
+  position:relative; 
+  left: 0%; 
+  width: 90%;
+}
+.make_room_pw .newroom {
+  position:relative; 
+  left: 0%; 
+  width: 90%;
+}
+.make_room_info textarea{
+  position: relative;
+  width: 90%;
+  height: 24pt;
+  left: 0%;
+  font-size: 16pt;
+}
+.newroom:focus {
+  outline: none;
+}
+.make_room_out .label{
+  margin-right: 15%;
+  font-size: 1.1em;
+}
+.make_room_out input {
+  margin-left: 10%;
+}
+.make_room_out span {
+  font-size:16pt;
+}
+.make_room_btn button{
+  position: absolute;
+  right: 5%;
+}
+
+/*<style="font-size:16pt;font-family:'EliceDigitalBaeum_Regular'">*/
 /* =================== ranking을 위한 곳 =================== */ 
 
 .ranking-block{
@@ -826,10 +954,10 @@ right: 5px;
   border: none;
   margin: 1%;
 }
-.promise-like{ position:absolute; left: 137px; font-size: 0.8em; padding: 2.5%;}
-.promise-like-cancel{position:absolute; left: 137px; font-size: 0.8em; padding: 2.5%;}
-.promise-like-num{ position:absolute; left: 155px; font-size: 0.7em; padding: 2%;}
-.promise-delete{ position:absolute; left: 175px;font-size: 0.7em; padding: 2%;}
+.promise-like{ position:absolute; left: 145px; font-size: 0.8em; padding: 2.5%;}
+.promise-like-cancel{position:absolute; left: 145px; font-size: 0.8em; padding: 2.5%;}
+.promise-like-num{ position:absolute; left: 165px; font-size: 0.7em; padding: 2%;}
+.promise-delete{ position:absolute; left: 178px;font-size: 0.8em; padding: 2%;}
 
 .error-message { color: red; font-weight: bold; }
 

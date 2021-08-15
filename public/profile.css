@@ -1,175 +1,199 @@
 /***************profile.html꾸미기**********/
+.container2 { 
+  position: absolute;
+  margin:0;
+  left:6%;
+  width: 94%;
+  height: 1350px;
+  background:rgb(250, 250, 250);
+}
 .upper-profile{
-    width: 90%;
-    height: 30%;
-    display: flex;
-    margin:5%;
-    font-size:1.5em;
-    text-align: left;
+  width: 80%;
+  height: 20%;
+  display: flex;
+  margin:3%;
+  margin-left:50px;
+  font-size:1.2em;
+  text-align: left;
+}
+.lower-profile{
+  width: 90%;
+  display: flex;
+  margin:3%;
+  font-size:1.2em;
+}
+/*수정 form부분*/
+#profile-form{
+  flex-grow:0.9;
+  margin-top:7%;
+}
+#update-profile>div{
+  margin:0;
+  padding:0;
+  display: flex-box;
+}
+#email{
+  margin-bottom:2%;
+}
+.profile-level{
+  flex-grow:1;
+  display: inline;
+}
+.profile-level>input{
+  margin-top:3%;
+  margin-bottom: 3%;
+  margin-left: 4.5%;
+  margin-right:18px;
+  border: 0px;
+  width: 0.9em;
+  height:0.9em;
+}
+#edit-nick {
+  border:2px solid rgb(175, 175, 175);
+  border-radius: 7px;
+  width: 150px;
+  text-align: center;
+}
+#edit-nick:focus {
+  text-align: center;
+  animation-name: border-focus;
+  animation-duration: 2s;
+  animation-fill-mode: both;
+}
+@keyframes border-focus {
+  from {
+    border-radius: 0;
   }
-  .lower-profile{
-    width: 90%;
-    display: flex;
-    margin:5%;
-    font-size:1.5em;
+  to {
+    border-radius: 12px;
   }
-  /*수정 form부분*/
-  #profile-form{
-    flex-grow:1;
-    margin-top:5%;
+}
+#edit>button{
+  margin-top: 30px;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  background-color:white;
+  border: none;
+  box-shadow: 2px 2px 1px #b1b1b195;
+  font-size: 1.1em;
+  text-decoration: none;
+  user-select: none;
+  letter-spacing: 1px;
+  color: #aacdee;
+  padding: 7px 20px 7px 20px;
+  border-radius: 3px;
+}
+#edit>button:hover{
+  background-color:#aacdee;
+  color:white;
+}
+#edit>button:active {
+    transform: scale(1,0.95);
   }
-  #email{
-    margin-bottom:2%;
-  }
-  .profile-level{
-    flex-grow:1;
-    display: inline;
-  }
-  .profile-level>input{
-    margin-top:3%;
-    margin-bottom: 3%;
-    margin-left: 6.5%;
-    margin-right:18px;
-    border: 0px;
-    width: 0.9em;
-    height:0.9em;
-  }
-  input {
-    border-radius: 10px;
-    width: 150px;
-    margin: 3%;
-  }
-  input:focus {
-    animation-name: border-focus;
-    animation-duration: 2s;
-    animation-fill-mode: both;
-  }
-  @keyframes border-focus {
-    from {
-      border-radius: 0;
-    }
-    to {
-      border-radius: 12px;
-    }
-  }
-  #edit:focus:not(:focus-visible){
-    position: relative;
-    margin-top:10%;
-    margin-left: 10%;
-  }
-  /*프로필 이미지 부분*/
-  #profile-img{
-    position: relative;
-    flex-grow: 0.2;
-  }
-  #profile-tag{
-    padding-left:10%;
-  }
-  #profile-img>img{
-    object-fit: scale-down;/*옆에 꽉 차게 하고 싶음 지워라*/
-    position: relative;
-    width: 100%;
-    height: 100%;
-  }
-  /*level bar부분*/
-  .level-container{
-    width: 50%;
-    flex-grow: 3;
-  }
-  .level-container>p{
-    font-weight: bolder;
-    text-align: left;
-    padding-left: 5%;
-  }
-  .w3-light-grey{
-    display: inline-box;
-    height: 30px;
-    width: 100%;
-  }
-  #next-level{
-    border: 3px solid #c2c2c2;;
-    border-radius: 8px;
-    box-shadow: 5px 5px 2px #c2c2c2;
-    margin-top: 3%;
-    margin-left: 5%;
-    margin-right: 5%;
-    padding:5%;
-    text-align: center;
-    position: relative;
-  }
-  .w3-indigo{
-    height:30px;
-    background-color: #afb6c3;
-  }
-  #noonsong{
-    z-index: 1;
-    position: absolute;
-    width: 14%;
-    height: 17%;
-    top:14px;
-  }
-  #percent{
-    display: flex;
-  }
-  #left-percent{
-    text-align: left;
-    flex-grow: 1;
-  }
-  #right-percent{
-    text-align: right;
-    flex-grow: 1;
-  }
-  
-  #level-text{
-    margin: 10%;
-  }
-  /*나의 다짐 부분*/
-  #my-posts{
-    width: 30%;
-    flex-grow: 2;
-  }
-  #my-posts>p{
-    font-weight: bolder;
-    text-align: left;
-    padding-left: 5px;
-  }
-  .my-post{
-    width: 100%;
-    overflow: auto;
-    height: 400px;
-  }
-  
-.scrollbar-winter-neva::-webkit-scrollbar-track {
-    background-color: #F5F5F5;
-    border-radius: 10px; }
+/*프로필 이미지 부분*/
+#profile-img{
+  position: relative;
+}
+#profile-tag{
+  padding-left:10%;
+}
+#profile-img>img{
+  object-fit: scale-down;/*옆에 꽉 차게 하고 싶음 지워라*/
+  position: relative;
+  margin-left: 50px;
+  margin-right: 20px;
+  width: 60%;
+  height:60%;
+  filter: drop-shadow(5px 5px 5px rgb(185, 185, 185));
+}
+/*level bar부분*/
+.level-container{
+  width: 50%;
+  flex-grow: 3;
+}
+.level-container>p{
+  font-weight: bolder;
+  text-align: left;
+  padding-left: 5%;
+}
+.w3-light-grey{
+  display: inline-box;
+  height: 30px;
+  width: 100%;
+}
+#next-level{
+  border: 3px solid #c2c2c2;;
+  border-radius: 8px;
+  box-shadow: 5px 5px 2px #c2c2c2;
+  margin-top: 3%;
+  margin-left: 5%;
+  margin-right: 5%;
+  padding:5%;
+  text-align: center;
+  position: relative;
+}
+.w3-indigo{
+  height:30px;
+  background-color: #afb6c3;
+}
+#noonsong{
+  z-index: 1;
+  position: absolute;
+  width: 14%;
+  height: 17%;
+  top:18px;
+  filter: drop-shadow(5px 5px 5px rgb(185, 185, 185));
+}
+#percent{
+  display: flex;
+}
+#left-percent{
+  text-align: left;
+  flex-grow: 1;
+}
+#right-percent{
+  text-align: right;
+  flex-grow: 1;
+}
 
-.scrollbar-winter-neva::-webkit-scrollbar {
-    width: 15px;
-    background-color: transparent; }
+#level-text{
+  margin: 10%;
+}
+/*나의 다짐 부분*/
+#my-posts{
+  width: 30%;
+  flex-grow: 2;
+}
+#my-posts>p{
+  font-weight: bolder;
+  text-align: left;
+  padding-left: 5px;
+}
+.my-post{
+  width: 100%;
+  overflow: auto;
+  height: 400px;
+}
 
-.scrollbar-winter-neva::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background-image: -webkit-linear-gradient(330deg, #afb6c3 0%, #afb6c3 100%);
-    background-image: linear-gradient(120deg, #afb6c3 0%, #afb6c3 100%); }
-
-  .postlike{
-    border: 3px solid #c2c2c2;
-    border-radius: 8px;
-    box-shadow: 5px 5px 2px #c2c2c2;
-    margin: 10px;
-  }
-  .post-cont{
-    text-align: center;
-    background-color:#F4FFFF;
-    border-radius: 8px;
-    word-break:break-all;
-    padding: 5%;
-    margin-top: 3%;
-    margin-left: 3%;
-    margin-right: 3%;
-  }
-  .post-like{
-    text-align: right;
-    font-size: 0.6em;
-    padding: 2%;
-  }
+.postlike{
+  border: 3px solid #c2c2c2;
+  border-radius: 8px;
+  box-shadow: 5px 5px 2px #c2c2c2;
+  margin: 10px;
+}
+.post-cont{
+  text-align: center;
+  background-color:#d3e2f0;
+  border-radius: 8px;
+  word-break:break-all;
+  padding: 5%;
+  margin-top: 3%;
+  margin-left: 3%;
+  margin-right: 3%;
+  color:rgb(102, 102, 102);
+}
+.post-like{
+  text-align: right;
+  font-size: 0.6em;
+  padding: 2%;
+}

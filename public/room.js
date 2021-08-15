@@ -129,6 +129,7 @@ function handleVideoOffer(offer, sid, cname, vidinf) {
             vidCont.appendChild(videoOff);
 
             videoContainer.appendChild(vidCont);
+            videoResize(); 
         }
     };
 
@@ -368,6 +369,36 @@ socket.on('join', async (conc, cnames,videoinfo) => {
             .catch(handleGetUserMediaError);
     }
 })
+
+function videoResize(){
+    var vidNum=document.querySelectorAll('.video-frame').length;
+    var videos=document.querySelector('.video-cont'); /* video-box */
+    
+    let vheight='100%';
+    let vwidth='100%';
+    if (vidNum>1 && vidNum<9){
+        vheight='50%';
+        var temp=parseInt(vidNum/2)+1;
+        temp=String(parseInt(100/temp));
+        vwidth=temp+"%";
+    }
+    else if (vidNum<13){
+        vheight='33%';
+        if(videos==9){vwidth='33%';}
+        else{vwidth="25%";}
+    }
+    else{
+        vheight='25%';
+        if(vidNum<17){ vwidth='25%'; }
+        else{ vwidth='20%';}
+    }
+    videos.style.width=vwidth;
+    videos.style.height=vheight;
+    // for(i=0;i<vidNum;i++){
+    //     videos[i].style.width=vwidth;
+    //     videos[i].style.height=vheight;
+    // }
+}
 
 socket.on('enterRoom',(usernick,level_show,level)=>{
     //참가자 들어옴

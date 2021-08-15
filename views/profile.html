@@ -1,33 +1,46 @@
+{% extends 'layout.html' %}
+{% block login %}
+  <div class="login-block">
+    <div class="banner-login">
+            <a id="my-profile" href="/profile" class="btn"><img id="welcomeImg" src="/img/welcome_noonsong.png" style="width:38px;height:38px;z-index:2"></a>
+            <span>{{'안녕하세요, ' + user.nick + '송!'}}</span>
+            <a id="logout" href="/auth/logout" class="btn" style="text-decoration:none;"><button class="logout">Sign Out</button></a>
+    </div>  
+  </div>
+{%endblock%}
+{% block profile %}
+<div class="container2">
+<div class='upper-profile'>
+    <div id="profile-img">
+        <font style="font-weight: bold;"><p id="profile-tag">✨ 프로필</p></font>
+        {%if user.level>=10%}<img src="/img/level2_noonsong.png">
+        {%elif user.level>=30%}<img src="/img/level3_noonsong.png">
+        {%else%}<img src="/img/level1_noonsong.png">
+        {%endif%}
+    </div>
+    <div id="profile-form"> 
+        <form id="update-profile" action="/user/fix" method="post">   
+            <div><font style="font-weight: bold;"> name : </font><input type="text" id="edit-nick" name="nick" value="{{user.nick}}" maxlength='15' style="width:200px;height:30px;font-size:1em"></div>
+            <div class="profile-level"><font style="font-weight: bold;"> level : </font>{{user.level}}</div>
+            <div class="profile-level">
+                {% if user.level_show == 0 %} 
+                <input type="radio" name="chk" value=0 checked="checked">공개 
+                <input type="radio" name="chk" value=1>비공개
+                {% else %}
+                <input type="radio" name="chk" value=0 >공개
+                <input type="radio" name="chk" value=1 checked="checked" >비공개
+                {% endif %}
+            </div>
+            <div id="email"><font style="font-weight: bold;">email : </font>{{user.email}}</div>
+            <div id="edit"><button class="btn btn-outline-primary" value="수정" type="submit">수정</button></div>
+        </form>        
+    </div>
+</div> <!--upper-profile끝-->
 
- <link rel="stylesheet" href="/public/profile.css">
- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
- <div class='upper-profile'>
-        <div id="profile-img">
-            <font style="font-weight: bold;"><p id="profile-tag">✨ 프로필</p></font>
-            <img src="/img/noonsongFace.PNG">
-        </div>
-        <div id="profile-form"> 
-            <form id="update-profile" action="/user/fix" method="post">   
-                <div><font style="font-weight: bold;"> name : </font><input type="text" id="edit-nick" name="nick" value="{{user.nick}}" maxlength='15' style="width:300px;height:40px;font-size:1em"></div>
-                <div class="profile-level"><font style="font-weight: bold;"> level : </font>{{user.level}}</div>
-                <div class="profile-level">
-                    {% if user.level_show == 0 %} 
-                    <input type="radio" name="chk" value=0 checked="checked">공개 
-                    <input type="radio" name="chk" value=1>비공개
-                    {% else %}
-                    <input type="radio" name="chk" value=0 >공개
-                    <input type="radio" name="chk" value=1 checked="checked" >비공개
-                    {% endif %}
-                </div>
-                <div id="email"><font style="font-weight: bold;">email : </font>{{user.email}}</div>
-                <div id="edit"><button class="btn btn-outline-primary" value="수정" type="submit">수정</button></div>
-            </form>        
-        </div>
-</div>
 <div style="padding-left:5%;padding-right:5%;margin-top:10%">
 <hr style="color:#c2c2c2;border: solid 3px #c2c2c2;border-radius:5px;">
 </div>
+
 <div class="lower-profile">
     <div class="level-container">
         <p>🔥 레벨 업</p>
@@ -38,8 +51,8 @@
                 {% set total_time = total_time*10/6 %}
                 {% set M=total_time//100%}
                 {%set percent=M/60*100%}
-            <div class="w3-light-grey w3-round-xlarge"><img id="noonsong" src="/img/bar_noonsong.png" style="left:{{percent-5}}%;">
-            <div class="w3-container w3-padding-large w3-light-grey w3-indigo w3-round-xlarge" style="width:{{percent}}%"></div></div>
+            <div class="w3-light-grey w3-round-xlarge"><img id="noonsong" src="/img/bar1_noonsong.png" style="left:{{percent-5}}%;">
+            <div class="w3-container w3-padding-large  w3-indigo w3-round-xlarge" style="width:{{percent}}%"></div></div>
             <div id="percent"><div id="left-percent">0%</div><div id="right-percent">100%</div></div>
             <div id="level-text">
                 <div><font style="font-weight: bold;">총 공부 시간: </font>
@@ -55,10 +68,10 @@
                 필요합니다.</div>
             </div>
         </div>
-    </div>
+    </div> <!--level-container끝-->
     <div id="my-posts">
         <p>📝 나의 다짐</p>
-            <div class="my-post scrollbar scrollbar-winter-neva">
+            <div class="my-post">
             {% for promise in promises %}
                 {%set likerNum=0%}
                 {%for like in promise.Liker%}
@@ -71,4 +84,20 @@
             {% endfor %}  
             </div>  
     </div>
-</div>
+</div></div>
+{%endblock%}
+{%block script%}
+<script>
+    let logoA=document.getElementById('logoA');
+    logoA.setAttribute('href','/');
+    let homeA=document.getElementById('homeA');
+    homeA.setAttribute('href','/');
+    let ranking=document.getElementById('rankingA');
+    rankingA.setAttribute('href','http://localhost:8001/#ranking');
+    let promiseA=document.getElementById('promiseA');
+    promiseA.setAttribute('href','http://localhost:8001/#promise');
+    let profileA=document.getElementById('profileA');
+    profileA.setAttribute('href','#');
+    
+</script>
+{%endblock%}

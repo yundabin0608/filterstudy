@@ -7,11 +7,8 @@
               <div class="modal-content">    
                 <span class="modal-close" onclick="popupClose();">&times;</span>                                                         
                 <p><i class="fas fa-info-circle fa-lg" style="color:#1B3C77;"></i>&nbsp;닉네임은 내 프로필에서 바꿀 수 있습니다.</p>
-                <!-- <div id="modal-btn"> -->
                   <input type="radio" value=0 onchange="popupRadioChange();"> <font style="font-family:'Pretendard-Regular';">다시 보지 않기</font>
                   <a href="/profile" style="text-decoration:none;font-family:'Pretendard-Regular';">내 프로필</a>
-                  
-                <!-- </div> -->
               </div>
             </div>
           {% endif %}
@@ -22,9 +19,7 @@
           </div>  
           <input id="my-id" type="hidden" value="{{user.id}}">
           <div display="hidden" class="usernick" data-usernick={{user.nick}}></div>
-
-        {% else %}
-         
+        {% else %}   
          <form id="login-form" action="/auth/login" method="post">
               <form id="login-google" action="/auth/mail" method="post">
                 <input type="hidden" name="scope" value="https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo#email https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/tasks https://www-opensocial.googleusercontent.com/api/people https://www.googleapis.com/auth/plus.login" />
@@ -89,9 +84,10 @@
         <button class="createroom-butt" onclick="location.href='/room'"><img src="/img/add.png" style="width:35px; height:35px;"/></button>
       </div>
     {%endif%}
-      <span class="slide-butt slide-left"><img src="/img/back.png" width="50px" height="50px"></span>
-      <span class="slide-butt slide-right"><img src="/img/next.png" width="50px" height="50px"></span>
+    <span class="slide-butt slide-left"><img src="/img/back.png" width="50px" height="50px"></span>
+    <span class="slide-butt slide-right"><img src="/img/next.png" width="50px" height="50px"></span>
   </div>
+
   <script>
     var slides=document.querySelector('.room-slides');
     var slide=document.querySelectorAll('.room-box');
@@ -230,7 +226,7 @@
                   {% endif %}
                   <div class="promise-like-num">{{likerNum}}</div>
                   {%if user and posting.User.id==user.id%}
-                  <button class="p-butt promise-delete" value="{{posting.id}}">🗑</button>
+                  <button class="p-butt promise-delete" value="{{posting.id}}"><i class="fas fa-trash-alt"></i></button>
                   {%endif%}
                 </div>
               </div>

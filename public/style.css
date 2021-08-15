@@ -63,9 +63,9 @@ body{
   text-shadow:1px 1px 1px gray;
 }
 .video-cont {
-  display: grid;
+  display: grid; 
   grid-template-columns: repeat(auto-fit, minmax(16%, auto));
-  grid-auto-rows: repeat(auto-fit, minmax(20%, auto));
+  grid-auto-rows: repeat(auto-fit, minmax(20%, auto)); 
   grid-gap: 20px;
   height: 100%;
 }

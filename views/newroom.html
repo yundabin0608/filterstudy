@@ -1,47 +1,58 @@
 {% extends 'layout.html' %}
 {% set path = null %}
 {% block content %}
-  <fieldset>
-    <legend>방 생성</legend>
-    <form method="post" enctype="multipart/form-data">
-      <div>
-        <span class="label">방 제목</span><input class="newroom" type="text" name="title" placeholder="방 제목" required>
+  <div class="make_room">
+    <h3>방 생성하기</h3>
+    <form method="post" class="make_room_content" enctype="multipart/form-data">
+      <div class="make_room_title">
+        <span class="label">방 제목</span>
+        <br>
+        <input class="newroom" type="text" name="title" placeholder="방 제목" required>
       </div>
-      <div>
-        <span class="label">방 소개</span><textarea type="text" class="newroom" name="description" placeholder="방 소개를 적으세요"></textarea>
-      </div>
-      <div>
-        <span class="label">최대 인원</span><input type="number" class="newroom" name="max" placeholder="수용 인원" min="0" value="20">
-      </div>
-      <div>
-        <span class="label">입장 암호</span><input type="password" class="newroom" name="password" placeholder="방 암호">
-      </div>
-      <div id="room-thumbnail">
-        <label class="label">썸네일</label>
-        <label for="thumbnail" class="label">선택</label>
+      <div class="make_room_thumbnail" id="newroom-thumbnail">
+        <div class="make-room-thumbnail-img" src="./img/zoom.jpg"></div>
+        <div class="label">썸네일
+          <label for="thumbnail" class="label">선택</label>
           <input type="hidden" onchange="javascript: form.action='/room';">
-        <p>
-          <input type="hidden" id="chooseImg" onchange="chooseImage();">
-          <input 
-            type="file" 
-            id="thumbnail" 
-            name="img" 
-            accept="image/*" 
-            style="visibility: hidden;"
-            onchange="javascript: form.action='/room/loadImage';"
-          >
-        </p>
-        
+          <p>
+            <input type="hidden" id="chooseImg" onchange="chooseImage();">
+            <input 
+              type="file" 
+              id="thumbnail" 
+              name="img" 
+              accept="image/*" 
+              style="visibility: hidden;"
+              onchange="javascript: form.action='/room/loadImage';">
+          </p>
+        </div>
       </div>
-      <div><span class="label">모두 퇴장 시</span>
-        <input type="radio" name="room_option" value=0 checked="checked">방 삭제
-        <input type="radio" name="room_option" value=1>방 유지
+      <div class="make_room_max">
+        <span class="label">최대 인원</span>
+        <br>
+        <input type="number" class="newroom" name="max" placeholder="수용 인원" min="0" value="20">
       </div>
-      <div>
+      <div class="make_room_pw">
+        <span class="label">입장 암호</span>
+        <br>
+        <input type="password" class="newroom" name="password" placeholder="방 암호">
+      </div>
+      <div class="make_room_out">
+        <span class="label">모두 퇴장 시</span>
+        <input type="radio" name="room_option" value=0 checked="checked">
+          <span>&nbsp;&nbsp;&nbsp;방 &nbsp;&nbsp;삭&nbsp;제</span>
+        <input type="radio" name="room_option" value=1> <span>&nbsp;&nbsp;&nbsp;방&nbsp;&nbsp; 유&nbsp;지</span>
+      </div>
+      <div class="make_room_info">
+        <div class="label">방 소개</divs>
+        <textarea type="text" class="newroom" name="description" placeholder="방 소개를 적으세요"></textarea>
+      </div>
+      
+      <div class="make_room_btn">
         <button type="submit">생성</button>
+
       </div>
     </form>
-  </fieldset>
+  </div>
   <script>
     function chooseImage(){
       let e = document.getElementById("thumbnail");

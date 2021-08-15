@@ -159,15 +159,16 @@
         </div>
       </div>
           {% if user %}  
-            <button id="write" onclick="writePromise();">다짐📌</button>
-            <div id="write-modal" class="modal-overlay" style="display:block;visibility:hidden;">
+            <button id="write" onclick="writePromise();">다짐📌</button>         
+            <div id="write-modal" style="display:block;visibility:hidden;">
+              <div class="modal-overlay"></div>
                 <div class="modal_bar">
                     <div class="modal_buttons" onclick="writeClose();">
                         <div class="button red"></div><div class="button yellow"></div><div class="button green"></div>
                     </div>
                 </div>
                 <div class="contents">
-                  <form id="promise-form" action="/post" method="post" enctype="multipart/form-data">
+                  <form id="promise-form" action="/post" method="post" onsubmit="return submitCheck(this);">
                     <input type="text" id="promise-input" name="content" placeholder="다짐을 입력하세요" minlength="1" maxlength="50">
                     <button id="promise-btn" type="submit">다짐🔥</button>
                 </form>
@@ -268,13 +269,24 @@
 
   window.addEventListener("load", boxColor());
 
-
-  let pmodal = document.getElementById('write-modal');
-  /*
-  window.addEventListener('click', (e) => {
-  e.target === modal ? modal.classList.remove('show-modal') : false
+  let pmodal = document.querySelector('.modal-overlay');
+  pmodal.addEventListener('click', (e) => {
+    let eTarget=e.target
+    if(eTarget.classList.contains("modal-overlay")) {
+        write_modal.style.visibility='hidden';
+    }
   })
-  */
+
+  function submitCheck(i) {
+    var cont = document.getElementById("promise-input");
+    if(cont.value.length < 1) {
+        cont.value =  cont.value.substr(0, 20);
+        cont.placeholder="다짐을 한 글자 이상 입력하세요"
+        cont.style.background="#e9f2ffc2"
+        return false;
+    }
+  }  
+
 
 </script>
     
@@ -343,52 +355,7 @@
           }
         });
       });
-      $('.button--bubble').each(function() {
-        var $circlesTopLeft = $(this).parent().find('.circle.top-left');
-        var $circlesBottomRight = $(this).parent().find('.circle.bottom-right');
-      
-        var tl = new TimelineLite();
-        var tl2 = new TimelineLite();
-      
-        var btTl = new TimelineLite({ paused: true });
-      
-        tl.to($circlesTopLeft, 1.2, { x: -25, y: -25, scaleY: 2, ease: SlowMo.ease.config(0.1, 0.7, false) });
-        tl.to($circlesTopLeft.eq(0), 0.1, { scale: 0.2, x: '+=6', y: '-=2' });
-        tl.to($circlesTopLeft.eq(1), 0.1, { scaleX: 1, scaleY: 0.8, x: '-=10', y: '-=7' }, '-=0.1');
-        tl.to($circlesTopLeft.eq(2), 0.1, { scale: 0.2, x: '-=15', y: '+=6' }, '-=0.1');
-        tl.to($circlesTopLeft.eq(0), 1, { scale: 0, x: '-=5', y: '-=15', opacity: 0 });
-        tl.to($circlesTopLeft.eq(1), 1, { scaleX: 0.4, scaleY: 0.4, x: '-=10', y: '-=10', opacity: 0 }, '-=1');
-        tl.to($circlesTopLeft.eq(2), 1, { scale: 0, x: '-=15', y: '+=5', opacity: 0 }, '-=1');
-      
-        var tlBt1 = new TimelineLite();
-        var tlBt2 = new TimelineLite();
-        
-        tlBt1.set($circlesTopLeft, { x: 0, y: 0, rotation: -45 });
-        tlBt1.add(tl);
-      
-        tl2.set($circlesBottomRight, { x: 0, y: 0 });
-        tl2.to($circlesBottomRight, 1.1, { x: 30, y: 30, ease: SlowMo.ease.config(0.1, 0.7, false) });
-        tl2.to($circlesBottomRight.eq(0), 0.1, { scale: 0.2, x: '-=6', y: '+=3' });
-        tl2.to($circlesBottomRight.eq(1), 0.1, { scale: 0.8, x: '+=7', y: '+=3' }, '-=0.1');
-        tl2.to($circlesBottomRight.eq(2), 0.1, { scale: 0.2, x: '+=15', y: '-=6' }, '-=0.2');
-        tl2.to($circlesBottomRight.eq(0), 1, { scale: 0, x: '+=5', y: '+=15', opacity: 0 });
-        tl2.to($circlesBottomRight.eq(1), 1, { scale: 0.4, x: '+=7', y: '+=7', opacity: 0 }, '-=1');
-        tl2.to($circlesBottomRight.eq(2), 1, { scale: 0, x: '+=15', y: '-=5', opacity: 0 }, '-=1');
-        
-        tlBt2.set($circlesBottomRight, { x: 0, y: 0, rotation: 45 });
-        tlBt2.add(tl2);
-      
-        btTl.add(tlBt1);
-        btTl.to($(this).parent().find('.button.effect-button'), 0.8, { scaleY: 1.1 }, 0.1);
-        btTl.add(tlBt2, 0.2);
-        btTl.to($(this).parent().find('.button.effect-button'), 1.8, { scale: 1, ease: Elastic.easeOut.config(1.2, 0.4) }, 1.2);
-      
-        btTl.timeScale(2.6);
-      
-        $(this).on('mouseover', function() {
-          btTl.restart();
-        });
-      });
+     
     </script>
   {% endblock %}
 

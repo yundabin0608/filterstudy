@@ -6,15 +6,15 @@
             <div id="nick-modal" class="modal" style="display:block;">
               <div class="modal-content">    
                 <span class="modal-close" onclick="popupClose();">&times;</span>                                                         
-                <p><i class="fas fa-info-circle fa-lg" style="color:#1B3C77;"></i>&nbsp;닉네임은 내 프로필에서 바꿀 수 있습니다.</p>
-                  <input type="radio" value=0 onchange="popupRadioChange();"> <font style="font-family:'Pretendard-Regular';">다시 보지 않기</font>
-                  <a href="/profile" style="text-decoration:none;font-family:'Pretendard-Regular';">내 프로필</a>
+                <p><i class="fas fa-info-circle fa-lg" style="color:#1B3C77;"></i>&nbsp;&nbsp;&nbsp;닉네임은 내 프로필에서 바꿀 수 있습니다.</p>
+                  <input type="radio" value=0 onchange="popupRadioChange();"> <u font style="font-family:'EliceDigitalBaeum_Regular';">다시 보지 않기</u>
+                  <a href="/profile" style="text-decoration:none;font-family:'EliceDigitalBaeum_Regular';">내 프로필</a>
               </div>
             </div>
           {% endif %}
           <div class="banner-login">
             <a id="my-profile" href="/profile" class="btn"><img id="welcomeImg" src="/img/welcome_noonsong.png" style="width:38px;height:38px;z-index:2"></a>
-            <span>{{'안녕하세요, ' + user.nick + '송!'}}</span>
+            <span>&nbsp;&nbsp;{{'안녕하세요, ' + user.nick + '송!'}}</span>
             <a id="logout" href="/auth/logout" class="btn" style="text-decoration:none;"><button class="logout">Sign Out</button></a>
           </div>  
           <input id="my-id" type="hidden" value="{{user.id}}">

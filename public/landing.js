@@ -60,10 +60,8 @@ socket.on('newRoom', function (data) { // 새 방 이벤트 시 새 방 생성
   divContainer.appendChild(button);
   div.appendChild(divContainer);
 
-  
-  var length=parseInt(slides.style.width);
-  slides.style.width=(length+300)+"px";
   slideCount+=1;
+  slides.style.width = (slidewidth+slideMargin) * (slideCount) - slideMargin + 'px';
 
   slides.appendChild(div);
   // var roomC=document.querySelectorAll('.room-box');
@@ -88,9 +86,8 @@ socket.on('removeRoom', function (data) { // 방 제거 이벤트 시 id가 일�
     div.parentNode.removeChild(div);
     // 룸슬라이드 크기줄이고 카운트도 하나 줄이기
    
-    var lnth=parseInt(slides.style.width);
-    slides.style.width=(lnth-300)+"px";
     slideCount-=1;
+    slides.style.width = (slidewidth+slideMargin) * (slideCount) - slideMargin + 'px';
     }
 });
 });

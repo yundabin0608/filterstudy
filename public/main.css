@@ -215,7 +215,12 @@ html {height: 100%;}
   color:#1B3C77;
   margin-bottom: 3px;
 }
-.logout:hover{cursor:pointer;color:white; background-color: #1b3c77;box-shadow: 2px 2px 1px #c2c2c2, 0 -80px 0 0 rgba(0,0,0,0.025) inset;}
+.logout:hover{
+  cursor:pointer;
+  color:white; 
+  background-color: rgb(83, 105, 177);
+  box-shadow: 2px 2px 1px #c2c2c2, 0 -80px 0 0 rgba(0,0,0,0.025) inset;
+}
 /* nick-modal 안의 내용 */
 #nick-modal{
   position: absolute;
@@ -261,6 +266,12 @@ html {height: 100%;}
   cursor:pointer;
   color:white; 
   background-color: #4e2286;
+}
+.modal-content>p{
+  margin-right: 60px;
+}
+.modal-content>u{
+  text-decoration: none;
 }
 
 .modal-close:hover,

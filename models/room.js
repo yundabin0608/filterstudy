@@ -4,7 +4,7 @@ module.exports = class Room extends Sequelize.Model {
   static init(sequelize) {
     return super.init({
       title: {
-        type: Sequelize.STRING(20),
+        type: Sequelize.STRING(15),
         allowNull: false,
         unique: true,
       },
@@ -26,7 +26,7 @@ module.exports = class Room extends Sequelize.Model {
       img: {
         type: Sequelize.STRING(100),
         allowNull: false,
-        defaultValue: "photo.png",
+        defaultValue: 'zoom.jpg',
       },
       max: { 
         type: Sequelize.INTEGER,

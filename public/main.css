@@ -215,7 +215,12 @@ html {height: 100%;}
   color:#1B3C77;
   margin-bottom: 3px;
 }
-.logout:hover{cursor:pointer;color:white; background-color: #1b3c77;box-shadow: 2px 2px 1px #c2c2c2, 0 -80px 0 0 rgba(0,0,0,0.025) inset;}
+.logout:hover{
+  cursor:pointer;
+  color:white; 
+  background-color: rgb(83, 105, 177);
+  box-shadow: 2px 2px 1px #c2c2c2, 0 -80px 0 0 rgba(0,0,0,0.025) inset;
+}
 /* nick-modal 안의 내용 */
 #nick-modal{
   position: absolute;
@@ -262,6 +267,12 @@ html {height: 100%;}
   color:white; 
   background-color: #4e2286;
 }
+.modal-content>p{
+  margin-right: 60px;
+}
+.modal-content>u{
+  text-decoration: none;
+}
 
 .modal-close:hover,
 .modal-close:focus {
@@ -287,53 +298,30 @@ button{cursor:pointer;}
   background:rgb(250, 250, 250);
 }
 input{
-  /* border-bottom:1px solid  tomato; */
   margin: 1% 1% 2% 1%;
   text-align: center;
-
-  /* -webkit-animation: increase 3s;
-  -moz-animation:    increase 3s; 
-  -o-animation:      increase 3s; 
-  animation:         increase 3s; 
-  animation-fill-mode: forwards; */
 }
 input::placeholder{
   color:rgb(187, 187, 187);
   text-align: center;
 }
-/* @keyframes increase {
-    100% {
-        width: 300px;
-    }
-} */
-/* input:focus{
-  animation-name: border-focus;
-  animation-duration: 2s;
-  animation-fill-mode: both;
-}  */
-/* @keyframes border-focus {
-  from {
-    border-style: black;
-  }
-  to {
-    border-style: #1B3C77;
-  }
-} */
-.go-content{
-  position:fixed;
-  bottom: 5%;
-  right: 2%;
-  padding: 10px 15px 10px 15px;
-  font-size: 0.8em;
-  font-weight: 800;
-  text-decoration: none;
-  background: #003087;
-  color: white;
-  border-radius: 10px;
-  text-shadow: 0px -2px rgba(0, 0, 0, 0.44);
-  text-align: center;
+input[type="text"]:hover{
+  background-color: rgb(209, 225, 255);
+  color:white; 
 }
-
+input[type="text"]:hover::placeholder{
+  color:white;
+}
+input[type="text"]:focus{
+  background-color: rgb(209, 225, 255);
+  color:white; 
+  border-style: hidden hidden solid hidden;
+  border: 2px #767e87;
+  border-style: hidden hidden solid hidden;
+}
+input[type="text"]:focus::placeholder{
+  color:white;
+}
 /* =================== rooms block을 위한곳 =================== */
 .rooms-block{
   position: absolute;
@@ -384,10 +372,15 @@ input::placeholder{
   font-size: 1em;
 }
 .roomTitle{
+  display: inline-block;
   position: absolute;
   top: 20px;
   left: 40px;
-  font-size: 1.2em;
+  width:160px;
+  font-size: 1.1em;
+  overflow:hidden; 
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }
 .roomDescription{
   position: absolute;
@@ -398,6 +391,7 @@ input::placeholder{
   width: 200px;
   margin: auto;
   color: rgb(108, 108, 108);
+  word-break:break-all;
 }
 .roomParticipant{
   position: absolute;
@@ -591,11 +585,12 @@ input::placeholder{
   grid-column: 1/4;
 	grid-row:5/6;
 }
-.make-room-thumbnail-img{
-  width: 240px;
-  height: 180px;
-  object-fit:scale-down ;
+.thumb-button{
+  width:10%;
+  height:15%;
+  margin-left:40%
 }
+
 .newroom {
   border:1px solid #4e7cd1;
   border-style: hidden hidden solid hidden;
@@ -614,6 +609,7 @@ input::placeholder{
   width: 95%;
   font-weight: bold;
 }
+
 .make_room_max .newroom {
   position:relative; 
   left: 0%; 
@@ -638,6 +634,30 @@ input::placeholder{
 .make_room_out .label{
   margin-right: 15%;
   font-size: 1.1em;
+}
+.make-room-thumbnail-container{
+  position:relative;
+  width: 100%;
+  height: 100%;
+  top:0px;
+  left: 0px;
+}
+.make-room-thumbnail-img{
+  position: absolute;
+  width: 80%;
+  left:10%;
+  top: 5%;
+  height: 70%;
+  object-fit:scale-down;
+}
+.label-thumbButt{
+  position: absolute;
+  left:30%;
+  width:40%;
+  bottom: 5%;
+  font-size: 1.1em;
+  top: 80%;
+  padding: 10px 5px 10px 5px;
 }
 .label label{
   margin-top: 2px;
@@ -881,16 +901,16 @@ right: 5px;
   top: 0px;
   border-radius: 50%;
 }
-.green {
+.promise-green {
   left: 40px;
   background: rgb(46, 120, 199);
 }
 
-.yellow {
+.promise-yellow {
   left: 20px;
   background: rgb(145, 185, 242); 
 }
-.red {
+.promise-red {
   left: 0px;
   background: rgb(189, 221, 254);
 }
@@ -913,6 +933,7 @@ right: 5px;
   border-radius: 10px;
   font-weight: 600;
   margin: 10px 5px;
+  padding: 5px 1px;
 }
 #promise-btn:hover{
   transition-property: box-shadow;
@@ -1021,7 +1042,7 @@ textarea{border-radius: 10px;text-align: center;}
   font-family:'EliceDigitalBaeum_Bold';
   right: 50px;
   box-shadow: 2px 2px 1px #b1b1b195;
-  font-size: 1.1em;
+  font-size: 1em;
   font-weight: 800;
   text-decoration: none;
   user-select: none;
@@ -1037,7 +1058,21 @@ textarea{border-radius: 10px;text-align: center;}
 #write:active {
     transform: scale(0.95);
   }
-
+/*@keyframes increase {
+  0% {
+    border:5px solid #9dbfff;
+    left:0%;
+    width: 0%;
+    background-color: #9dbfff;
+  }
+  100% {
+    border:5px solid #9dbfff;
+    left: 0;
+    width: 90%;
+    background-color: #9dbfff;
+    ;
+  }
+} */
 @keyframes hue-rotate {
       from {
         -webkit-filter: hue-rotate(0);

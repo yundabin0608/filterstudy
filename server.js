@@ -105,7 +105,7 @@ io.on('connect', (socket) => {
         if (rooms[roomid] && rooms[roomid].length > 0) { //존재하는 방
             rooms[roomid].push(socket.id);
             socket.to(roomid).emit('chat', `${usernick}님이 채팅방에 입장하셨습니다.`, 'System', moment().format( "h:mm a"));
-           io.to(socket.id).emit('join', rooms[roomid].filter(pid => pid != socket.id), socketnick, videoSocket);
+            io.to(socket.id).emit('join', rooms[roomid].filter(pid => pid != socket.id), socketnick, videoSocket);
         }
         else { //내가 새로 만든 방이다
             rooms[roomid] = [socket.id];
@@ -170,7 +170,7 @@ io.on('connect', (socket) => {
         socket.leave(roomid);
         let userCount=rooms[roomid] ? rooms[roomid].length:0;
         axios.post('http://localhost:8001/library/user/',{user:req.user.id,roomId:roomid,userCount,startTime});
-        socket.to(roomid).emit('exitRoom',req.user.nick);    
+        io.to(roomid).emit('exitRoom',req.user.nick);  
     });
 })
 

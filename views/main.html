@@ -22,8 +22,7 @@
         {% else %}   
          <form id="login-form" action="/auth/login" method="post">
               <form id="login-google" action="/auth/mail" method="post">
-                <input type="hidden" name="scope" value="https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo#email https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/tasks https://www-opensocial.googleusercontent.com/api/people https://www.googleapis.com/auth/plus.login" />
-               
+                <input type="hidden" name="scope" value="https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo#email https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/tasks https://www-opensocial.googleusercontent.com/api/people https://www.googleapis.com/auth/plus.login" />      
                <a id="google" style="text-decoration: none" href="/auth/google"><img id="google-img" src="https://image.flaticon.com/icons/png/128/281/281764.png"> Sign In</a>
               </form>
         {% endif %}
@@ -58,9 +57,7 @@
               </span>
               <span class="roomTitle">{{room.title}}</span>
               <div class="roomDescription">{%if room.description==''%}<br>{%else%}{{room.description}}{%endif%}</div> 
-              {% if room.img %}
-                <div id="room-thumbnail"><img src="/img/{{room.img}}" style="width:190px; height:140px;"></div>
-              {% endif %}
+              <div id="room-thumbnail"><img src="/img/{{room.img}}" style="width:190px; height:140px;"></div>
               <div class="roomParticipant">{{room.participants_num}}/{{room.max}}</div>
               {% if user %}
                   <button  data-password="{{'true' if room.password else 'false'}}"
@@ -69,11 +66,6 @@
             </div>
           </div>
         {%endfor%}
-        {%if user %}
-          <div class="room-box" id="make-room-slide">
-            <button class="plus-butt" onclick="location.href='/room'">&#43;</button>
-          </div>
-        {%endif%}
       </div>
     </div>
     {%if user %}
@@ -99,7 +91,7 @@
     let slidewidth=220; 
     let slideMargin=80;
 
-    slides.style.width = (slidewidth+slideMargin) * (slideCount+1) - slideMargin + 'px';
+    slides.style.width = (slidewidth+slideMargin) * (slideCount) - slideMargin + 'px';
 
     function moveSlide(num){
         slides.style.left= -num * 300 + 'px';

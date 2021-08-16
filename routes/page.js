@@ -197,11 +197,11 @@ router.get('/library/:id', async(req, res) => {
     const resultroom=await Room.findOne(
       {where:{uuid}}
     );
-
+  const title=resultroom.title;    
   const userCount=users.length;
   const max=resultroom.max;
   setTimeout(() => {
-    req.app.get('io').emit('mainCount',{uuid,userCount,max});  //메인 화면에서 참가자 수 바뀌게
+    req.app.get('io').emit('mainCount',{title,userCount,max});  //메인 화면에서 참가자 수 바뀌게
   },100);
   return res.render('library', { roomId: req.params.id,users,room:resultroom})
 });
@@ -254,17 +254,21 @@ router.post('/library/user',async(req,res,next)=>{
     resultroom.removeUser(leftuser);
     const roomId=resultroom.id;
     const max=resultroom.max;
+    const title=resultroom.title;
+    const io = req.app.get('io');
     if (userCount==0){
       if (resultroom.option==0){
         await Chat.destroy({ where:{RoomId:roomId} });
         await Room.destroy({ where: {id: roomId} });
         setTimeout(() => {
-          req.app.get('io').emit('removeRoom', uuid);
+          console.log('여기여기여깃');
+          io.emit('removeRoom', uuid);
         }, 100);
       }
     }
     setTimeout(() => {
-      req.app.get('io').emit('mainCount',{uuid,userCount,max});  //메인 화면에서 참가자 수 바뀌게
+      console.log("maincount드릉들으");
+      io.emit('mainCount',{title,userCount,max});  //메인 화면에서 참가자 수 바뀌게
     },100);
   }
   catch (error) {

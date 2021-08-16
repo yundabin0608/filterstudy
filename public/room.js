@@ -436,10 +436,7 @@ socket.on('exitRoom',(usernick)=>{
     if(leftuser){leftuser.remove();}
     let leftuser2=document.querySelector(`div[data-nick='${usernick}']`);//새로 추가한 애
     if(leftuser2){leftuser2.remove();}
-    console.log(leftuser);
-    console.log(leftuser2);
-    // io.emit('exitRoom',leftuser)
-    videoResize(); //////////////////////////////////
+    videoResize(); 
 });
 
 

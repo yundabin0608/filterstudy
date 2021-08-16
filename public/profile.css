@@ -8,7 +8,7 @@
   background:rgb(250, 250, 250);
 }
 .upper-profile{
-  width: 80%;
+  width: 90%;
   height: 20%;
   display: flex;
   margin-top:1%;
@@ -25,11 +25,14 @@
 }
 /*수정 form부분*/
 #profile-form{
-  flex-grow:2;
+  flex-grow:1;
   margin-top:7%;
+  font-size: 20px;
+  width: 60%;
 }
 #update-profile>div{
-  margin:0;
+  margin-left:10%;
+  margin-right:5%;
   padding:0;
   display: flex-box;
 }
@@ -71,16 +74,17 @@
 }
 #edit{
   position: relative;
+  margin-left: 70%;
   -webkit-font-smoothing: antialiased;
   background-color:white;
   border: none;
   box-shadow: 2px 2px 1px #b1b1b195;
-  font-size: 1.1em;
+  font-size: 1em;
   text-decoration: none;
   user-select: none;
   letter-spacing: 1px;
   color: #aacdee;
-  padding: 7px 20px 7px 20px;
+  padding: 6px 10px 6px 10px;
   border-radius: 3px;
 }
 #edit:hover{
@@ -93,6 +97,8 @@
 /*프로필 이미지 부분*/
 #profile-img{
   position: relative;
+  flex-grow: 1;
+  width: 20%;
 }
 #profile-tag{
   padding-left:10%;
@@ -100,16 +106,15 @@
 #profile-img>img{
   object-fit: scale-down;/*옆에 꽉 차게 하고 싶음 지워라*/
   position: relative;
-  margin-left: 50px;
   margin-right: 20px;
-  width: 60%;
-  height:60%;
+  width: 100%;
+  height:100%;
   filter: drop-shadow(5px 5px 5px rgb(185, 185, 185));
 }
 /*나의 다짐 부분*/
 #my-posts{
-  width: 30%;
-  flex-grow: 2;
+  margin-left: 5%;
+  width: 50%;
 }
 #my-posts>p{
   font-weight: bolder;
@@ -118,8 +123,8 @@
 }
 .my-post{
   width: 100%;
+  height: 470px;
   overflow: auto;
-  height: 350%;
 }
 #my-posts ::-webkit-scrollbar {
   width: 13px;
@@ -163,7 +168,7 @@
 
 /*level bar부분*/
 .level-container{
-  width: 40%;
+  width: 55%;
 }
 .level-container>p{
   font-weight: bolder;
@@ -194,8 +199,8 @@
   z-index: 1;
   position: absolute;
   width: 13%;
-  height: 17%;
-  top:18px;
+  height: 18%;
+  top:22px;
   filter: drop-shadow(5px 5px 5px rgb(185, 185, 185));
 }
 #percent{

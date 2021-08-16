@@ -361,10 +361,15 @@ input[type="text"]:focus::placeholder{
   font-size: 1em;
 }
 .roomTitle{
+  display: inline-block;
   position: absolute;
   top: 20px;
   left: 40px;
-  font-size: 1.2em;
+  width:160px;
+  font-size: 1.1em;
+  overflow:hidden; 
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }
 .roomDescription{
   position: absolute;
@@ -375,6 +380,7 @@ input[type="text"]:focus::placeholder{
   width: 200px;
   margin: auto;
   color: rgb(108, 108, 108);
+  word-break:break-all;
 }
 .roomParticipant{
   position: absolute;
@@ -916,6 +922,7 @@ right: 5px;
   border-radius: 10px;
   font-weight: 600;
   margin: 10px 5px;
+  padding: 5px 1px;
 }
 #promise-btn:hover{
   transition-property: box-shadow;
@@ -1024,7 +1031,7 @@ textarea{border-radius: 10px;text-align: center;}
   font-family:'EliceDigitalBaeum_Bold';
   right: 50px;
   box-shadow: 2px 2px 1px #b1b1b195;
-  font-size: 1.1em;
+  font-size: 1em;
   font-weight: 800;
   text-decoration: none;
   user-select: none;

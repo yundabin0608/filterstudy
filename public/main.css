@@ -224,54 +224,76 @@ html {height: 100%;}
 /* nick-modal 안의 내용 */
 #nick-modal{
   position: absolute;
+  width: 400px;
+  height: 100px;
   z-index: 2;
-  right:40%;
-  top: 5px;
-  height: 20px;
+  left:50%;
+  transform: translateX(-50%);
+  top: 15px;
+  text-align: center;
 }
 .modal-content {
   background-color: #fefefe;
   margin: 2% 2%;
-  width: 120%;
+  width: 100%;
+  height: 100%;
   padding: 10px;
   border: 1px solid lightgray;    
   box-shadow: 5px 5px 10px 0px #aeaec07e , 0px 3px 10px 0px #ffffff;
-}
+} 
 .modal-close {
+  position: absolute;
+  top: 8px;
+  right: 5px;
   color: #aaa;
   float: right;
   font-size: 28px;
   font-weight: bold;
-  margin-right: 8px;
+  /* margin-right: 8px; */
 }
-.modal-content>input{
-  margin-right:0.3px;
-  width: 0.9em;
-  height:0.9em;
-  font-size: 11pt;
-  margin-top: 5%;
-  margin-left: 3%;
+.modal-content input{
+  position: absolute;
+  width: 1em;
+  height:1em;
+  bottom: 12px;
+  left: 15%;
 }
 .modal-content>a{
+  position: absolute;
+  bottom: 5px;
+  right: 10%;
+  width: 16%;
+  height:30px;
+  padding-top: 4px;
   cursor: pointer;
   border: 1px solid lightgray;
   border-radius: 4px;
-  padding: 5px;
-  font-size: 11pt;
+  font-size: 0.8em;
   box-shadow: 2px 2px 1px #c2c2c2;
-  left: 40%;
-  margin-left: 45%;
+  text-decoration:none;
+  font-family:'EliceDigitalBaeum_Regular';
 }
 .modal-content>a:hover{
   cursor:pointer;
   color:white; 
   background-color: #4e2286;
 }
-.modal-content>p{
-  margin-right: 60px;
+.modal-content div{
+  position:absolute;
+  top: 30px;
+  left: 2%;
+  width: 90%;
 }
-.modal-content>u{
+.modal-content i {
+  padding-left: 0px;
+  margin-left: 0px;
+}
+.modal-content u{
+  position: absolute;
+  bottom: 11px;
   text-decoration: none;
+  left: 20%;
+  font-size: 0.9em;
 }
 
 .modal-close:hover,
@@ -483,12 +505,16 @@ input[type="text"]:focus::placeholder{
   border:none;
   font-size: 40px;
   background: whitesmoke;
-  box-shadow: -10px -10px 30px 0px #ffffff, 3px 3px 20px 0px #aeaec07e ;
+  box-shadow: -10px -10px 30px 0px #ffffff, 3px 3px 20px 0px #a8a8a87e ;
   text-shadow: 2px -2px rgba(0,0,0,0.5);
  }
  .createroom-butt:hover{
-   box-shadow: -10px -10px 10px 0px #ffffff70, 10px 10px 10px 0px #aeaec020 ;
+   box-shadow: -10px -10px 10px 0px #c2c2c270, 10px 10px 10px 0px #aeaec020 ;
  }
+ .createroom-butt:hover .tooltiptext {
+  visibility: visible;
+  opacity: 0.8;
+}
 .room-code-form{
   position: absolute;
   width: 600px;

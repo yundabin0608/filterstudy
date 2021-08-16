@@ -57,6 +57,5 @@ module.exports = class Room extends Sequelize.Model {
 
   static associate(db) {
     db.Room.hasMany(db.User);
-    db.Room.hasOne(db.Chat);
   }
 };

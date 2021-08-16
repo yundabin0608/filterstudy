@@ -67,7 +67,6 @@ module.exports = class User extends Sequelize.Model {
     db.User.belongsTo(db.Room);
 
     db.User.belongsToMany(db.Post,{through:'Like',as:'Liked'});
-    db.User.hasMany(db.Chat);
 
     //db.User.findAll({ include: [{ model: db.Post, as: 'Liked' }] })
   }

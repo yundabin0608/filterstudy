@@ -98,6 +98,10 @@
     container2.style.height='700px';
     leftline.style.height='900px';
     navbar.style.height='500px';
-
+   window.onload = () => {
+        if (new URL(location.href).searchParams.get('RoomError')) {
+          alert(new URL(location.href).searchParams.get('RoomError'));
+        }
+      }
 </script>
 {%endblock%}

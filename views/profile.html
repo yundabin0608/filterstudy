@@ -38,7 +38,9 @@
     <div id="my-posts">
         <p>📝 나의 다짐</p>
             <div class="my-post">
+            {%set Postnum=0%}
             {% for promise in promises %}
+                {%set Postnum=Postnum+1%}
                 {%set likerNum=0%}
                 {%for like in promise.Liker%}
                     {%set likerNum=likerNum+1 %}
@@ -47,7 +49,13 @@
                     <div class="post-cont">{{promise.msg}}</div>
                     <div class="post-like">{{likerNum}}명이 좋아합니다.</div>
                 </div>
-            {% endfor %}  
+            {% endfor %}
+            {%if Postnum==0%}
+                <div class="postlike force-overflow">
+                    <div class="post-cont">아직 작성한 다짐이 없습니다.</div>
+                    <div class="post-like">메인화면에서 다짐을 남겨 보세요!</div>
+                </div>
+            {%endif%}  
             </div>  
     </div>
 </div> <!--upper-profile끝-->

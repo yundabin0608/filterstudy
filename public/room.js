@@ -494,7 +494,6 @@ chatAlert
 
 socket.on('chat', (chatting, sendername, time) => {
     chatRoom.scrollTop = chatRoom.scrollHeight;
-    chatRoom.scrollTop = 2000;
     if (sendername=='System'){
         chatRoom.innerHTML += 
         `<div class="chat">

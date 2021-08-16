@@ -1,6 +1,6 @@
 const express=require('express');
 const {isLoggedIn,isNotLoggedIn}=require('./middlewares');
-const {User,Post,Room,Chat}=require('../models');
+const {User,Post,Room}=require('../models');
 const router=express.Router();
 const multer = require('multer');
 const fs = require('fs');
@@ -113,7 +113,6 @@ router.post('/room',isLoggedIn, upload.single('img'), async (req, res, next) => 
         max: req.body.max,
         description: req.body.description,
         password: req.body.password,
-        //img: req.file.filename,
         img: req.params.img,
         option:req.body.room_option,
         participants_num:1,
@@ -128,8 +127,7 @@ router.post('/room',isLoggedIn, upload.single('img'), async (req, res, next) => 
       }
       else{res.redirect(`/library/${makeuuid}`);}
     } catch (error) {
-      console.error(error);
-      next(error);
+      res.redirect(`/room/?RoomError=고유한 제목을 적어주세요.`);
     }
   });
 
@@ -258,7 +256,6 @@ router.post('/library/user',async(req,res,next)=>{
     const io = req.app.get('io');
     if (userCount==0){
       if (resultroom.option==0){
-        await Chat.destroy({ where:{RoomId:roomId} });
         await Room.destroy({ where: {id: roomId} });
         setTimeout(() => {
           console.log('여기여기여깃');

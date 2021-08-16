@@ -6,9 +6,9 @@
             <div id="nick-modal" class="modal" style="display:block;">
               <div class="modal-content">    
                 <span class="modal-close" onclick="popupClose();">&times;</span>                                                         
-                <p><i class="fas fa-info-circle fa-lg" style="color:#1B3C77;"></i>&nbsp;&nbsp;&nbsp;닉네임은 내 프로필에서 바꿀 수 있습니다.</p>
+                <div><i class="fas fa-info-circle fa-lg" style="color:#1B3C77;"></i>&nbsp;&nbsp;&nbsp;닉네임은 내 프로필에서 바꿀 수 있습니다.</div>
                   <input type="radio" value=0 onchange="popupRadioChange();"> <u font style="font-family:'EliceDigitalBaeum_Regular';">다시 보지 않기</u>
-                  <a href="/profile" style="text-decoration:none;font-family:'EliceDigitalBaeum_Regular';">내 프로필</a>
+                  <a href="/profile">내 프로필</a>
               </div>
             </div>
           {% endif %}
@@ -74,7 +74,7 @@
             <input type="text" id="room-code-input" placeholder="방 코드를 입력하세요" maxlength="16" >
             <button class="enter-btn" type="submit">방 입장</button>
         </form> 
-        <button class="createroom-butt" onclick="location.href='/room'"><img src="/img/add.png" style="width:35px; height:35px;"/></button>
+        <button class="createroom-butt" onclick="location.href='/room'"><div><div class="add tooltiptext">방 생성</div><img src="/img/add.png" style="width:35px; height:35px;"/></div></button>
       </div>
     {%endif%}
     <span class="slide-butt slide-left"><img src="/img/back.png" width="50px" height="50px"></span>

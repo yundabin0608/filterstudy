@@ -32,14 +32,25 @@
                 {% endif %}
             </div>
             <div id="email"><font style="font-weight: bold;">email : </font>{{user.email}}</div>
-            <div id="edit"><button class="btn btn-outline-primary" value="수정" type="submit">수정</button></div>
+            <button id="edit" class="btn btn-outline-primary" value="수정" type="submit">수정</button>
         </form>        
     </div>
+    <div id="my-posts">
+        <p>📝 나의 다짐</p>
+            <div class="my-post">
+            {% for promise in promises %}
+                {%set likerNum=0%}
+                {%for like in promise.Liker%}
+                    {%set likerNum=likerNum+1 %}
+                {%endfor%}
+                <div class="postlike force-overflow">
+                    <div class="post-cont">{{promise.msg}}</div>
+                    <div class="post-like">{{likerNum}}명이 좋아합니다.</div>
+                </div>
+            {% endfor %}  
+            </div>  
+    </div>
 </div> <!--upper-profile끝-->
-
-<div style="padding-left:5%;padding-right:5%;margin-top:10%">
-<hr style="color:#c2c2c2;border: solid 3px #c2c2c2;border-radius:5px;">
-</div>
 
 <div class="lower-profile">
     <div class="level-container">
@@ -51,7 +62,7 @@
                 {% set total_time = total_time*10/6 %}
                 {% set M=total_time//100%}
                 {%set percent=M/60*100%}
-            <div class="w3-light-grey w3-round-xlarge"><img id="noonsong" src="/img/bar1_noonsong.png" style="left:{{percent-8}}%;">
+            <div class="w3-light-grey w3-round-xlarge"><img id="noonsong" src="/img/bar1_noonsong.png" style="left:{{percent}}%;">
             <div class="w3-container w3-padding-large  w3-indigo w3-round-xlarge" style="width:{{percent}}%"></div></div>
             <div id="percent"><div id="left-percent">0%</div><div id="right-percent">100%</div></div>
             <div id="level-text">
@@ -69,21 +80,6 @@
             </div>
         </div>
     </div> <!--level-container끝-->
-    <div id="my-posts">
-        <p>📝 나의 다짐</p>
-            <div class="my-post">
-            {% for promise in promises %}
-                {%set likerNum=0%}
-                {%for like in promise.Liker%}
-                    {%set likerNum=likerNum+1 %}
-                {%endfor%}
-                <div class="postlike force-overflow">
-                    <div class="post-cont">{{promise.msg}}</div>
-                    <div class="post-like">{{likerNum}}명이 좋아합니다.</div>
-                </div>
-            {% endfor %}  
-            </div>  
-    </div>
 </div></div>
 {%endblock%}
 {%block script%}
@@ -98,6 +94,9 @@
     promiseA.setAttribute('href','http://localhost:8001/#promise');
     let profileA=document.getElementById('profileA');
     profileA.setAttribute('href','#');
-    
+    let leftline=document.querySelector('.left-line');
+    let navbar=document.querySelector('.navbar');
+    leftline.style.height='100%';
+    navbar.style.height='500px';
 </script>
 {%endblock%}

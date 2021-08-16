@@ -20,20 +20,19 @@
         <input class="newroom" type="text" name="title" maxlength="20" placeholder="방 제목" required>
       </div>
       <div class="make_room_thumbnail" id="newroom-thumbnail">
-        <img class="make-room-thumbnail-img" src="/img/zoom.jpg" style="width: 240px;height: 180px;"></img>
-        <div class="label">
-          <label for="thumbnail" class="label">썸네일</label>
-          <input type="hidden" onchange="javascript: form.action='/room';">
-          <p>
-            <input type="hidden" id="chooseImg" onchange="chooseImage();">
+        <div class="make-room-thumbnail-container">
+          <div class="label-thumbButt">
+            <label for="thumbnail" class="thumb-button" style="cursor:pointer;">썸네일</label>
+            <input type="hidden" onchange="chooseImage(event); javascript: form.action='/room';">
             <input 
               type="file" 
               id="thumbnail" 
               name="img" 
               accept="image/*" 
               style="visibility: hidden;"
-              onchange="javascript: form.action='/room/loadImage';">
-          </p>
+              onchange="chooseImage(event); javascript: form.action='/room/loadImage';">
+          </div>
+          <img class="make-room-thumbnail-img" id="make-room-thumbnail-img" src="/img/zoom.jpg"></img>
         </div>
       </div>
       <div class="make_room_max">
@@ -53,7 +52,7 @@
         <input type="radio" name="room_option" value=1> <span>&nbsp;&nbsp;&nbsp;방&nbsp;&nbsp; 유&nbsp;지</span>
       </div>
       <div class="make_room_info">
-        <div class="label">방 소개</divs>
+        <div class="label">방 소개</div>
         <input type="text" class="newroom description" name="description" placeholder="방 소개를 적으세요" maxlength="30">
       </div>
       
@@ -65,13 +64,19 @@
   </div>
   </div>
   <script>
-    function chooseImage(){
-      let e = document.getElementById("thumbnail");
-      e.style.visibility = "visible";
+    function chooseImage(event){
+      var reader=new FileReader();
+      reader.onload=function(event){
+        var removeImg = document.getElementById('make-room-thumbnail-img');
+        document.querySelector(".make-room-thumbnail-container").removeChild(removeImg);
+        var img = document.createElement("img");
+        img.setAttribute("src",event.target.result);
+        img.className="make-room-thumbnail-img";
+        img.id = "make-room-thumbnail-img";
+        document.querySelector(".make-room-thumbnail-container").appendChild(img);
+      };
+      reader.readAsDataURL(event.target.files[0]);
     }
-    let goCont = document.querySelector(".go-content");
-    goCont.innerHTML=""
-    goCont.style.background="none"
   </script>
 
 {% endblock %}
@@ -87,5 +92,12 @@
     promiseA.setAttribute('href','http://localhost:8001/#promise');
     let profileA=document.getElementById('profileA');
     profileA.setAttribute('href','/profile');
+    let container2=document.querySelector('.container2');
+    let leftline=document.querySelector('.left-line');
+    let navbar=document.querySelector('.navbar');
+    container2.style.height='700px';
+    leftline.style.height='900px';
+    navbar.style.height='500px';
+
 </script>
 {%endblock%}

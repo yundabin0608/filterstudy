@@ -79,7 +79,7 @@
     {%if user %}
       <div class="room-btn-container">
         <form class="room-code-form" action="javascript:goRoomFunction()" method="post" enctype="multipart/form-data" >
-            <input type="text" id="room-code-input" placeholder="방 코드를 입력하세요" maxlength="15" >
+            <input type="text" id="room-code-input" placeholder="방 코드를 입력하세요" maxlength="16" >
             <button class="enter-btn" type="submit">방 입장</button>
         </form> 
         <button class="createroom-butt" onclick="location.href='/room'"><img src="/img/add.png" style="width:35px; height:35px;"/></button>
@@ -174,7 +174,7 @@
               <div class="modal-overlay"></div>
                 <div class="modal_bar">
                     <div class="modal_buttons" onclick="writeClose();">
-                        <div class="button red"></div><div class="button yellow"></div><div class="button green"></div>
+                        <div class="button promise-red"></div><div class="button promise-yellow"></div><div class="button promise-green"></div>
                     </div>
                 </div>
                 <div class="contents">

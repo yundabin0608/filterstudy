@@ -10,13 +10,14 @@ const overlayContainer = document.querySelector('#overlay');
 const videoButt = document.querySelector('.novideo');
 const copycodeButt = document.querySelector('.copycode');
 const cutCall = document.querySelector('.cutcall');
-const screenShareButt = document.querySelector('.screenshare');
+//const screenShareButt = document.querySelector('.screenshare');
 const myId = document.querySelector('#my-id').value;
 const filterButt=document.querySelector('.filter');
 const closeButt=document.querySelector('.chat-close-butt');
 const boardButt=document.querySelector('.board-icon');
 const attendiesButt=document.querySelector('.attendies');
 const attendiesCloseButt=document.querySelector('.attendies-close-butt');
+const videobox=document.querySelector('.video-box');
 
 let videoAllowed = 1;
 let videoInfo = {};
@@ -129,7 +130,7 @@ function handleVideoOffer(offer, sid, cname, vidinf) {
             vidCont.appendChild(videoOff);
 
             videoContainer.appendChild(vidCont);
-            videoResize(); 
+             videoResize(); /////////////////////////////////////////
         }
     };
 
@@ -145,6 +146,7 @@ function handleVideoOffer(offer, sid, cname, vidinf) {
                 return connections[sid].setLocalDescription(offer);
             })
             .then(function () {
+                // videoResize(); ////////////////////////////////////////
                 socket.emit('video-offer', connections[sid].localDescription, sid);
             })
             .catch(reportError);
@@ -189,6 +191,7 @@ function handleVideoAnswer(answer, sid) {
     console.log('answered the offer')
     const ans = new RTCSessionDescription(answer);
     connections[sid].setRemoteDescription(ans);
+    videoResize();
 }
 
 // 방 코드 복사 관련
@@ -228,11 +231,10 @@ chatClose.addEventListener('click',function(event){
 }); 
 
 // 화면공유 버튼 관련
+/*
 screenShareButt.addEventListener('click', () => {
     screenShareButt.style.backgroundColor = "#393e46";  
     screenShareButt.style.color = "white";
-    // myvideo.style.gridColumn = "2";
-    // myvideo.style.gridRow = "3";
     screenShareToggle();
 });
 let screenshareEnabled = false;
@@ -282,7 +284,7 @@ function screenShareToggle() {
             screenShareButt.style.color = "#393e46";
         });
 }
-
+*/
 socket.on('video-offer', handleVideoOffer);
 socket.on('newIcecandidate', handleNewIceCandidate);
 socket.on('video-answer', handleVideoAnswer);
@@ -371,33 +373,19 @@ socket.on('join', async (conc, cnames,videoinfo) => {
 })
 
 function videoResize(){
-    var vidNum=document.querySelectorAll('.video-frame').length;
-    var videos=document.querySelector('.video-cont'); /* video-box */
-    
-    let vheight='100%';
-    let vwidth='100%';
-    if (vidNum>1 && vidNum<9){
-        vheight='50%';
-        var temp=parseInt(vidNum/2)+1;
-        temp=String(parseInt(100/temp));
-        vwidth=temp+"%";
+    var vidNum=participant_num;
+    var videos=document.querySelector('.video-cont');
+
+    console.log(vidNum);
+    if (vidNum>0 && vidNum<5){
+        videos.style.gridTemplateColumns = "repeat(auto-fit, minmax(48%, auto))";
+    } else if (vidNum>4 && vidNum<10){
+        videos.style.gridTemplateColumns = "repeat(auto-fit, minmax(31%, auto))";
+    } else if (vidNum>9 && vidNum<13){
+        videos.style.gridTemplateColumns = "repeat(auto-fit, minmax(23%, auto))";
+    } else {
+        videos.style.gridTemplateColumns = "repeat(auto-fit, minmax(18%, auto))";
     }
-    else if (vidNum<13){
-        vheight='33%';
-        if(videos==9){vwidth='33%';}
-        else{vwidth="25%";}
-    }
-    else{
-        vheight='25%';
-        if(vidNum<17){ vwidth='25%'; }
-        else{ vwidth='20%';}
-    }
-    videos.style.width=vwidth;
-    videos.style.height=vheight;
-    // for(i=0;i<vidNum;i++){
-    //     videos[i].style.width=vwidth;
-    //     videos[i].style.height=vheight;
-    // }
 }
 
 socket.on('enterRoom',(usernick,level_show,level)=>{
@@ -448,6 +436,10 @@ socket.on('exitRoom',(usernick)=>{
     if(leftuser){leftuser.remove();}
     let leftuser2=document.querySelector(`div[data-nick='${usernick}']`);//새로 추가한 애
     if(leftuser2){leftuser2.remove();}
+    console.log(leftuser);
+    console.log(leftuser2);
+    // io.emit('exitRoom',leftuser)
+    videoResize(); //////////////////////////////////
 });
 
 

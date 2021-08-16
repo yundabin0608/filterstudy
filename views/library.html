@@ -42,16 +42,15 @@
     
                 <div class="whiteboard-cont"><canvas id="whiteboard" height="1000" width="1000"></canvas>
                     <div class="colors-cont">
-                        <div class="black" id="colors" onclick="setColor('black')"></div>
-                        <div class="red" id="colors" onclick="setColor('#e74c3c')"></div>
-                        <div class="yellow" id="colors" onclick="setColor('#f1c40f')"></div>
-                        <div class="green" id="colors" onclick="setColor('#badc58')"></div>
-                        <div class="blue" id="colors" onclick="setColor('#3498db')"></div>
-                        <div class="orange" id="colors" onclick="setColor('#e67e22')"></div>
-                        <div class="purple" id="colors" onclick="setColor('#9b59b6')"></div>
-                        <div class="pink" id="colors" onclick="setColor('#fd79a8')"></div>
-                        <div class="brown" id="colors" onclick="setColor('#834c32')"></div>
+                        <div class="black" id="colors" onclick="setColor('#2c2c2c')"></div>
                         <div class="grey" id="colors" onclick="setColor('gray')"></div>
+                        <div class="red" id="colors" onclick="setColor('#FF3B30')"></div>
+                        <div class="orange" id="colors" onclick="setColor('#FF9500')"></div>
+                        <div class="yellow" id="colors" onclick="setColor('#FFCC00')"></div>
+                        <div class="green" id="colors" onclick="setColor('#4CD963')"></div>
+                        <div class="skyblue" id="colors" onclick="setColor('#5AC8FA')"></div>
+                        <div class="blue" id="colors" onclick="setColor('#0579FF')"></div>
+                        <div class="purple" id="colors" onclick="setColor('#5856D6')"></div>
                         <div class="eraser" id="colors" onclick="setEraser()"><i class="fas fa-eraser"></i></div>
                         <div class="clearboard" id="colors" onclick="clearBoard()"><i class="fas fa-trash-alt"></i></div>
                     </div>
@@ -139,10 +138,10 @@
                     <i class="fas fa-filter"></i>
                     <span class="tooltiptext">필터</span>
                 </div>
-                <div class="screenshare tooltip" id="util">
+                <!-- <div class="screenshare tooltip" id="util">
                     <i class="fas fa-desktop"></i>
                     <span class="tooltiptext">화면 공유</span>
-                </div>
+                </div> -->
                 <div class="board-icon tooltip" id="util">
                     <i class="fas fa-chalkboard"></i>
                     <span class="tooltiptext">화이트 보드</span>
@@ -164,5 +163,6 @@
     var modal = document.getElementById('attendies-modal');
     var utilAttendiesButt = document.getElementById('util-attendies');
     let attendiesVisible=false; 
+    //videoResize();
 </script>
 </html>

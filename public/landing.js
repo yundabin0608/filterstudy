@@ -3,8 +3,10 @@ let roomid;
 
 function addBtnEvent(e) { // 방 입장 클릭 시
     if (e.target.dataset.password == 'true') {
-      const password = prompt('비밀번호를 입력하세요');
-      location.href = '/library/' + e.target.dataset.id + '?password=' + password;
+      const password = prompt('비밀번호를 입력하세요'); // 비번 입력할때마다 자기 브라우저의 쿠키 갱신 (=> 삭제할필요없음)
+      var willCookie="";
+      willCookie+="pw="+password
+      document.cookie=willCookie;
     } else {
       location.href = '/library/' + e.target.dataset.id;
     }
@@ -24,7 +26,9 @@ socket.on('newRoom', function (data) { // 새 방 이벤트 시 새 방 생성
     imgdiv.className='room-thumbnail';
     const img=document.createElement('img');
     img.setAttribute('src',`/img/${data.img}`);
-    img.setAttribute('width','172px');
+    img.style.width = "172px";
+    // img.style.height = "70%";
+    // img.setAttribute('width','172px');
     imgdiv.appendChild(img);
     div.appendChild(imgdiv);
   }

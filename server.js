@@ -10,13 +10,17 @@ const moment = require('moment');
 const socketio = require('socket.io');
 const axios=require('axios');
 
-dotenv.config();
 const pageRouter=require('./routes/page');
 const authRouter=require('./routes/auth');
 const postRouter=require('./routes/post');
 const userRouter=require('./routes/user');
 const {sequelize}=require('./models');  
 const passportConfig=require('./passport');
+const logger=require('./logger');
+const helmet=require('helmet');
+const hpp = require('hpp');
+const redis=require('redis');
+const RedisStore=require('connect-redis')(session);
 
 const app = express();
 passportConfig(); //패스포트 설정
@@ -35,7 +39,20 @@ sequelize.sync({force:false})
         console.error(err);
     });
 
-app.use(morgan('dev'));
+if (process.env.NODE_ENV === "production"){
+    app.use(morgan('combined'));
+    app.use(helmet({contentSecurityPolicy:false}));
+    app.use(hpp());
+} else {
+    app.use(morgan('dev'));
+}
+
+dotenv.config();
+const redisClient=redis.createClient({
+    url: `redis://${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
+    password:process.env.REDIS_PASSWORD,
+});
+
 app.use('/public',express.static(path.join(__dirname, 'public')));
 app.use('/img',express.static(path.join(__dirname,'uploads'))); //upload한 이미지를 제공할 라우터/img를 uploads폴더와 연결
 app.use(express.json());
@@ -48,8 +65,9 @@ const sessionMiddleware=session({
     cookie:{
       httpOnly:true,
       secure: false,
-    },
-  });
+    }, //서버 업데이트 시 로그이이 풀리는 현상 방지
+    store: new RedisStore({client: redisClient}),//세션 정보가 메모리 대신 레디스에 저장
+});
 app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());  //req.session에 passport정보 저장
@@ -66,6 +84,8 @@ app.use('/user',userRouter);
 app.use((req,res,next)=>{
     const error=new Error(`${req.method} ${req.url} 라우터가 없습니다`);
     error.status=404;
+    logger.info('hello');
+    logger.error(error.message);
     next(error);
 });
 

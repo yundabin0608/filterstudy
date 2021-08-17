@@ -101,7 +101,6 @@ function handleVideoOffer(offer, sid, cname, vidinf) {
 
     connections[sid].ontrack = function (event) {
         if (!document.getElementById(sid)) {
-            console.log('track event fired')
             let vidCont = document.createElement('div');
             let newvideo = document.createElement('video');
             let name = document.createElement('div');
@@ -159,7 +158,6 @@ function handleVideoOffer(offer, sid, cname, vidinf) {
         .then((localStream) => {
             localStream.getTracks().forEach(track => {
                 connections[sid].addTrack(track, localStream);
-                console.log('added local stream to peer')
                 if (track.kind === 'video') {
                     videoTrackSent[sid] = track;
                     if (!videoAllowed)
@@ -181,14 +179,12 @@ function handleVideoOffer(offer, sid, cname, vidinf) {
 }
 
 function handleNewIceCandidate(candidate, sid) {
-    console.log('new candidate recieved')
     var newcandidate = new RTCIceCandidate(candidate);
     connections[sid].addIceCandidate(newcandidate)
         .catch(reportError);
 }
 
 function handleVideoAnswer(answer, sid) {
-    console.log('answered the offer')
     const ans = new RTCSessionDescription(answer);
     connections[sid].setRemoteDescription(ans);
     videoResize();
@@ -356,12 +352,10 @@ socket.on('join', async (conc, cnames,videoinfo) => {
             };
 
         });
-        console.log('added all sockets to connections');
         startCall();
 
     }
     else {
-        console.log('waiting for someone to join');
         navigator.mediaDevices.getUserMedia(mediaConstraints)
             .then(localStream => {
                 myvideo.srcObject = localStream;
@@ -376,7 +370,6 @@ function videoResize(){
     var vidNum=participant_num;
     var videos=document.querySelector('.video-cont');
 
-    console.log(vidNum);
     if (vidNum>0 && vidNum<5){
         videos.style.gridTemplateColumns = "repeat(auto-fit, minmax(48%, auto))";
     } else if (vidNum>4 && vidNum<10){
@@ -430,7 +423,6 @@ socket.on('enterRoom',(usernick,level_show,level)=>{
 });
 socket.on('exitRoom',(usernick)=>{
     //참가자 나감
-    console.log("exitRoom");
     document.querySelector('#attendies').textContent=`참가자들 (${participant_num})`;
     let leftuser=document.querySelector(`span[data-nick='${usernick}']`);//html렌더링할 때 가져온 애
     if(leftuser){leftuser.remove();}
@@ -564,21 +556,17 @@ videoButt.addEventListener('click', () => {
 
 socket.on('action', (msg, sid) => {//남이 무엇을 했다~~는 걸 받음
     if (msg == 'videooff') {
-        console.log(sid + 'turned video off');
         document.querySelector(`#vidoff${sid}`).style.visibility = 'visible';
         videoInfo[sid] = 'off';
     }
     else if (msg == 'videoon') {
-        console.log(sid + 'turned video on');
         document.querySelector(`#vidoff${sid}`).style.visibility = 'hidden';
         videoInfo[sid] = 'on';
     }
     else if(msg=='filteron'){
-        console.log(sid + 'filter on');
         document.querySelector(`#video${sid}`).style.filter = 'blur(20px)';     
     }
     else if(msg=='filteroff'){
-        console.log(sid + 'filter off');
         document.querySelector(`#video${sid}`).style.filter = 'blur(0px)';    
     }
 })
@@ -588,12 +576,9 @@ filterButt.addEventListener('click', () => {
         filterButt.innerHTML = `<i class="fas fa-filter"></i>`;
         filterButt.style.backgroundColor = "#393e46";  
         filterButt.style.color = "white";
-        console.log("켰다!!!!!~~~``");
-        console.log("mysocketid"+socket.id);
         myvideo.style.filter="blur(20px)";
         myvideo.setAttribute('filter','blur(20px)');
         socket.emit('action', 'filteron');//내가 했다고 동네방네 알려야함
-        console.log("emit했다");
         filterornot=1;
     }
     else {//필터 끌 거다
@@ -602,7 +587,6 @@ filterButt.addEventListener('click', () => {
         filterButt.style.color = "#393e46";
         myvideo.style.filter="blur(0px)";
         myvideo.setAttribute('filter','blur(0px)');
-        console.log("껐당!!!!!~~~``");
         socket.emit('action', 'filteroff');
         filterornot=0;   
     }
@@ -629,52 +613,29 @@ openChatButt.addEventListener('click',()=>{
 })
 
 socket.on('filter-on', (sid) => { 
-    console.log("여기예요~~~~");
     let videos=document.getElementsByClassName('video-frame');
     let target;
     videos.forEach((video)=>{
         if(video.id==`video${sid}`){
-            console.log('찾았다 내사랑~~');
             target=video;
         }
     })
     //필터 적용한 사람의 video찾아서 blur
-        console.log(sid + 'blur');
         target.style.filter="blur(20px)";
         target.setAttribute('filter','blur(20px)');
     
 })
 socket.on('filter-off', (sid) => { 
-    console.log("여기예요~~~~");
     let videos=document.getElementsByClassName('video-frame');
     let target;
     videos.forEach((video)=>{
         if(video.id==`video${sid}`){
-            console.log('찾았다 내사랑~~');
             target=video;
         }
     })
-    console.log(sid + '선명');
     target.style.filter="blur(0px)";
     target.setAttribute('filter','blur(0px)');
 })
-/*
-function blurCam(){
-    if(filterornot==0){
-        myvideo.style.filter="blur(10px)";
-        myvideo.setAttribute('filter','blur(20px)');
-        //myvideo.setAttribute('-webkit-filter','blur(20px)');
-        filterornot=1;
-    }
-    else{
-        myvideo.style.filter="blur(0px)";
-        myvideo.setAttribute('filter','blur(0px)');
-        //myvideo.setAttribute('-webkit-filter','blur(0px)');
-        filterornot=0;
-    }
-
-}
-*/
 cutCall.addEventListener('click', () => {
     location.href = '/';
 });

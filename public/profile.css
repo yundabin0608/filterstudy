@@ -156,7 +156,7 @@
   padding: 5%;
   margin-top: 3%;
   margin-left: 3%;
-  margin-right: 3%;
+  margin-right: 3%; 
   color:rgb(102, 102, 102);
 }
 .post-like{
@@ -165,7 +165,18 @@
   font-family: 'EliceDigitalBaeum_Regular';
   padding: 2%;
 }
-
+.post-like>button{
+  padding-bottom: 2px;
+  width: 40px;
+  height: 20px;
+  display: inline;
+  text-align: center;
+  background: none;
+  border: none;
+}
+.post-like>i:hover{
+  cursor: pointer;
+}
 /*level bar부분*/
 .level-container{
   width: 55%;

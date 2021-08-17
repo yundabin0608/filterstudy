@@ -41,8 +41,17 @@ module.exports = class Room extends Sequelize.Model {
         type: Sequelize.BOOLEAN,
         allowNull: false,
         defaultValue:false,
-
-      }
+      },
+      total_participant: {
+        type: Sequelize.INTEGER(20),
+        allowNull: false,
+        defaultValue:0,
+      },
+      owner:{
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        default:1,
+      },
     }, {
       sequelize,
       timestamps: true,

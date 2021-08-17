@@ -152,16 +152,24 @@ body{
 #util:hover{
   cursor: pointer;
 }
-.novideo:hover,
+.novideo:hover{
+  color: white;
+  background-color: #3e7ea3;
+  opacity: 0.6;
+}
 .screenshare:hover,
 .board-icon:hover,
 .attendies:hover,
-.cutcall:hover,
 .copycode:hover,
 .filter:hover,
 .open-chat-btn:hover {
   color: white;
   background-color: #b8b8b8;
+  opacity: 0.6;
+}
+.cutcall:hover{
+  color: white;
+  background-color: #c97777;
   opacity: 0.6;
 }
 
@@ -379,8 +387,8 @@ body{
 .chat-empty-alert{
   display: none;
   position: absolute;
-  bottom: 38px;
-  right: 4%;
+  bottom: 0px;
+  right: 12%;
   padding: 10px;
   color: #cc4e4e;
   z-index:1;

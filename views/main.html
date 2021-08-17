@@ -60,6 +60,9 @@
               <div id="room-thumbnail"><img src="/img/{{room.img}}" style="width:190px; height:140px;"></div>
               <div class="roomParticipant">{{room.participants_num}}/{{room.max}}</div>
               {% if user %}
+                {%if room.participants_num==0 and room.owner==user.id%}
+                  <i class="fas fa-trash-alt room-delete" data-id="{{room.uuid}}"></i>
+                {%endif%}
                   <button  data-password="{{'true' if room.password else 'false'}}"
                   data-id="{{room.uuid}}" class="room-enter-btn">입&nbsp;&nbsp;장</button>
               {% endif %}
@@ -90,9 +93,9 @@
     let rightSlide=document.querySelector('.slide-right');
     let slidewidth=220; 
     let slideMargin=80;
-
+   
     slides.style.width = (slidewidth+slideMargin) * (slideCount) - slideMargin + 'px';
-
+   
     function moveSlide(num){
         slides.style.left= -num * 300 + 'px';
         currentIndex=num;
@@ -128,7 +131,6 @@
         window.location.href=addr.concat(roomUuid);
       }
     }
-   
   </script>
 {%endblock%}
 
@@ -238,7 +240,7 @@
   let pslidewidth=220; // maybe document.querySelector('.room-box').style.width 로 가져오면 될듯;
   let pslideMargin=40;
 
-  slides.style.width = (pslidewidth+pslideMargin) * (pslideCount+1) - pslideMargin + 'px';
+  pslides.style.width = (pslidewidth+pslideMargin) * (pslideCount+1) - pslideMargin + 'px';
 
   function pmoveSlide(num){
       pslides.style.left= -num * 260 + 'px';
@@ -291,8 +293,6 @@
 
 
 </script>
-    
- <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
  <script>
   var write=document.getElementById('write');                               
   var write_modal = document.getElementById('write-modal');

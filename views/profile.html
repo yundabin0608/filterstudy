@@ -12,7 +12,7 @@
 <div class="container2">
 <div class='upper-profile'>
     <div id="profile-img">
-        <font style="font-weight: bold;"><p id="profile-tag">✨ 프로필</p></font>
+        <p id="profile-tag">✨ 프로필</p>
         {%if user.level>=10%}<img src="/img/level2_noonsong.png">
         {%elif user.level>=30%}<img src="/img/level3_noonsong.png">
         {%else%}<img src="/img/level1_noonsong.png">
@@ -20,8 +20,8 @@
     </div>
     <div id="profile-form"> 
         <form id="update-profile" action="/user/fix" method="post">   
-            <div><font style="font-weight: bold;"> name : </font><input type="text" id="edit-nick" name="nick" value="{{user.nick}}" maxlength='15' style="width:200px;height:30px;font-size:1em"></div>
-            <div class="profile-level"><font style="font-weight: bold;"> level : </font>{{user.level}}</div>
+            <div>name :<input type="text" id="edit-nick" name="nick" value="{{user.nick}}" maxlength='15' style="width:200px;height:30px;font-size:1em"></div>
+            <div class="profile-level">level : {{user.level}}</div>
             <div class="profile-level">
                 {% if user.level_show == 0 %} 
                 <input type="radio" name="chk" value=0 checked="checked">공개 
@@ -31,7 +31,7 @@
                 <input type="radio" name="chk" value=1 checked="checked" >비공개
                 {% endif %}
             </div>
-            <div id="email"><font style="font-weight: bold;">email : </font>{{user.email}}</div>
+            <div id="email">email : {{user.email}}</div>
             <button id="edit" class="btn btn-outline-primary" value="수정" type="submit">수정</button>
         </form>        
     </div>
@@ -47,7 +47,7 @@
                 {%endfor%}
                 <div class="postlike force-overflow">
                     <div class="post-cont">{{promise.msg}}</div>
-                    <div class="post-like">{{likerNum}}명이 좋아합니다.</div>
+                    <div class="post-like"><span>{{likerNum}}명이 좋아합니다</span>  <button class="p-delete" value="{{promise.id}}"><i class="fas fa-trash-alt"></i></button></div>
                 </div>
             {% endfor %}
             {%if Postnum==0%}
@@ -74,7 +74,7 @@
             <div class="w3-container w3-padding-large  w3-indigo w3-round-xlarge" style="width:{{percent}}%"></div></div>
             <div id="percent"><div id="left-percent">0%</div><div id="right-percent">100%</div></div>
             <div id="level-text">
-                <div><font style="font-weight: bold;">총 공부 시간: </font>
+                <div>총 공부 시간:
                 {{H}}시간
                 {{M}}분
                 {% set total_time = total_time-M*100 %}
@@ -88,7 +88,27 @@
             </div>
         </div>
     </div> <!--level-container끝-->
-</div></div>
+</div>
+</div>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    document.querySelectorAll('.p-delete').forEach(function(tag) {
+        tag.addEventListener('click', function() {
+          const promiseId = tag.value;
+          console.log(promiseId)
+            if (confirm('게시글을 삭제하시겠습니까?')) {
+            axios.delete(`/post/${promiseId}`)
+            // 바로 포스트 삭제되도록
+                .then(() => {
+                location.reload();
+                })
+                .catch((err) => {
+                console.error(err);
+                });
+            }
+       });
+      });
+</script>
 {%endblock%}
 {%block script%}
 <script>

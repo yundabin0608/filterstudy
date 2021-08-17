@@ -49,7 +49,7 @@ module.exports = class User extends Sequelize.Model {
         type: Sequelize.INTEGER,
         allowNull:false,
         defaultValue: 0,
-      }
+      },
     }, {
       sequelize,
       timestamps: true,
@@ -65,7 +65,6 @@ module.exports = class User extends Sequelize.Model {
   static associate(db) {
     db.User.hasMany(db.Post);
     db.User.belongsTo(db.Room);
-
     db.User.belongsToMany(db.Post,{through:'Like',as:'Liked'});
 
     //db.User.findAll({ include: [{ model: db.Post, as: 'Liked' }] })

@@ -6,24 +6,18 @@ const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 
-try {
-    fs.readdirSync('uploads');
-  } catch (error){
-    console.error('uploads 폴더가 없어 uploads 폴더를 생성합니다.');
-    fs.mkdirSync('uploads');
-  }
-  const upload = multer({
-    storage: multer.diskStorage({
-      destination(req,file,cb){
-        cb(null, 'uploads/');
-      },
-      filename(req,file,cb){
-        const ext = path.extname(file.originalname);
-        cb(null,path.basename(file.originalname,ext) + new Date().valueOf() + ext);
-      },
-    }),
-    limits: {fileSize:5*1024*1024}, // 파일 사이즈: 5MB
-  });
+const upload = multer({
+  storage: multer.diskStorage({
+    destination(req,file,cb){
+      cb(null, 'uploads/');
+    },
+    filename(req,file,cb){
+      const ext = path.extname(file.originalname);
+      cb(null,path.basename(file.originalname,ext) + new Date().valueOf() + ext);
+    },
+  }),
+  limits: {fileSize:5*1024*1024}, 
+});
 
 router.use((req,res,next)=>{
     res.locals.user=req.user; //passport.deserializeUser를 통해 req.user에 user정보 저장한 것을 담음
@@ -116,6 +110,7 @@ router.post('/room',isLoggedIn, upload.single('img'), async (req, res, next) => 
         img: req.params.img,
         option:req.body.room_option,
         participants_num:1,
+        owner:req.user.id,
       });
       const io = req.app.get('io'); //io 객체 가져오기
       io.emit('newRoom', newRoom); // 모든 클라이언트에 데이터를 보내는 메서드
@@ -204,6 +199,22 @@ router.get('/library/:id', async(req, res) => {
   return res.render('library', { roomId: req.params.id,users,room:resultroom})
 });
 
+router.delete('/library/:id', async(req, res) => {
+  console.log('여기야 page.js');
+  const user=req.user.id;
+  const uuid=req.params.id;
+  const room=await Room.findOne({where:{uuid}});
+  if (!room) {
+    return res.redirect('/?RoomError=존재하지 않는 방입니다.');
+  }
+  await room.destroy({where:{uuid}});  
+  const io = req.app.get('io');
+  setTimeout(() => {
+    io.emit('removeRoom', uuid);
+  }, 100);
+  return res.render('/');
+});
+
 // 방 퇴장 라우터 -> room, user 관계 업데이트
 router.post('/library/user',async(req,res,next)=>{
   try{//user=>user.id,roomId,userCount,startTime
@@ -258,13 +269,11 @@ router.post('/library/user',async(req,res,next)=>{
       if (resultroom.option==0){
         await Room.destroy({ where: {id: roomId} });
         setTimeout(() => {
-          console.log('여기여기여깃');
           io.emit('removeRoom', uuid);
         }, 100);
       }
     }
     setTimeout(() => {
-      console.log("maincount드릉들으");
       io.emit('mainCount',{title,userCount,max});  //메인 화면에서 참가자 수 바뀌게
     },100);
   }

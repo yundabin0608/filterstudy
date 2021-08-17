@@ -447,7 +447,7 @@ socket.on('removePeer', sid => {
 
 sendButton.addEventListener('click', () => {
     const chatting = chatField.value;
-    chatting.replaceAll(/\r/g,'') 
+    chatting.replaceAll(/\r/g,''); 
     
     const space1=''; const space2=' ';
     if (chatting!=space1 && chatting!=space2 && chatting!='\n'){

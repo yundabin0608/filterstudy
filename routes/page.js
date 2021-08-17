@@ -5,6 +5,7 @@ const router=express.Router();
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
+const sanitizeHtml = require('sanitize-html');
 
 const upload = multer({
   storage: multer.diskStorage({
@@ -87,7 +88,7 @@ router.get('/',async(req,res,next)=>{
 });
 
 router.get('/room', isLoggedIn, (req, res) => {
-  res.render('newroom', { title: '채팅방 생성' });
+  res.render('newroom', { title: '채팅방 생성'});
 });
 
 function uuidv4() {
@@ -101,12 +102,15 @@ function uuidv4() {
 router.post('/room',isLoggedIn, upload.single('img'), async (req, res, next) => {
     try {
       let makeuuid=uuidv4();
+      let sanitizeTitle = sanitizeHtml(req.body.title);
+      let sanitizePw = sanitizeHtml(req.body.password);
+      let sanitizeDescription = sanitizeHtml(req.body.description);
       const newRoom = await Room.create({
-        title: req.body.title,
+        title: sanitizeTitle,
         uuid: makeuuid,
         max: req.body.max,
-        description: req.body.description,
-        password: req.body.password,
+        description: sanitizeDescription,
+        password: sanitizePw,
         img: req.params.img,
         option:req.body.room_option,
         participants_num:1,

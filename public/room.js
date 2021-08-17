@@ -394,11 +394,17 @@ socket.on('enterRoom',(usernick,level_show,level)=>{
     nick.style.paddingLeft="5px";
     nick.style.fontSize="12pt";
     nick.style.fontWeight="bold";
-    if(level>=10){
+    if(level>0 && level<10){
+        img.setAttribute('src','/img/level1_noonsong.png');
+    }
+    else if(level>=10 && level<30){
         img.setAttribute('src','/img/level2_noonsong.png');
     }
-    else if(level>=30){
+    else if (level>=30 && level < 9999){
         img.setAttribute('src','/img/level3_noonsong.png');
+    }
+    else if (level >= 9999){
+        img.setAttribute('src','/img/master_noonsong.png');
     }
     else{
         img.setAttribute('src','/img/level1_noonsong.png');

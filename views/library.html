@@ -11,6 +11,7 @@
         const params=window.location.href; //url
     </script>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="/public/face-api.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script defer src="/public/room.js"></script>
     <script defer src="/public/canvas.js"></script>
@@ -33,7 +34,8 @@
             <div class="box-video"> <!--이름 바꾸기-->
                 <div class="video-cont-single" id="vcont">
                     <div class="video-box">
-                        <video class="video-frame" id="vd1" autoplay playsinline></video>
+                        <canvas class="video-frame" id="vd1 localCanvas" width="640" height="480">Your browser does not support Canvas</canvas>
+                        <!--<video class="video-frame" id="vd1" autoplay playsinline></video>-->
                         <div class="mynick">{{user.nick}}</div>
                         <input id="my-id" type="hidden" value="{{user.id}}">
                         <div class="video-off" id="myvideooff">Video Off</div>
@@ -140,10 +142,6 @@
                     <i class="fas fa-filter"></i>
                     <span class="tooltiptext">필터</span>
                 </div>
-                <!-- <div class="screenshare tooltip" id="util">
-                    <i class="fas fa-desktop"></i>
-                    <span class="tooltiptext">화면 공유</span>
-                </div> -->
                 <div class="board-icon tooltip" id="util">
                     <i class="fas fa-chalkboard"></i>
                     <span class="tooltiptext">화이트 보드</span>

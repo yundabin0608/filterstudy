@@ -10,7 +10,6 @@ const overlayContainer = document.querySelector('#overlay');
 const videoButt = document.querySelector('.novideo');
 const copycodeButt = document.querySelector('.copycode');
 const cutCall = document.querySelector('.cutcall');
-//const screenShareButt = document.querySelector('.screenshare');
 const myId = document.querySelector('#my-id').value;
 const filterButt=document.querySelector('.filter');
 const closeButt=document.querySelector('.chat-close-butt');
@@ -19,10 +18,18 @@ const attendiesButt=document.querySelector('.attendies');
 const attendiesCloseButt=document.querySelector('.attendies-close-butt');
 const videobox=document.querySelector('.video-box');
 
+
 let videoAllowed = 1;
 let videoInfo = {};
 let videoTrackReceived = {};
 let filterornot=0;
+
+var localCanvasStream;
+var isCaller;
+const mtcnnForwardParams = {
+    // limiting the search space to larger faces for webcam detection
+    minFaceSize: 200
+}
 
 let myvideooff = document.querySelector("#myvideooff");
 myvideooff.style.visibility = 'hidden';
@@ -68,14 +75,45 @@ socket.on('userCount', count => {
     }
     participant_num = count ;
 })
+//positions for sunglasess
+var results = [];
 
-// error.js로 옮김
+async function getFace(localVideo, options){
+    results = await faceapi.mtcnn(localVideo, options)
+}
 
 function startCall() {
+    // await faceapi.loadMtcnnModel('/weights')
+    // await faceapi.loadFaceRecognitionModel('/weights')
     navigator.mediaDevices.getUserMedia(mediaConstraints)
         .then(localStream => {
-            myvideo.srcObject = localStream;
-            myvideo.muted = true;
+            let localVideo = document.createElement("video");
+            localVideo.srcObject = localStream;
+            localVideo.autoplay = true;
+            localVideo.muted=false;
+            localVideo.addEventListener('playing', () => {
+                let ctx = myvideo.getContext("2d");
+                let image = new Image();
+                image.src = "img/sunglasses.png";
+                
+                /*function step() {
+                    getFace(localVideo, mtcnnForwardParams); //getFace에서 결과로 results 에 저장
+                    ctx.drawImage(localVideo, 0, 0);
+                    results.map(result => {
+                        ctx.drawImage(
+                            image,
+                            result.faceDetection.box.x + 15,
+                            result.faceDetection.box.y + 30,
+                            result.faceDetection.box.width,
+                            result.faceDetection.box.width * (image.height / image.width)
+                        );
+                    });
+                    requestAnimationFrame(step);
+                }*/
+                requestAnimationFrame(step);
+            })
+
+            localCanvasStream = myvideo.captureStream(30);
 
             localStream.getTracks().forEach(track => {
                 for (let key in connections) {
@@ -129,7 +167,7 @@ function handleVideoOffer(offer, sid, cname, vidinf) {
             vidCont.appendChild(videoOff);
 
             videoContainer.appendChild(vidCont);
-             videoResize(); /////////////////////////////////////////
+             videoResize(); 
         }
     };
 
@@ -144,8 +182,7 @@ function handleVideoOffer(offer, sid, cname, vidinf) {
             .then(function (offer) {
                 return connections[sid].setLocalDescription(offer);
             })
-            .then(function () {
-                // videoResize(); ////////////////////////////////////////
+            .then(function () {    
                 socket.emit('video-offer', connections[sid].localDescription, sid);
             })
             .catch(reportError);
@@ -227,60 +264,7 @@ chatClose.addEventListener('click',function(event){
 }); 
 
 // 화면공유 버튼 관련
-/*
-screenShareButt.addEventListener('click', () => {
-    screenShareButt.style.backgroundColor = "#393e46";  
-    screenShareButt.style.color = "white";
-    screenShareToggle();
-});
-let screenshareEnabled = false;
-function screenShareToggle() {
-    let screenMediaPromise;
-    if (!screenshareEnabled) {
-        if (navigator.getDisplayMedia) {
-            screenMediaPromise = navigator.getDisplayMedia({ video: true });
-        } else if (navigator.mediaDevices.getDisplayMedia) {
-            screenMediaPromise = navigator.mediaDevices.getDisplayMedia({ video: true });
-        } else {
-            screenMediaPromise = navigator.mediaDevices.getUserMedia({
-                video: { mediaSource: "screen" },
-            });
-        }
-    } else {
-        screenMediaPromise = navigator.mediaDevices.getUserMedia({ video: true });
-        screenShareButt.style.backgroundColor = "#d8d8d8";  
-        screenShareButt.style.color = "#393e46";
-    }
-    screenMediaPromise
-        .then((myscreenshare) => {
-            screenshareEnabled = !screenshareEnabled;
-            for (let key in connections) {
-                const sender = connections[key]
-                    .getSenders()
-                    .find((s) => (s.track ? s.track.kind === "video" : false));
-                sender.replaceTrack(myscreenshare.getVideoTracks()[0]);
-            }
-            myscreenshare.getVideoTracks()[0].enabled = true;
-            const newStream = new MediaStream([
-                myscreenshare.getVideoTracks()[0], 
-            ]);
-            myvideo.srcObject = newStream;
-            myvideo.muted = true;
-            mystream = newStream;
-            screenShareButt.innerHTML = (screenshareEnabled 
-                ? `<i class="fas fa-desktop"></i><span class="tooltiptext">Stop Share Screen</span>`
-                : `<i class="fas fa-desktop"></i><span class="tooltiptext">Share Screen</span>`
-            );
-            myscreenshare.getVideoTracks()[0].onended = function() {
-                if (screenshareEnabled) screenShareToggle();
-            };
-        })
-        .catch((e) => {
-            screenShareButt.style.backgroundColor = "#d8d8d8";  
-            screenShareButt.style.color = "#393e46";
-        });
-}
-*/
+
 socket.on('video-offer', handleVideoOffer);
 socket.on('newIcecandidate', handleNewIceCandidate);
 socket.on('video-answer', handleVideoAnswer);

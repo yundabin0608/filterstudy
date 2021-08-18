@@ -66,7 +66,7 @@ const sessionMiddleware=session({
       httpOnly:true,
       secure: false,
     }, //서버 업데이트 시 로그이이 풀리는 현상 방지
-    store: new RedisStore({client: redisClient}),//세션 정보가 메모리 대신 레디스에 저장
+    // store: new RedisStore({client: redisClient}),//세션 정보가 메모리 대신 레디스에 저장
 });
 app.use(sessionMiddleware);
 app.use(passport.initialize());
